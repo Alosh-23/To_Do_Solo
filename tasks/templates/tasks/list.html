@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tasks</title>
+</head>
+<body>
+
+    <h1>My Tasks</h1>
+    
+    <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter task">
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+    {% for task in tasks %}
+        <li>
+            {{ task.title }}
+
+            {% if task.completed %}
+                ✔️
+            {% else %}
+                <a href="/complete/{{ task.id }}">Complete</a>
+            {% endif %}
+
+            <a href="/delete/{{ task.id }}">Delete</a>
+            <a href="/edit/{{ task.id }}">Edit</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

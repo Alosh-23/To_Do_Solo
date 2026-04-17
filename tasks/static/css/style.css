@@ -1,0 +1,140 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Root colors */
+:root {
+  --primary: #4f46e5;
+  --secondary: #22c55e;
+  --bg: #f9fafb;
+  --text: #111827;
+  --card: #ffffff;
+}
+
+/* Dark mode */
+body.dark {
+  --bg: #111827;
+  --text: #f9fafb;
+  --card: #1f2933;
+}
+
+/* Body */
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s;
+}
+
+/* Container */
+.container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Input area */
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Button */
+button {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #4338ca;
+  transform: scale(1.05);
+}
+
+/* Task list */
+ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+/* Task item */
+li {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+li:hover {
+  transform: translateY(-2px);
+}
+
+/* Completed task */
+li.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Delete button */
+.delete {
+  background: #ef4444;
+}
+
+.delete:hover {
+  background: #dc2626;
+}
+
+/* Toggle Dark Mode Button */
+.toggle-mode {
+  margin-top: 20px;
+  width: 100%;
+  background: var(--secondary);
+}
+
+.toggle-mode:hover {
+  background: #16a34a;
+}
+
+/* Smooth animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
