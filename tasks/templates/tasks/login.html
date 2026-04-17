@@ -1,25 +1,31 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-    <h1>Login</h1>
+    <div class="container">
+        <h1>Login</h1>
 
-    {% if error %}
-    <p style="color:red;">{{ error }}</p>
-    {% endif %}
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+        <form method="POST" class="input-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
 
-    <p>Don't have an account? 
-        <a href="{% url 'register' %}">Create an account</a>
-    </p>
+        <p>
+            Don't have an account? 
+            <a href="{% url 'register' %}">Create an account</a>
+        </p>
+    </div>
 
 </body>
 </html>
