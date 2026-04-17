@@ -1,27 +1,100 @@
-{% load static %}
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+/* 🌈 الخلفية */
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    <div class="container">
-        <h1>Register</h1>
+/* 📦 الكارد */
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
 
-        <form method="POST" class="input-group">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
-        </form>
+/* 🖼 اللوقو */
+.logo {
+  width: 70px;
+  margin-bottom: 10px;
+}
 
-        <p>
-            Already have an account? 
-            <a href="{% url 'login' %}">Login</a>
-        </p>
-    </div>
+/* ✨ اسم التطبيق */
+.app-title {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
 
-</body>
-</html>
+/* 🔐 عنوان الصفحة */
+.page-title {
+  margin-bottom: 20px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+/* 🧾 الفورم */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 🔤 الحقول */
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+/* 🎯 الزر */
+button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* 🔗 الروابط */
+a {
+  color: #ddd6fe;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 🔁 نص التحويل */
+.switch {
+  margin-top: 15px;
+}
+
+/* ❗ شروط كلمة المرور */
+.password-help {
+  display: none;
+  font-size: 12px;
+  color: #ddd;
+  text-align: left;
+}

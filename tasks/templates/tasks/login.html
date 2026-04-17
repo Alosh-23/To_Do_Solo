@@ -3,28 +3,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>ToDo-Solo | Login</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
     <div class="container">
-        <h1>Login</h1>
+
+        <!-- 🖼 اللوقو -->
+        <img src="{% static 'images/logo.png' %}" class="logo" alt="logo">
+
+        <!-- ✨ اسم التطبيق -->
+        <h1 class="app-title">ToDo-Solo</h1>
+
+        <!-- 🔐 عنوان الصفحة -->
+        <h2 class="page-title">Login</h2>
 
         {% if error %}
-        <p style="color:red;">{{ error }}</p>
+        <p class="error">{{ error }}</p>
         {% endif %}
 
+        <!-- 🧾 الفورم -->
         <form method="POST" class="input-group">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Login</button>
         </form>
 
-        <p>
+        <!-- 🔗 رابط التسجيل -->
+        <p class="switch">
             Don't have an account? 
             <a href="{% url 'register' %}">Create an account</a>
         </p>
+
     </div>
 
 </body>
