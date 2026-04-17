@@ -1,100 +1,68 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
+{% load static %}
 
-/* 🌈 الخلفية */
-body {
-  height: 100vh;
-  background: linear-gradient(135deg, #4f46e5, #9333ea);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo-Solo | Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 
-/* 📦 الكارد */
-.container {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(15px);
-  padding: 30px;
-  border-radius: 20px;
-  width: 350px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
+    <div class="container">
 
-/* 🖼 اللوقو */
-.logo {
-  width: 70px;
-  margin-bottom: 10px;
-}
+        <!-- 🖼 اللوقو -->
+        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo" alt="logo">
 
-/* ✨ اسم التطبيق */
-.app-title {
-  font-size: 26px;
-  margin-bottom: 5px;
-}
+        <!-- ✨ اسم التطبيق -->
+        <h1 class="app-title">ToDo-Solo</h1>
+        <h2 class="page-title">Create Account</h2>
 
-/* 🔐 عنوان الصفحة */
-.page-title {
-  margin-bottom: 20px;
-  font-size: 18px;
-  opacity: 0.8;
-}
+        <form method="POST" class="input-group">
+            {% csrf_token %}
 
-/* 🧾 الفورم */
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+            <!-- Username -->
+            <input type="text" name="username" placeholder="Username" required>
 
-/* 🔤 الحقول */
-input {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-}
+            <!-- Password -->
+            <input type="password" name="password1" id="password1" placeholder="Password" required>
 
-/* 🎯 الزر */
-button {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
+            <!-- شروط كلمة المرور -->
+            <div id="password-help" class="password-help">
+                <small>
+                    • At least 8 characters <br>
+                    • Not too common <br>
+                    • Not only numbers
+                </small>
+            </div>
 
-button:hover {
-  transform: scale(1.05);
-}
+            <!-- Confirm Password -->
+            <input type="password" name="password2" placeholder="Confirm Password" required>
 
-/* 🔗 الروابط */
-a {
-  color: #ddd6fe;
-  text-decoration: none;
-}
+            <button type="submit">Register</button>
+        </form>
 
-a:hover {
-  text-decoration: underline;
-}
+        <p class="switch">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
 
-/* 🔁 نص التحويل */
-.switch {
-  margin-top: 15px;
-}
+    </div>
 
-/* ❗ شروط كلمة المرور */
-.password-help {
-  display: none;
-  font-size: 12px;
-  color: #ddd;
-  text-align: left;
-}
+    <!-- 🔥 JavaScript -->
+    <script>
+        const passwordInput = document.getElementById("password1");
+        const helpText = document.getElementById("password-help");
+
+        passwordInput.addEventListener("focus", () => {
+            helpText.style.display = "block";
+        });
+
+        passwordInput.addEventListener("blur", () => {
+            if (passwordInput.value === "") {
+                helpText.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
