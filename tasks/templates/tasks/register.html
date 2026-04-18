@@ -4,38 +4,38 @@
 <html>
 <head>
     <title>ToDo-Solo | Register</title>
+
+    <!-- 🔥 خط احترافي -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
     <div class="container">
 
-        <!-- 🖼 اللوقو -->
-        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo" alt="logo">
+        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo">
 
-        <!-- ✨ اسم التطبيق -->
         <h1 class="app-title">ToDo-Solo</h1>
         <h2 class="page-title">Create Account</h2>
 
         <form method="POST" class="input-group">
             {% csrf_token %}
 
-            <!-- Username -->
             <input type="text" name="username" placeholder="Username" required>
 
-            <!-- Password -->
             <input type="password" name="password1" id="password1" placeholder="Password" required>
 
-            <!-- شروط كلمة المرور -->
+            <!-- 🔐 متطلبات كلمة المرور -->
             <div id="password-help" class="password-help">
-                <small>
-                    • At least 8 characters <br>
-                    • Not too common <br>
-                    • Not only numbers
-                </small>
+                <small id="length">• 8+ characters</small><br>
+                <small id="number">• Contains number</small><br>
+                <small id="letter">• Contains letter</small>
             </div>
 
-            <!-- Confirm Password -->
+            <!-- 💪 قوة كلمة المرور -->
+            <p id="strength" class="strength"></p>
+
             <input type="password" name="password2" placeholder="Confirm Password" required>
 
             <button type="submit">Register</button>
@@ -50,16 +50,46 @@
 
     <!-- 🔥 JavaScript -->
     <script>
-        const passwordInput = document.getElementById("password1");
-        const helpText = document.getElementById("password-help");
+        const password = document.getElementById("password1");
+        const help = document.getElementById("password-help");
+        const strength = document.getElementById("strength");
 
-        passwordInput.addEventListener("focus", () => {
-            helpText.style.display = "block";
+        const length = document.getElementById("length");
+        const number = document.getElementById("number");
+        const letter = document.getElementById("letter");
+
+        password.addEventListener("focus", () => {
+            help.style.display = "block";
         });
 
-        passwordInput.addEventListener("blur", () => {
-            if (passwordInput.value === "") {
-                helpText.style.display = "none";
+        password.addEventListener("input", () => {
+            let value = password.value;
+
+            // تحقق من الشروط
+            let hasLength = value.length >= 8;
+            let hasNumber = /[0-9]/.test(value);
+            let hasLetter = /[a-zA-Z]/.test(value);
+
+            length.style.color = hasLength ? "lightgreen" : "white";
+            number.style.color = hasNumber ? "lightgreen" : "white";
+            letter.style.color = hasLetter ? "lightgreen" : "white";
+
+            // قوة كلمة المرور
+            if (value.length === 0) {
+                strength.textContent = "";
+            } else if (hasLength && hasNumber && hasLetter) {
+                strength.textContent = "Strong 💪";
+                strength.style.color = "lightgreen";
+            } else {
+                strength.textContent = "Weak ⚠️";
+                strength.style.color = "orange";
+            }
+        });
+
+        password.addEventListener("blur", () => {
+            if (password.value === "") {
+                help.style.display = "none";
+                strength.textContent = "";
             }
         });
     </script>

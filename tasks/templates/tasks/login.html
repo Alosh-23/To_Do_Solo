@@ -4,6 +4,11 @@
 <html>
 <head>
     <title>ToDo-Solo | Login</title>
+
+    <!-- 🔥 الخط -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- 🎨 CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -11,12 +16,10 @@
     <div class="container">
 
         <!-- 🖼 اللوقو -->
-        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo" alt="logo">
+        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo">
 
         <!-- ✨ اسم التطبيق -->
         <h1 class="app-title">ToDo-Solo</h1>
-
-        <!-- 🔐 عنوان الصفحة -->
         <h2 class="page-title">Login</h2>
 
         {% if error %}
@@ -30,9 +33,9 @@
             <button type="submit">Login</button>
         </form>
 
-        <!-- 🔗 رابط التسجيل -->
+        <!-- 🔗 -->
         <p class="switch">
-            Don't have an account? 
+            Don't have an account?
             <a href="{% url 'register' %}">Create an account</a>
         </p>
 
