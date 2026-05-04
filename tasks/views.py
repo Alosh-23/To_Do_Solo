@@ -18,7 +18,22 @@ from .serializers import TaskSerializer
 
 @login_required
 def task_list(request):
+
+    # ✅ إضافة مهمة
+    if request.method == 'POST':
+        title = request.POST.get('title')
+
+        if title:
+            Task.objects.create(
+                user=request.user,
+                title=title
+            )
+
+        return redirect('home')
+
+    # ✅ عرض المهام
     tasks = Task.objects.filter(user=request.user)
+
     return render(request, 'tasks/list.html', {'tasks': tasks})
 
 
@@ -67,9 +82,14 @@ def register(request):
                 'error': 'يجب إدخال الإيميل أو رقم الهاتف'
             })
 
-        user = User.objects.create_user(username=username, password=password, email=email)
+        user = User.objects.create_user(
+            username=username,
+            password=password,
+            email=email if email else ''
+        )
 
-        profile = user.profile
+        # ✅ التعديل هنا فقط (بدل try/except)
+        profile = Profile.objects.get(user=user)
         profile.phone = phone
         profile.save()
 

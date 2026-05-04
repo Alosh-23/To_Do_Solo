@@ -8,6 +8,7 @@ from tasks.views import (
     register,
     user_login,
     logout_view,
+    forgot_password,   # ✅ أضفناها
     api_tasks,
     api_update_task,
     api_delete_task,
@@ -28,15 +29,11 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('forgot-password/', forgot_password, name='forgot_password'),  # ✅ الحل هنا
 
     # ================= API =================
-    # GET + POST
     path('api/tasks/', api_tasks, name='api_tasks'),
-
-    # PUT (update)
     path('api/tasks/<int:id>/update/', api_update_task, name='api_update_task'),
-
-    # DELETE
     path('api/tasks/<int:id>/delete/', api_delete_task, name='api_delete_task'),
 
     # صفحة التجربة

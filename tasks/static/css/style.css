@@ -106,3 +106,20 @@ a {
 .switch {
   margin-top: 15px;
 }
+
+/* رسائل */
+.error {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.success {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+}
