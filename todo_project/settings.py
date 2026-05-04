@@ -1,0 +1,130 @@
+"""
+Django settings for todo_project project.
+"""
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# ================= SECURITY =================
+SECRET_KEY = 'django-insecure-riook*tyai4ts7omj^fbx%2r!*(s3#q24%23o+&3u=l&f9-^3h'
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# ================= APPS =================
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'tasks',
+    'rest_framework',
+]
+
+
+# ================= MIDDLEWARE =================
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
+# ================= URLS =================
+ROOT_URLCONF = 'todo_project.urls'
+
+
+# ================= TEMPLATES =================
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],  # تقدر تضيف templates عامة هنا لاحقاً
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+# ================= WSGI =================
+WSGI_APPLICATION = 'todo_project.wsgi.application'
+
+
+# ================= DATABASE =================
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+# ================= PASSWORD =================
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+# ================= INTERNATIONAL =================
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_TZ = True
+
+
+# ================= STATIC FILES =================
+STATIC_URL = 'static/'
+
+
+# ================= AUTH =================
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'
+
+
+# ================= EMAIL (OTP) =================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# ⚠️ ضع بريدك هنا
+EMAIL_HOST_USER = 'your_email@gmail.com'
+
+# ⚠️ ضع App Password من Google (ليس الباسورد العادي)
+EMAIL_HOST_PASSWORD = 'your_app_password'
+
+
+# ================= SESSION =================
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 3600  # ساعة

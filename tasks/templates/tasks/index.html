@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do App</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- CSRF -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+
+<body>
+
+<h1>To-Do App</h1>
+
+<!-- ✅ إضافة مهمة -->
+<input type="text" id="taskInput" placeholder="اكتب المهمة">
+<button onclick="addTask()">إضافة</button>
+
+<!-- ✅ عرض المهام -->
+<ul id="taskList"></ul>
+
+<script>
+function getCSRFToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}
+
+// ================== CREATE ELEMENT ==================
+function createTaskElement(task) {
+    const li = document.createElement("li");
+    li.id = `task-${task.id}`;
+
+    li.innerHTML = `
+        ${task.title}
+        <button onclick="deleteTask(${task.id})">❌</button>
+    `;
+
+    return li;
+}
+
+// ================== GET TASKS ==================
+function loadTasks() {
+    fetch('/api/tasks/')
+    .then(response => response.json())
+    .then(data => {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+
+        data.forEach(task => {
+            const li = createTaskElement(task);
+            taskList.appendChild(li);
+        });
+    });
+}
+
+// ================== ADD TASK ==================
+function addTask() {
+    const input = document.getElementById("taskInput");
+    const title = input.value.trim();
+
+    // ❌ منع الإدخال الفارغ
+    if (!title) {
+        alert("اكتب مهمة أولاً");
+        return;
+    }
+
+    fetch('/api/tasks/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+            title: title
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        input.value = "";
+
+        // ✅ إضافة مباشرة بدون إعادة تحميل
+        const taskList = document.getElementById("taskList");
+        const li = createTaskElement(data);
+        taskList.appendChild(li);
+    });
+}
+
+// ================== DELETE TASK ==================
+function deleteTask(id) {
+    fetch(`/api/tasks/${id}/delete/`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': getCSRFToken()
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // ✅ حذف العنصر مباشرة بدون reload
+            const li = document.getElementById(`task-${id}`);
+            if (li) li.remove();
+        } else {
+            console.error("فشل الحذف");
+        }
+    });
+}
+
+// ================== LOAD ON START ==================
+loadTasks();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo-Solo | Register</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+
+        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo">
+
+        <h1 class="app-title">ToDo-Solo</h1>
+        <h2 class="page-title">Create Account</h2>
+
+        {% if error %}
+            <p style="color:red; text-align:center;">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" class="input-group" id="registerForm">
+            {% csrf_token %}
+
+            <input type="text" name="username" id="username" placeholder="Username" required>
+
+            <!-- ✅ إيميل -->
+            <input type="email" name="email" id="email" placeholder="Email (optional)">
+            <small class="input-hint">Enter a valid email</small>
+
+            <!-- ✅ رقم -->
+            <input type="text" name="phone" id="phone" placeholder="Phone Number (optional)">
+            <small class="input-hint" id="phone-hint">Enter phone (+966xxxxxxxxx)</small>
+
+            <input type="password" name="password1" id="password1" placeholder="Password" required>
+
+            <div id="password-help" class="password-help">
+                <small id="length">• 8+ characters</small><br>
+                <small id="number">• Contains number</small><br>
+                <small id="letter">• Contains letter</small>
+            </div>
+
+            <p id="strength" class="strength"></p>
+
+            <input type="password" name="password2" id="password2" placeholder="Confirm Password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="switch">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+
+    </div>
+
+    <script>
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const phoneHint = document.getElementById('phone-hint');
+
+        let isPhoneValid = false;
+
+        phone.addEventListener('input', function() {
+            const value = this.value.trim();
+            phoneHint.style.color = '#aaa';
+            isPhoneValid = false;
+
+            if (value.length === 0) return;
+
+            const phoneRegex = /^(\+?966[5-9]\d{8})$/;
+
+            if (phoneRegex.test(value)) {
+                phoneHint.textContent = '✅ Valid phone number';
+                phoneHint.style.color = 'lightgreen';
+                isPhoneValid = true;
+            } else {
+                phoneHint.textContent = '⚠️ Invalid phone (+966xxxxxxxxx)';
+                phoneHint.style.color = 'orange';
+            }
+        });
+
+        const password = document.getElementById("password1");
+        const password2 = document.getElementById("password2");
+        const username = document.getElementById("username");
+
+        const help = document.getElementById("password-help");
+        const strength = document.getElementById("strength");
+
+        const length = document.getElementById("length");
+        const number = document.getElementById("number");
+        const letter = document.getElementById("letter");
+
+        let isPasswordValid = false;
+
+        password.addEventListener("focus", () => {
+            help.style.display = "block";
+        });
+
+        password.addEventListener("input", () => {
+            let value = password.value;
+
+            let hasLength = value.length >= 8;
+            let hasNumber = /[0-9]/.test(value);
+            let hasLetter = /[a-zA-Z]/.test(value);
+
+            length.style.color = hasLength ? "lightgreen" : "white";
+            number.style.color = hasNumber ? "lightgreen" : "white";
+            letter.style.color = hasLetter ? "lightgreen" : "white";
+
+            isPasswordValid = hasLength && hasNumber && hasLetter;
+
+            if (value.length === 0) {
+                strength.textContent = "";
+            } else if (isPasswordValid) {
+                strength.textContent = "Strong 💪";
+                strength.style.color = "lightgreen";
+            } else {
+                strength.textContent = "Weak ⚠️";
+                strength.style.color = "orange";
+            }
+        });
+
+        password.addEventListener("blur", () => {
+            if (password.value === "") {
+                help.style.display = "none";
+                strength.textContent = "";
+            }
+        });
+
+        document.getElementById("registerForm").addEventListener("submit", function(e) {
+
+            if (username.value.trim() === "") {
+                alert("Username is required");
+                e.preventDefault();
+                return;
+            }
+
+            if (email.value.trim() === "" && phone.value.trim() === "") {
+                alert("Enter email or phone number");
+                e.preventDefault();
+                return;
+            }
+
+            if (phone.value.trim() !== "" && !isPhoneValid) {
+                alert("Invalid phone number");
+                e.preventDefault();
+                return;
+            }
+
+            if (!isPasswordValid) {
+                alert("Password is too weak");
+                e.preventDefault();
+                return;
+            }
+
+            if (password.value !== password2.value) {
+                alert("Passwords do not match");
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+
+    <style>
+        .input-hint {
+            display: block;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #aaa;
+            transition: all 0.3s ease;
+            font-style: italic;
+        }
+
+        #phone {
+            margin-bottom: 5px;
+        }
+    </style>
+
+</body>
+</html>
