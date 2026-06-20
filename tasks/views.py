@@ -14,12 +14,16 @@ from rest_framework import status
 from .serializers import TaskSerializer
 
 
+# ✅ دالة مساعدة (تمت الإضافة)
+def get_user_task(request, id):
+    return get_object_or_404(Task, id=id, user=request.user)
+
+
 # ================= NORMAL VIEWS ================= #
 
 @login_required
 def task_list(request):
 
-    # ✅ إضافة مهمة
     if request.method == 'POST':
         title = request.POST.get('title')
 
@@ -31,7 +35,6 @@ def task_list(request):
 
         return redirect('home')
 
-    # ✅ عرض المهام
     tasks = Task.objects.filter(user=request.user)
 
     return render(request, 'tasks/list.html', {'tasks': tasks})
@@ -39,14 +42,14 @@ def task_list(request):
 
 @login_required
 def delete_task(request, id):
-    task = get_object_or_404(Task, id=id, user=request.user)
+    task = get_user_task(request, id)  # ✅ تعديل
     task.delete()
     return redirect('home')
 
 
 @login_required
 def edit_task(request, id):
-    task = get_object_or_404(Task, id=id, user=request.user)
+    task = get_user_task(request, id)  # ✅ تعديل
 
     if request.method == 'POST':
         task.title = request.POST.get('title')
@@ -58,7 +61,7 @@ def edit_task(request, id):
 
 @login_required
 def complete_task(request, id):
-    task = get_object_or_404(Task, id=id, user=request.user)
+    task = get_user_task(request, id)  # ✅ تعديل
     task.completed = True
     task.save()
     return redirect('home')
@@ -88,7 +91,6 @@ def register(request):
             email=email if email else ''
         )
 
-        # ✅ التعديل هنا فقط (بدل try/except)
         profile = Profile.objects.get(user=user)
         profile.phone = phone
         profile.save()
@@ -217,7 +219,7 @@ def api_tasks(request):
     if request.method == 'GET':
         tasks = Task.objects.filter(user=request.user)
         serializer = TaskSerializer(tasks, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         serializer = TaskSerializer(data=request.data)
@@ -232,20 +234,20 @@ def api_tasks(request):
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def api_update_task(request, id):
-    task = get_object_or_404(Task, id=id, user=request.user)
+    task = get_user_task(request, id)  # ✅ تعديل
 
     serializer = TaskSerializer(task, data=request.data)
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    return Response(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def api_delete_task(request, id):
-    task = get_object_or_404(Task, id=id, user=request.user)
+    task = get_user_task(request, id)  # ✅ تعديل
     task.delete()
     return Response({'message': 'deleted'}, status=status.HTTP_204_NO_CONTENT)

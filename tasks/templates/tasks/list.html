@@ -4,14 +4,10 @@
 <head>
     <title>ToDo-Solo | Tasks</title>
 
-    <!-- نفس الخطوط -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- نفس CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <style>
-        /* تعديل بسيط ليتناسب مع قائمة المهام */
         body {
             flex-direction: column;
             padding: 20px;
@@ -81,48 +77,59 @@
 <body>
 
 <div class="container">
-
-    <!-- 🔝 العنوان + logout -->
+    
     <div class="top-bar">
         <h2 class="page-title">My Tasks</h2>
 
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button class="btn-small">Logout</button>
+            <button type="submit" class="btn-small">Logout</button>
         </form>
     </div>
 
-    <!-- ➕ إضافة مهمة -->
     <form method="POST" class="input-group">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Add new task..." required>
+        <input type="text" name="title" placeholder="Add new task..." required />
         <button type="submit">Add Task</button>
     </form>
 
-    <!-- 📋 عرض المهام -->
     <div style="margin-top:15px;">
 
         {% for task in tasks %}
             <div class="task">
 
-                <span class="task-title {% if task.completed %}completed{% endif %}">
+                <span id="task-title-{{task.id}}" class="task-title {% if task.completed %}completed{% endif %}">
                     {{ task.title }}
                 </span>
+
+                <input 
+                    id="edit-input-{{task.id}}" 
+                    value="{{ task.title }}" 
+                    style="display:none; padding:5px; border-radius:6px;"
+                    type="text"
+                />
 
                 <div class="actions">
 
                     {% if not task.completed %}
                         <a href="/complete/{{ task.id }}">
-                            <button class="btn-small btn-complete">✔</button>
+                            <button type="button" class="btn-small btn-complete">✔</button>
                         </a>
                     {% endif %}
 
-                    <a href="/edit/{{ task.id }}">
-                        <button class="btn-small btn-edit">✏</button>
-                    </a>
+                    <button type="button" class="btn-small btn-edit" onclick="editTask({{task.id}})">✏</button>
+
+                    <button 
+                        type="button"
+                        class="btn-small btn-complete" 
+                        onclick="saveTask({{task.id}})" 
+                        id="save-btn-{{task.id}}" 
+                        style="display:none;">
+                        💾
+                    </button>
 
                     <a href="/delete/{{ task.id }}">
-                        <button class="btn-small btn-delete">🗑</button>
+                        <button type="button" class="btn-small btn-delete">🗑</button>
                     </a>
 
                 </div>
@@ -135,6 +142,42 @@
     </div>
 
 </div>
+
+<script>
+function editTask(id) {
+    document.getElementById("task-title-" + id).style.display = "none";
+    document.getElementById("edit-input-" + id).style.display = "inline-block";
+    document.getElementById("save-btn-" + id).style.display = "inline-block";
+    document.getElementById("edit-input-" + id).focus();
+}
+
+function saveTask(id) {
+    const input = document.getElementById("edit-input-" + id);
+    const token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch(`/api/tasks/${id}/`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": token
+        },
+        body: JSON.stringify({
+            "title": input.value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("task-title-" + id).innerText = data.title;
+        document.getElementById("task-title-" + id).style.display = "inline";
+        document.getElementById("edit-input-" + id).style.display = "none";
+        document.getElementById("save-btn-" + id).style.display = "none";
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('حدث خطأ في حفظ المهمة');
+    });
+}
+</script>
 
 </body>
 </html>
