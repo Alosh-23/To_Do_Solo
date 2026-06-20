@@ -1,0 +1,241 @@
+/* ✨ حركة ناعمة للكارد */
+.task {
+
+  transition: 0.3s;
+
+  animation: taskAppear 0.35s ease;
+
+}
+
+.task:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+}
+
+/* ✨ اختفاء المهمة */
+.task.removing {
+
+    animation: magicDelete 0.7s forwards;
+
+}
+
+@keyframes magicDelete {
+
+    0% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
+        box-shadow: 0 0 0px #a855f7;
+    }
+
+    40% {
+        transform: scale(1.08) rotate(-2deg);
+        box-shadow: 0 0 25px #a855f7;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.2) rotate(12deg);
+        filter: blur(12px);
+        box-shadow: 0 0 60px #a855f7;
+    }
+
+}
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(10px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+/* ✨ Animation الظهور */
+@keyframes taskAppear {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      scale(0.92)
+      translateY(12px);
+
+    filter: blur(6px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+
+    filter: blur(0);
+
+  }
+
+}
+
+/* ✨ Animation الاختفاء */
+@keyframes taskDisappear {
+
+  from {
+
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+
+    filter: blur(0);
+
+  }
+
+  to {
+
+    opacity: 0;
+
+    transform:
+      scale(0.85)
+      translateY(-10px);
+
+    filter: blur(8px);
+
+  }
+
+}
+
+.xp-popup {
+
+    position: fixed;
+
+    right: 30px;
+
+    bottom: 30px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    padding: 12px 18px;
+
+    border-radius: 14px;
+
+    font-weight: bold;
+
+    animation:
+        floatXP 1.5s forwards ease;
+
+    z-index: 999;
+
+}
+
+@keyframes floatXP {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px)
+            scale(0.8);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(-60px)
+            scale(1);
+
+    }
+
+}
+
+.achievement-popup {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 20px;
+
+    background: #111827;
+
+    color: white;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    width: 260px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.2);
+
+    animation:
+        achievementSlide 0.5s ease;
+
+    z-index: 9999;
+
+}
+
+.achievement-title {
+
+    font-size: 13px;
+
+    color: #fbbf24;
+
+    margin-bottom: 6px;
+
+}
+
+.achievement-name {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+@keyframes achievementSlide {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateX(120px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}

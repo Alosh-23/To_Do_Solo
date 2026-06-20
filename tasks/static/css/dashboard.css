@@ -1,0 +1,22 @@
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+section {
+    margin-bottom: 35px;
+}
