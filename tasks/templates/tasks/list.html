@@ -64,6 +64,14 @@
             background: #22c55e;
         }
 
+        .btn-save {
+            background: #3b82f6;
+        }
+
+        .btn-cancel {
+            background: #6b7280;
+        }
+
         .btn-delete {
             background: #ef4444;
         }
@@ -112,25 +120,44 @@
                 <div class="actions">
 
                     {% if not task.completed %}
-                        <a href="/complete/{{ task.id }}">
-                            <button type="button" class="btn-small btn-complete">✔</button>
-                        </a>
+                        <button
+                            type="button"
+                            class="btn-small btn-complete"
+                            onclick="completeTask({{ task.id }})">
+                            ✔
+                        </button>
                     {% endif %}
 
-                    <button type="button" class="btn-small btn-edit" onclick="editTask({{task.id}})">✏</button>
+                    <button 
+                        type="button" 
+                        class="btn-small btn-edit" 
+                        onclick="editTask({{task.id}})">
+                        ✏
+                    </button>
 
                     <button 
                         type="button"
-                        class="btn-small btn-complete" 
+                        class="btn-small btn-save" 
                         onclick="saveTask({{task.id}})" 
                         id="save-btn-{{task.id}}" 
                         style="display:none;">
                         💾
                     </button>
+                    <button 
+                        type="button"
+                        class="btn-small btn-cancel" 
+                        onclick="cancelEdit({{task.id}})" 
+                        id="cancel-btn-{{task.id}}" 
+                        style="display:none;">
+                        ✖
+                    </button>
 
-                    <a href="/delete/{{ task.id }}">
-                        <button type="button" class="btn-small btn-delete">🗑</button>
-                    </a>
+                    <button
+                        type="button"
+                        class="btn-small btn-delete"
+                        onclick="deleteTask({{ task.id }})">
+                        🗑
+                    </button>
 
                 </div>
 
@@ -143,41 +170,7 @@
 
 </div>
 
-<script>
-function editTask(id) {
-    document.getElementById("task-title-" + id).style.display = "none";
-    document.getElementById("edit-input-" + id).style.display = "inline-block";
-    document.getElementById("save-btn-" + id).style.display = "inline-block";
-    document.getElementById("edit-input-" + id).focus();
-}
-
-function saveTask(id) {
-    const input = document.getElementById("edit-input-" + id);
-    const token = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    fetch(`/api/tasks/${id}/`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": token
-        },
-        body: JSON.stringify({
-            "title": input.value
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("task-title-" + id).innerText = data.title;
-        document.getElementById("task-title-" + id).style.display = "inline";
-        document.getElementById("edit-input-" + id).style.display = "none";
-        document.getElementById("save-btn-" + id).style.display = "none";
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('حدث خطأ في حفظ المهمة');
-    });
-}
-</script>
+<script type="module" src="{% static 'js/tasks.js' %}"></script>
 
 </body>
 </html>

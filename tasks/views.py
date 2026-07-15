@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task, Profile, OTP
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -37,7 +36,7 @@ def task_list(request):
 
     tasks = Task.objects.filter(user=request.user)
 
-    return render(request, 'tasks/list.html', {'tasks': tasks})
+    return render(request, 'tasks/index.html', {'tasks': tasks})
 
 
 @login_required
@@ -77,8 +76,29 @@ def register(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password1')
+        password2 = request.POST.get('password2')
         email = request.POST.get('email')
         phone = request.POST.get('phone')
+
+        if not username or not password or not password2:
+            return render(request, 'tasks/register.html', {
+                'error': 'يرجى ملء جميع الحقول المطلوبة'
+            })
+
+        if password != password2:
+            return render(request, 'tasks/register.html', {
+                'error': 'كلمتا المرور غير متطابقتين'
+            })
+
+        if User.objects.filter(username=username).exists():
+            return render(request, 'tasks/register.html', {
+                'error': 'هذا الاسم مستخدم بالفعل'
+            })
+
+        if email and User.objects.filter(email=email).exists():
+            return render(request, 'tasks/register.html', {
+                'error': 'هذا البريد مستخدم بالفعل'
+            })
 
         if not email and not phone:
             return render(request, 'tasks/register.html', {
@@ -151,11 +171,17 @@ def logout_view(request):
 # ================= OTP ================= #
 
 def verify_otp(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('register')
+
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return redirect('register')
+
     if request.method == 'POST':
         code = request.POST.get('code')
-        user_id = request.session.get('user_id')
-
-        user = User.objects.get(id=user_id)
         otp = OTP.objects.filter(user=user).last()
 
         if otp and otp.code == code:
@@ -236,7 +262,7 @@ def api_tasks(request):
 def api_update_task(request, id):
     task = get_user_task(request, id)  # ✅ تعديل
 
-    serializer = TaskSerializer(task, data=request.data)
+    serializer = TaskSerializer(task, data=request.data, partial=True)
 
     if serializer.is_valid():
         serializer.save()
@@ -251,3 +277,32 @@ def api_delete_task(request, id):
     task = get_user_task(request, id)  # ✅ تعديل
     task.delete()
     return Response({'message': 'deleted'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_profile(request):
+    profile = Profile.objects.get(user=request.user)
+
+    return Response({
+        "xp": profile.xp,
+        "level": profile.level,
+        "streak": profile.streak,
+        "completed_tasks": profile.completed_tasks,
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_leaderboard(request):
+
+    profiles = Profile.objects.select_related("user").order_by("-xp")[:10]
+
+    data = []
+
+    for profile in profiles:
+        data.append({
+            "username": profile.user.username,
+            "level": profile.level,
+            "xp": profile.xp,
+        })
+
+    return Response(data)

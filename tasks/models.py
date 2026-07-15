@@ -23,6 +23,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, validators=[phone_validator], blank=True, null=True)
 
+    xp = models.IntegerField(default=0)
+    level = models.IntegerField(default=1)
+    streak = models.IntegerField(default=0)
+    completed_tasks = models.IntegerField(default=0)
+
     def __str__(self):
         return self.user.username
 
@@ -38,13 +43,3 @@ class OTP(models.Model):
     def generate_code(self):
         self.code = str(random.randint(100000, 999999))
         self.save()
-
-
-# ================= SIGNAL =================
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)

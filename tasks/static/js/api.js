@@ -21,26 +21,29 @@ export async function getTasks() {
 
 }
 
-
 export async function removeTask(id) {
 
-    await fetch(
-        `/api/tasks/${id}/delete/`,
-        {
+    const response = await fetch(`/api/tasks/${id}/delete/`, {
 
-            method: "DELETE",
+        method: "DELETE",
 
-            credentials: "same-origin",
+        credentials: "same-origin",
 
-            headers: {
-
-                "X-CSRFToken":
-                    getCSRFToken()
-
-            }
-
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+            "X-Requested-With": "XMLHttpRequest"
         }
-    );
+
+    });
+
+    console.log("Status:", response.status);
+
+    const text = await response.text();
+
+    console.log(text);
+
+    return response;
 
 }
 

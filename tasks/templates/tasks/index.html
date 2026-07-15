@@ -1,116 +1,83 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>To-Do App</title>
-
+    <title>ToDo-Solo Dashboard</title>
+    <link rel="icon" href="{% static 'images/ToDo-solo-logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- CSRF -->
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
     <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 
 <body>
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="logo-title">ToDo-Solo</div>
+            <div class="sidebar-nav">
+                <button id="dashboard-btn" class="nav-btn">Dashboard</button>
+                <button id="tasks-btn" class="nav-btn">Tasks</button>
+                <button id="quests-btn" class="nav-btn">Quests</button>
+                <button id="missions-btn" class="nav-btn">Missions</button>
+                <button id="achievements-btn" class="nav-btn">Achievements</button>
+                <button id="stats-btn" class="nav-btn">Stats</button>
+                <button id="settings-btn" class="nav-btn">Settings</button>
+            </div>
+        </aside>
 
-<h1>To-Do App</h1>
+        <main class="main-content">
+            <section id="dashboard-section">
+                <h1>Dashboard</h1>
+                <div class="xp-container">
+                    <p class="level-text">Level <span id="level">1</span></p>
+                    <div class="xp-bar"><div id="xp-fill" class="xp-fill"></div></div>
+                    <p><span id="xp">0</span> XP / <span id="next-level-xp">100</span></p>
+                </div>
+                <div id="home-task-list"></div>
+                <div id="xp-popup-container"></div>
+                <div id="achievement-container"></div>
+            </section>
 
-<!-- ✅ إضافة مهمة -->
-<input type="text" id="taskInput" placeholder="اكتب المهمة">
-<button onclick="addTask()">إضافة</button>
+            <section id="tasks-section" style="display:none;">
+                <h1>Tasks</h1>
+                <form id="task-form" class="input-group">
+                    {% csrf_token %}
+                    <input type="text" name="title" placeholder="Add a new task..." required>
+                    <button type="submit">Add Task</button>
+                </form>
+                <ul id="task-list"></ul>
+            </section>
 
-<!-- ✅ عرض المهام -->
-<ul id="taskList"></ul>
+            <section id="quests-section" style="display:none;">
+                <h1>Quests</h1>
+                <div id="quests-list"></div>
+            </section>
 
-<script>
-function getCSRFToken() {
-    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-}
+            <section id="missions-section" style="display:none;">
+                <h1>Missions</h1>
+                <div id="missions-list"></div>
+            </section>
 
-// ================== CREATE ELEMENT ==================
-function createTaskElement(task) {
-    const li = document.createElement("li");
-    li.id = `task-${task.id}`;
+            <section id="achievements-section" style="display:none;">
+                <h1>Achievements</h1>
+                <div id="achievement-container"></div>
+            </section>
 
-    li.innerHTML = `
-        ${task.title}
-        <button onclick="deleteTask(${task.id})">❌</button>
-    `;
+            <section id="stats-section" style="display:none;">
+                <h1>Leaderboard</h1>
+                <div id="leaderboard-list"></div>
+            </section>
 
-    return li;
-}
+            <section id="settings-section" style="display:none;">
+                <h1>Settings</h1>
+                <p>Settings coming soon.</p>
+            </section>
+        </main>
+    </div>
 
-// ================== GET TASKS ==================
-function loadTasks() {
-    fetch('/api/tasks/')
-    .then(response => response.json())
-    .then(data => {
-        const taskList = document.getElementById("taskList");
-        taskList.innerHTML = "";
-
-        data.forEach(task => {
-            const li = createTaskElement(task);
-            taskList.appendChild(li);
-        });
-    });
-}
-
-// ================== ADD TASK ==================
-function addTask() {
-    const input = document.getElementById("taskInput");
-    const title = input.value.trim();
-
-    // ❌ منع الإدخال الفارغ
-    if (!title) {
-        alert("اكتب مهمة أولاً");
-        return;
-    }
-
-    fetch('/api/tasks/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCSRFToken()
-        },
-        body: JSON.stringify({
-            title: title
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        input.value = "";
-
-        // ✅ إضافة مباشرة بدون إعادة تحميل
-        const taskList = document.getElementById("taskList");
-        const li = createTaskElement(data);
-        taskList.appendChild(li);
-    });
-}
-
-// ================== DELETE TASK ==================
-function deleteTask(id) {
-    fetch(`/api/tasks/${id}/delete/`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRFToken': getCSRFToken()
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            // ✅ حذف العنصر مباشرة بدون reload
-            const li = document.getElementById(`task-${id}`);
-            if (li) li.remove();
-        } else {
-            console.error("فشل الحذف");
-        }
-    });
-}
-
-// ================== LOAD ON START ==================
-loadTasks();
-
-</script>
-
+    <script type="module" src="{% static 'js/tasks.js' %}"></script>
 </body>
 </html>

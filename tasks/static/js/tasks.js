@@ -1,381 +1,227 @@
-import { addXP } from "./xp.js";
-
-import { state } from "./state.js";
-
-import {checkAchievements} from "./achievements.js";
-
-import {updateStreak} from "./streak.js";
-
-import {updateMissionProgress,renderMissions} from "./missions.js";
-
-import { loadState } from "./storage.js";
-
-import {loadProfile,getLeaderboard,getTasks,removeTask} from "./api.js";
-
-import {renderLeaderboard} from "./ui.js";
-
-import {generateDailyQuests,checkDailyReset} from "./quests.js";
-
-import {renderQuests} from "./ui.js";
-
-import {updateQuestProgress} from "./quests.js";
-
 import "./navigation.js";
 
-import { updateXPUI, renderTask, editTask } from "./ui.js";
+import {
+    getTasks,
+    removeTask
+} from "./api.js";
+
+import {
+    editTask
+} from "./ui.js";
 
 function getCSRFToken() {
-    return document.querySelector(
-        "[name=csrfmiddlewaretoken]"
-    ).value;
+    return document.querySelector("[name=csrfmiddlewaretoken]").value;
 }
-
-// ================= START APP =================
-
-async function initializeApp() {
-
-    loadState();
-
-    await syncProfile();
-
-    renderMissions();
-
-    checkDailyReset();
-    
-    renderQuests();
-
-    generateDailyQuests();
-
-    await loadTasks();
-
-    const users =
-        await getLeaderboard();
-
-    renderLeaderboard(users);
-
-}
-
-
-// ================= PROFILE =================
-
-async function syncProfile() {
-
-    try {
-
-        const profile =
-            await loadProfile();
-
-        state.xp =
-            profile.xp;
-
-        state.level =
-            profile.level;
-
-        state.streak =
-            profile.streak;
-
-        state.completedTasks =
-            profile.completed_tasks;
-
-        updateXPUI();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Profile sync failed:",
-            error
-        );
-
-    }
-
-}
-
 
 // ================= LOAD TASKS =================
 
 async function loadTasks() {
 
-    const tasks =
-        await getTasks();
+    const taskList = document.getElementById("task-list");
 
-    const taskList =
-        document.getElementById(
-            "task-list"
-        );
+    if (!taskList) return;
+
+    const tasks = await getTasks();
 
     taskList.innerHTML = "";
 
-    if (tasks.length === 0) {
-
-    taskList.innerHTML = `
-
-        <div class="empty-state">
-            🚀 No tasks yet
-        </div>
-
-    `;
-
-} 
-
-else {
-
-    // عرض جميع المهام في صفحة Tasks
     tasks.forEach(task => {
 
-        taskList.appendChild(
-            renderTask(task)
-        );
+        taskList.innerHTML += `
+            <div class="task" id="task-${task.id}">
 
+                <span
+                    id="task-title-${task.id}"
+                    class="task-title ${task.completed ? "completed" : ""}">
+                    ${task.title}
+                </span>
+
+                <input
+                    id="edit-input-${task.id}"
+                    class="edit-input"
+                    type="text"
+                    value="${task.title}"
+                    style="display:none;"
+                >
+
+                <div class="actions">
+
+                    ${
+                        !task.completed
+                        ? `
+                        <button
+                            class="btn-small btn-complete"
+                            onclick="completeTask(${task.id})">
+                            ✔
+                        </button>
+                        `
+                        : ""
+                    }
+
+                    <button
+                        id="edit-btn-${task.id}"
+                        class="btn-small btn-edit"
+                        onclick="editTask(${task.id})">
+                        ✏
+                    </button>
+
+                    <button
+                        id="save-btn-${task.id}"
+                        class="btn-small btn-save"
+                        onclick="saveTask(${task.id})"
+                        style="display:none;">
+                        💾
+                    </button>
+
+                    <button
+                        class="btn-small btn-delete"
+                        onclick="deleteTask(${task.id})">
+                        🗑
+                    </button>
+
+                </div>
+
+            </div>
+        `;
     });
 
 }
 
-// ================= HOME TASKS =================
-
-const homeList =
-    document.getElementById("home-task-list");
-
-if (homeList) {
-
-    homeList.innerHTML = "";
-
-    const activeTasks =
-        tasks.filter(task => !task.completed)
-             .slice(0, 5);
-
-    if (activeTasks.length === 0) {
-
-        homeList.innerHTML = `
-            <div class="empty-state">
-                🎉 All tasks completed
-            </div>
-        `;
-
-    } else {
-
-        activeTasks.forEach(task => {
-
-            homeList.appendChild(
-                renderTask(task, true)
-            );
-
-        });
-
-    }
-
-}
-
-}
-
-
-// ================= DELETE TASK =================
-
-async function deleteTask(id) {
-
-    const task =
-        document.getElementById(
-            `task-${id}`
-        );
-
-    task.classList.add("loading");
-
-    task.classList.add("removing");
-
-    setTimeout(async () => {
-
-        await removeTask(id);
-
-        task.remove();
-
-        if (
-            document.querySelectorAll(".task")
-            .length === 0
-        ) {
-
-            document.getElementById(
-                "task-list"
-            ).innerHTML = `
-
-                <div class="empty-state">
-                    🚀 No tasks yet
-                </div>
-
-            `;
-
-        }
-
-    }, 350);
-
-}
-
-
-// ================= SAVE TASK =================
+// ================= SAVE =================
 
 async function saveTask(id) {
 
-    const task = document.getElementById(`task-${id}`);
-
-    const title = task.querySelector(".task-title");
-
-    const input = task.querySelector(".edit-input");
-
-    const editBtn = task.querySelector(`#edit-btn-${id}`);
-
-    const saveBtn = task.querySelector(`#save-btn-${id}`);
+    const input = document.getElementById(`edit-input-${id}`);
+    const title = document.getElementById(`task-title-${id}`);
+    const editBtn = document.getElementById(`edit-btn-${id}`);
+    const saveBtn = document.getElementById(`save-btn-${id}`);
 
     try {
 
-        const response = await fetch(`/api/tasks/${id}/`, {
+        const response = await fetch(`/api/tasks/${id}/update/`, {
 
             method: "PUT",
 
             credentials: "same-origin",
 
             headers: {
-
                 "Content-Type": "application/json",
-
                 "X-CSRFToken": getCSRFToken()
-
             },
 
             body: JSON.stringify({
-
-                title: input.value.trim()
-
+                title: input.value
             })
 
         });
 
         if (!response.ok) {
-
-            throw new Error("Save failed");
-
+            throw new Error(await response.text());
         }
 
         const data = await response.json();
 
         title.textContent = data.title;
-
         title.style.display = "inline";
-
-        input.hidden = true;
-
         input.style.display = "none";
-
         editBtn.style.display = "inline-block";
-
         saveBtn.style.display = "none";
-
-        task.classList.remove("editing");
-
-        task.classList.add("success");
-
-        setTimeout(() => {
-
-            task.classList.remove("success");
-
-        }, 1000);
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
-
-        task.classList.add("error");
-
-        setTimeout(()=>{
-
-            task.classList.remove("error");
-
-        },1000);
+        alert(error);
 
     }
 
 }
 
-
-
-// ================= ADD TASK =================
-
-document.getElementById(
-    "task-form"
-).addEventListener(
-    "submit",
-    function(e) {
-
-        e.preventDefault();
-
-        const titleInput =
-            document.querySelector(
-                'input[name="title"]'
-            );
-
-        fetch("/", {
-
-            method: "POST",
-
-            credentials:
-                "same-origin",
-
-            headers: {
-
-                "Content-Type":
-                    "application/x-www-form-urlencoded",
-
-                "X-CSRFToken":
-                    getCSRFToken()
-
-            },
-
-            body:
-                `title=${encodeURIComponent(titleInput.value)}`
-
-        })
-
-        .then(() => {
-
-            location.reload();
-
-        });
-
-    }
-);
-
-
-// ================= COMPLETE TASK =================
+// ================= COMPLETE =================
 
 async function completeTask(id) {
 
-    await fetch(`/complete/${id}/`);
+    try {
 
-    addXP(10);
+        await fetch(`/complete/${id}/`);
 
-    state.completedTasks++;
+        await loadTasks();
 
-    checkAchievements();
+    }
 
-    updateStreak();
+    catch (error) {
 
-    updateMissionProgress();
+        console.error(error);
 
-    updateQuestProgress("tasks");
+        alert("Failed to complete task");
 
-    loadTasks();
+    }
 
 }
 
+// ================= DELETE =================
+
+async function deleteTask(id) {
+
+    if (!confirm("Delete this task?")) return;
+
+    try {
+
+        await removeTask(id);
+
+        await loadTasks();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Failed to delete task");
+
+    }
+
+}
+
+// ================= ADD =================
+
+document.getElementById("task-form").addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const input =
+        document.querySelector('input[name="title"]');
+
+    await fetch("/", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/x-www-form-urlencoded",
+
+            "X-CSRFToken": getCSRFToken()
+
+        },
+
+        body: `title=${encodeURIComponent(input.value)}`
+
+    });
+
+    input.value = "";
+
+    await loadTasks();
+
+});
 
 // ================= GLOBAL =================
 
-window.completeTask = completeTask;
-window.deleteTask = deleteTask;
 window.editTask = editTask;
 window.saveTask = saveTask;
+window.completeTask = completeTask;
+window.deleteTask = deleteTask;
 
-// ================= INITIALIZE =================
+// ================= START =================
 
-initializeApp(); 
+loadTasks();

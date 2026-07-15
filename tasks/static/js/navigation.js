@@ -1,8 +1,8 @@
-// ================= HIDE ALL SECTIONS =================
+// ================= SECTIONS =================
+
+const sections = document.querySelectorAll("main section");
 
 function hideAllSections() {
-
-    const sections = document.querySelectorAll("main section");
 
     sections.forEach(section => {
 
@@ -12,14 +12,11 @@ function hideAllSections() {
 
 }
 
-
-// ================= SHOW SECTION =================
-
-export function showSection(sectionId) {
+function showSection(id) {
 
     hideAllSections();
 
-    const section = document.getElementById(sectionId);
+    const section = document.getElementById(id);
 
     if (section) {
 
@@ -30,21 +27,19 @@ export function showSection(sectionId) {
 }
 
 
-// ================= AFTER PAGE LOAD =================
+// ================= SIDEBAR =================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ================= SIDEBAR TOGGLE =================
+    // فتح وإغلاق السايدبار
 
-    const menuToggle =
-        document.getElementById("menu-toggle");
+    const menuBtn = document.getElementById("menu-toggle");
 
-    const sidebar =
-        document.querySelector(".sidebar");
+    const sidebar = document.querySelector(".sidebar");
 
-    if (menuToggle && sidebar) {
+    if (menuBtn && sidebar) {
 
-        menuToggle.addEventListener("click", () => {
+        menuBtn.addEventListener("click", () => {
 
             sidebar.classList.toggle("hidden");
 
@@ -52,67 +47,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    // جميع أزرار السايدبار
 
-    // ================= NAVIGATION =================
+    const buttons = {
 
-    const navigation = [
+        "dashboard-btn": "dashboard-section",
 
-        {
-            button: "dashboard-btn",
-            section: "dashboard-section"
-        },
+        "tasks-btn": "tasks-section",
 
-        {
-            button: "tasks-btn",
-            section: "tasks-section"
-        },
+        "quests-btn": "quests-section",
 
-        {
-            button: "quests-btn",
-            section: "quests-section"
-        },
+        "missions-btn": "missions-section",
 
-        {
-            button: "missions-btn",
-            section: "missions-section"
-        },
+        "achievements-btn": "achievements-section",
 
-        {
-            button: "achievements-btn",
-            section: "achievements-section"
-        },
+        "stats-btn": "stats-section",
 
-        {
-            button: "stats-btn",
-            section: "stats-section"
-        },
+        "settings-btn": "settings-section"
 
-        {
-            button: "settings-btn",
-            section: "settings-section"
-        }
+    };
 
-    ];
+    Object.keys(buttons).forEach(id => {
 
+        const btn = document.getElementById(id);
 
-    navigation.forEach(item => {
+        if (!btn) return;
 
-        const button =
-            document.getElementById(item.button);
+        btn.addEventListener("click", () => {
 
-        if (!button) return;
-
-        button.addEventListener("click", () => {
-
-            showSection(item.section);
+            showSection(buttons[id]);
 
         });
 
     });
 
+    // الصفحة الافتراضية
 
-    // ================= DEFAULT PAGE =================
+    if (document.getElementById("dashboard-section")) {
 
-    showSection("dashboard-section");
+        showSection("dashboard-section");
+
+    }
 
 });

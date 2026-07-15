@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import RedirectView
 from tasks.views import (
     task_list,
     delete_task,
@@ -8,11 +9,18 @@ from tasks.views import (
     register,
     user_login,
     logout_view,
-    forgot_password,   # ✅ أضفناها
+    forgot_password,
+    verify_otp,
+    reset_password,
     api_tasks,
     api_update_task,
     api_delete_task,
     api_page,
+    api_delete_task,
+    api_page,
+    api_profile,
+    api_leaderboard,
+
 )
 
 urlpatterns = [
@@ -29,13 +37,19 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('forgot-password/', forgot_password, name='forgot_password'),  # ✅ الحل هنا
+    path('forgot-password/', forgot_password, name='forgot_password'),
+    path('verify-otp/', verify_otp, name='verify_otp'),
+    path('reset-password/', reset_password, name='reset_password'),
+    path('favicon.ico', RedirectView.as_view(url='/static/images/ToDo-solo-logo.png', permanent=False)),
 
     # ================= API =================
     path('api/tasks/', api_tasks, name='api_tasks'),
     path('api/tasks/<int:id>/update/', api_update_task, name='api_update_task'),
     path('api/tasks/<int:id>/delete/', api_delete_task, name='api_delete_task'),
-
+    path('api/profile/', api_profile, name='api_profile'),
+    path('api/leaderboard/', api_leaderboard, name='api_leaderboard'),
+    
+    
     # صفحة التجربة
     path('api-page/', api_page, name='api_page'),
 ]
