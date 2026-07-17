@@ -84,89 +84,131 @@
 
 <body>
 
-<div class="container">
-    
-    <div class="top-bar">
-        <h2 class="page-title">My Tasks</h2>
+<div class="app-layout">
 
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-small">Logout</button>
-        </form>
-    </div>
+    <aside class="sidebar">
 
-    <form method="POST" class="input-group">
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="Add new task..." required />
-        <button type="submit">Add Task</button>
-    </form>
+        <h1>ToDo-Solo</h1>
 
-    <div style="margin-top:15px;">
+    </aside>
 
-        {% for task in tasks %}
-            <div class="task">
+    <main class="main-content">
 
-                <span id="task-title-{{task.id}}" class="task-title {% if task.completed %}completed{% endif %}">
-                    {{ task.title }}
-                </span>
+        <div class="container">
 
-                <input 
-                    id="edit-input-{{task.id}}" 
-                    value="{{ task.title }}" 
-                    style="display:none; padding:5px; border-radius:6px;"
+            <div class="top-bar">
+                <h2 class="page-title">My Tasks</h2>
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-small">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
+            <form method="POST" class="input-group">
+                {% csrf_token %}
+
+                <input
                     type="text"
-                />
+                    name="title"
+                    placeholder="Add new task..."
+                    required
+                >
 
-                <div class="actions">
+                <button type="submit">
+                    Add Task
+                </button>
+            </form>
 
-                    {% if not task.completed %}
+            <div style="margin-top:15px;">
+
+                {% for task in tasks %}
+
+                <div class="task">
+
+                    <span
+                        id="task-title-{{task.id}}"
+                        class="task-title {% if task.completed %}completed{% endif %}"
+                    >
+                        {{ task.title }}
+                    </span>
+
+                    <input
+                        id="edit-input-{{task.id}}"
+                        value="{{ task.title }}"
+                        style="display:none; padding:5px; border-radius:6px;"
+                        type="text"
+                    >
+
+                    <div class="actions">
+
+                        {% if not task.completed %}
+
                         <button
                             type="button"
                             class="btn-small btn-complete"
-                            onclick="completeTask({{ task.id }})">
+                            onclick="completeTask({{ task.id }})"
+                        >
                             ✔
                         </button>
-                    {% endif %}
 
-                    <button 
-                        type="button" 
-                        class="btn-small btn-edit" 
-                        onclick="editTask({{task.id}})">
-                        ✏
-                    </button>
+                        {% endif %}
 
-                    <button 
-                        type="button"
-                        class="btn-small btn-save" 
-                        onclick="saveTask({{task.id}})" 
-                        id="save-btn-{{task.id}}" 
-                        style="display:none;">
-                        💾
-                    </button>
-                    <button 
-                        type="button"
-                        class="btn-small btn-cancel" 
-                        onclick="cancelEdit({{task.id}})" 
-                        id="cancel-btn-{{task.id}}" 
-                        style="display:none;">
-                        ✖
-                    </button>
+                        <button
+                            type="button"
+                            class="btn-small btn-edit"
+                            onclick="editTask({{task.id}})"
+                        >
+                            ✏
+                        </button>
 
-                    <button
-                        type="button"
-                        class="btn-small btn-delete"
-                        onclick="deleteTask({{ task.id }})">
-                        🗑
-                    </button>
+                        <button
+                            type="button"
+                            class="btn-small btn-save"
+                            onclick="saveTask({{task.id}})"
+                            id="save-btn-{{task.id}}"
+                            style="display:none;"
+                        >
+                            💾
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-small btn-cancel"
+                            onclick="cancelEdit({{task.id}})"
+                            id="cancel-btn-{{task.id}}"
+                            style="display:none;"
+                        >
+                            ✖
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-small btn-delete"
+                            onclick="deleteTask({{ task.id }})"
+                        >
+                            🗑
+                        </button>
+
+                    </div>
 
                 </div>
 
-            </div>
-        {% empty %}
-            <p class="switch">No tasks yet 🚀</p>
-        {% endfor %}
+                {% empty %}
 
-    </div>
+                <p class="switch">
+                    No tasks yet 🚀
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </main>
 
 </div>
 

@@ -13,19 +13,13 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
-<body>
+<body class="auth-page">
   <div class="container">
-
-    <!-- 🖼️ نفس اللوقو تماماً -->
     <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo" alt="ToDo-Solo Logo">
-
-    <!-- ✨ نفس اسم التطبيق تماماً -->
     <h1 class="app-title">ToDo-Solo</h1>
-    
-    <!-- 🔐 عنوان الصفحة -->
-    <h2 class="page-title">نسيت كلمة المرور</h2>
+    <h2 class="page-title">Forgot password</h2>
+    <p class="hero-copy">We’ll send a recovery link to the email you registered with.</p>
 
-    <!-- رسائل الخطأ/نجاح -->
     {% if error %}
       <p class="error">{{ error }}</p>
     {% endif %}
@@ -34,22 +28,15 @@
       <p class="success">{{ success }}</p>
     {% endif %}
 
-    <!-- 🧾 نفس الفورم style -->
     <form method="POST" class="input-group">
       {% csrf_token %}
-      <input type="email" name="email" placeholder="Username أو Email أو Phone" required>
-      <button type="submit">إرسال رمز التحقق</button>
+      <input type="email" name="email" placeholder="Email address" required>
+      <button type="submit">Send recovery code</button>
     </form>
 
-    <!-- 🔗 رابط العودة بنفس الستايل -->
     <p class="switch">
-      <a href="{% url 'login' %}">العودة لتسجيل الدخول</a>
+      <a href="{% url 'login' %}">Back to login</a>
     </p>
-
   </div>
-
-  <!-- 🔥 نفس الـ scripts إذا كان موجودة في login -->
-  <script src="{% static 'js/script.js' %}"></script>
-
 </body>
 </html>

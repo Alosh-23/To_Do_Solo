@@ -8,32 +8,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
+<body class="auth-page">
 
     <div class="container">
-
-        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo">
+        <img src="{% static 'images/ToDo-solo-logo.png' %}" class="logo" alt="ToDo-Solo logo">
 
         <h1 class="app-title">ToDo-Solo</h1>
-        <h2 class="page-title">Create Account</h2>
+        <h2 class="page-title">Create your account</h2>
+        <p class="hero-copy">Start your productivity journey with a refined workspace built for focus.</p>
 
         {% if error %}
-            <p style="color:red; text-align:center;">{{ error }}</p>
+            <p class="error">{{ error }}</p>
         {% endif %}
 
         <form method="POST" class="input-group" id="registerForm">
             {% csrf_token %}
-
             <input type="text" name="username" id="username" placeholder="Username" required>
-
-            <!-- ✅ إيميل -->
             <input type="email" name="email" id="email" placeholder="Email (optional)">
             <small class="input-hint">Enter a valid email</small>
-
-            <!-- ✅ رقم -->
             <input type="text" name="phone" id="phone" placeholder="Phone Number (optional)">
             <small class="input-hint" id="phone-hint">Enter phone (+966xxxxxxxxx)</small>
-
             <input type="password" name="password1" id="password1" placeholder="Password" required>
 
             <div id="password-help" class="password-help">
@@ -43,9 +37,7 @@
             </div>
 
             <p id="strength" class="strength"></p>
-
             <input type="password" name="password2" id="password2" placeholder="Confirm Password" required>
-
             <button type="submit">Register</button>
         </form>
 
@@ -53,7 +45,6 @@
             Already have an account?
             <a href="{% url 'login' %}">Login</a>
         </p>
-
     </div>
 
     <script>

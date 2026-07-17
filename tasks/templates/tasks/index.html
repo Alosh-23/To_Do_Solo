@@ -12,29 +12,46 @@
     <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
 
-<body>
-    <button id="menu-toggle" class="menu-toggle">☰</button>
-    <div class="app-layout">
-        <aside class="sidebar">
-            <div class="logo-title">ToDo-Solo</div>
-            <div class="sidebar-nav">
-                <button id="dashboard-btn" class="nav-btn">Dashboard</button>
-                <button id="tasks-btn" class="nav-btn">Tasks</button>
-                <button id="quests-btn" class="nav-btn">Quests</button>
-                <button id="missions-btn" class="nav-btn">Missions</button>
-                <button id="achievements-btn" class="nav-btn">Achievements</button>
-                <button id="stats-btn" class="nav-btn">Stats</button>
-                <button id="settings-btn" class="nav-btn">Settings</button>
-            </div>
-        </aside>
+<body class="dashboard-page">
+    <header class="top-nav">
+        <div class="brand">ToDo-Solo</div>
+        <nav class="nav-links">
+            <button id="dashboard-btn" class="nav-btn">Dashboard</button>
+            <button id="tasks-btn" class="nav-btn">Tasks</button>
+            <button id="quests-btn" class="nav-btn">Quests</button>
+            <button id="missions-btn" class="nav-btn">Missions</button>
+            <button id="achievements-btn" class="nav-btn">Achievements</button>
+            <button id="stats-btn" class="nav-btn">Stats</button>
+            <button id="settings-btn" class="nav-btn">Settings</button>
+        </nav>
+    </header>
 
+    <div class="app-layout">
         <main class="main-content">
             <section id="dashboard-section">
-                <h1>Dashboard</h1>
+                <h1>Welcome back</h1>
+                <p class="hero-copy">Your productivity hub is ready. Track tasks, grow your streak, and keep your progress visible.</p>
                 <div class="xp-container">
                     <p class="level-text">Level <span id="level">1</span></p>
                     <div class="xp-bar"><div id="xp-fill" class="xp-fill"></div></div>
                     <p><span id="xp">0</span> XP / <span id="next-level-xp">100</span></p>
+                </div>
+                <div class="game-grid">
+                    <div class="mini-game-card">
+                        <h3>⚡ Quick Spark</h3>
+                        <p>Complete a task to earn instant XP.</p>
+                        <button type="button" id="spark-btn">Play Spark</button>
+                    </div>
+                    <div class="mini-game-card">
+                        <h3>🎯 Focus Sprint</h3>
+                        <p>Win a small bonus by finishing a task streak.</p>
+                        <button type="button" id="sprint-btn">Start Sprint</button>
+                    </div>
+                    <div class="feature-card">
+                        <h3>✨ Daily quests</h3>
+                        <p>Fresh goals refresh every day.</p>
+                        <button type="button" id="quest-btn">Claim quest</button>
+                    </div>
                 </div>
                 <div id="home-task-list"></div>
                 <div id="xp-popup-container"></div>
@@ -77,6 +94,10 @@
             </section>
         </main>
     </div>
+
+    <footer class="site-footer">
+        <span>Site Copyright © 2026</span>
+    </footer>
 
     <script type="module" src="{% static 'js/tasks.js' %}"></script>
 </body>

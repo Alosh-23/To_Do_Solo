@@ -6,8 +6,12 @@ import {
 } from "./api.js";
 
 import {
-    editTask
+    editTask,
+    renderDashboard,
+    updateXPUI
 } from "./ui.js";
+import { attachGameButtons } from "./games.js";
+import { state } from "./state.js";
 
 function getCSRFToken() {
     return document.querySelector("[name=csrfmiddlewaretoken]").value;
@@ -224,4 +228,11 @@ window.deleteTask = deleteTask;
 
 // ================= START =================
 
+attachGameButtons();
+window.__toDoAppRefresh = async () => {
+    await loadTasks();
+    renderDashboard();
+};
+
+renderDashboard();
 loadTasks();
