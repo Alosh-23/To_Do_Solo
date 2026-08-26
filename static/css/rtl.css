@@ -1,0 +1,94 @@
+/* ==========================================================
+   ARABIC RTL
+========================================================== */
+
+html[dir="rtl"] {
+    direction: rtl;
+}
+
+html[dir="rtl"] body {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+html[dir="rtl"] .header {
+    direction: rtl;
+}
+
+html[dir="rtl"] .header__nav {
+    direction: rtl;
+}
+
+html[dir="rtl"] .header__right {
+    direction: rtl;
+}
+
+
+/* ==========================================================
+   PAGE CONTENT
+========================================================== */
+
+html[dir="rtl"] .page-header,
+html[dir="rtl"] .page-header-content,
+html[dir="rtl"] .tasks-section,
+html[dir="rtl"] .dashboard-page {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* ==========================================================
+   DASHBOARD
+========================================================== */
+
+html[dir="rtl"] .task-card {
+    direction: rtl;
+}
+
+html[dir="rtl"] .task-card-title {
+    direction: rtl;
+}
+
+html[dir="rtl"] .task-card-description,
+html[dir="rtl"] .task-card-meta {
+    text-align: right;
+}
+
+
+/* ==========================================================
+   FORMS
+========================================================== */
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+    direction: rtl;
+    text-align: right;
+}
+
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+html[dir="rtl"] .button,
+html[dir="rtl"] button {
+    direction: rtl;
+}
+
+
+/* ==========================================================
+   CARDS
+========================================================== */
+
+html[dir="rtl"] .card,
+html[dir="rtl"] .card-header,
+html[dir="rtl"] .card-body {
+    direction: rtl;
+    text-align: right;
+}

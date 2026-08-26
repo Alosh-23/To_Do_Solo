@@ -1,0 +1,49 @@
+{% load i18n %}
+
+<div class="card statistics-card">
+
+    <div class="card-header">
+
+        <h3>
+            {% translate "Statistics" %}
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="statistics-grid">
+
+            <div class="stat-item">
+                <strong>{{ total_tasks }}</strong>
+                <span>
+                    {% translate "Total Tasks" %}
+                </span>
+            </div>
+
+            <div class="stat-item">
+                <strong>{{ completed_tasks }}</strong>
+                <span>
+                    {% translate "Completed" %}
+                </span>
+            </div>
+
+            <div class="stat-item">
+                <strong>{{ pending_tasks }}</strong>
+                <span>
+                    {% translate "Pending" %}
+                </span>
+            </div>
+
+            <div class="stat-item">
+                <strong>{{ completion_rate }}%</strong>
+                <span>
+                    {% translate "Completion Rate" %}
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

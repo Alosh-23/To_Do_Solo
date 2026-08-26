@@ -1,0 +1,200 @@
+/* ==========================================================
+   ACHIEVEMENTS PAGE
+========================================================== */
+
+.achievements-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.achievements-page .page-header {
+    margin-bottom: 24px;
+}
+
+.achievements-page .page-eyebrow {
+    margin: 0 0 6px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+.achievements-page .page-title {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+.achievements-page .page-description {
+    margin: 8px 0 0;
+
+    font-size: 15px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   ACHIEVEMENTS GRID
+========================================================== */
+
+.achievements-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+
+/* ==========================================================
+   ACHIEVEMENT CARD
+========================================================== */
+
+.achievement-card {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 20px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+
+    border-color: #D1D5DB;
+}
+
+
+/* ==========================================================
+   ACHIEVEMENT ICON
+========================================================== */
+
+.achievement-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #F3F4F6;
+
+    font-size: 23px;
+}
+
+
+/* ==========================================================
+   ACHIEVEMENT CONTENT
+========================================================== */
+
+.achievement-content {
+    min-width: 0;
+}
+
+.achievement-content h2 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+.achievement-content p {
+    margin: 0 0 8px;
+
+    font-size: 13px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   ACHIEVEMENT STATUS
+========================================================== */
+
+.achievement-status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 8px;
+
+    border-radius: 999px;
+
+    background: #F3F4F6;
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.achievements-page .empty-state {
+    width: 100%;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .achievements-page .page-title {
+        font-size: 26px;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .achievement-card {
+        padding: 16px;
+    }
+
+}

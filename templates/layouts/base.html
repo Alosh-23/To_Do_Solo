@@ -1,0 +1,96 @@
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as CURRENT_LANGUAGE %}
+
+<!DOCTYPE html>
+
+<html
+    lang="{{ CURRENT_LANGUAGE }}"
+    dir="ltr"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        {% block title %}
+            To Do Solo
+        {% endblock %}
+
+    </title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{% static 'images/To_Do_Solo_logo.png' %}"
+    >
+
+    <!-- ==========================
+         FOUNDATION
+    =========================== -->
+
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+
+    <!-- ==========================
+         COMPONENTS
+    =========================== -->
+
+    <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/modal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/table.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/toast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/tooltip.css' %}">
+
+    <!-- ==========================
+         LAYOUTS
+    =========================== -->
+
+    <link rel="stylesheet" href="{% static 'css/layouts/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layouts/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layouts/footer.css' %}">
+
+    <!-- ==========================
+         PAGE CSS
+    =========================== -->
+
+    {% block extra_css %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    {% block body %}
+    {% endblock %}
+
+
+    <!-- ==========================
+         JAVASCRIPT
+    =========================== -->
+
+    <script src="{% static 'js/storage.js' %}"></script>
+    <script src="{% static 'js/state.js' %}"></script>
+    <script src="{% static 'js/api/tasksApi.js' %}"></script>
+    <script src="{% static 'js/api/statsApi.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+
+</html>

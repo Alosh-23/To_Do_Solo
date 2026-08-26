@@ -1,0 +1,140 @@
+{% extends "layouts/auth.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Create Account" %}
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/login.css' %}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <h1>
+            {% translate "Create Account" %}
+        </h1>
+
+        <p>
+            {% translate "Create your account to start using To Do Solo." %}
+        </p>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+
+            <div>
+
+                <label for="{{ form.username.id_for_label }}">
+                    {% translate "Username" %}
+                </label>
+
+                {{ form.username }}
+
+                {{ form.username.errors }}
+
+            </div>
+
+
+            <div>
+
+                <label for="{{ form.email.id_for_label }}">
+                    {% translate "Email" %}
+                </label>
+
+                {{ form.email }}
+
+                {{ form.email.errors }}
+
+            </div>
+
+
+            <div>
+
+                <label for="{{ form.first_name.id_for_label }}">
+                    {% translate "First name" %}
+                </label>
+
+                {{ form.first_name }}
+
+                {{ form.first_name.errors }}
+
+            </div>
+
+
+            <div>
+
+                <label for="{{ form.last_name.id_for_label }}">
+                    {% translate "Last name" %}
+                </label>
+
+                {{ form.last_name }}
+
+                {{ form.last_name.errors }}
+
+            </div>
+
+
+            <div>
+
+                <label for="{{ form.password1.id_for_label }}">
+                    {% translate "Password" %}
+                </label>
+
+                {{ form.password1 }}
+
+                {{ form.password1.errors }}
+
+            </div>
+
+
+            <div>
+
+                <label for="{{ form.password2.id_for_label }}">
+                    {% translate "Confirm password" %}
+                </label>
+
+                {{ form.password2 }}
+
+                {{ form.password2.errors }}
+
+            </div>
+
+
+            <button type="submit">
+                {% translate "Create Account" %}
+            </button>
+
+        </form>
+
+
+        <p>
+
+            {% translate "Already have an account?" %}
+
+            <a href="{% url 'tasks:login' %}">
+                {% translate "Login" %}
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

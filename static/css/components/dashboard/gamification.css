@@ -1,0 +1,38 @@
+/* ==========================================================
+   DASHBOARD GAMIFICATION
+========================================================== */
+
+.dashboard-gamification {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* ==========================================================
+   GAMIFICATION CARDS
+========================================================== */
+
+.dashboard-gamification .card {
+    min-width: 0;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.dashboard-gamification .card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}

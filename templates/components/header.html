@@ -1,0 +1,195 @@
+{% load static %}
+{% load i18n %}
+
+<header class="header">
+
+    <!-- ==================================================
+         LOGO
+    =================================================== -->
+
+    <div class="header__logo">
+
+        <a href="{% url 'tasks:dashboard' %}" class="brand">
+
+            <img
+                src="{% static 'images/To_Do_Solo_logo.png' %}"
+                alt="{% translate 'To Do Solo' %}"
+                class="brand__logo"
+            >
+
+            <span class="brand__name">
+                To Do Solo
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- ==================================================
+         NAVIGATION
+    =================================================== -->
+
+    <nav class="header__nav">
+
+        <a
+            href="{% url 'tasks:dashboard' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+        >
+            {% translate "Dashboard" %}
+        </a>
+
+
+        <a
+            href="{% url 'tasks:tasks' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'tasks' %}active{% endif %}"
+        >
+            {% translate "Tasks" %}
+        </a>
+
+
+        <a
+            href="{% url 'tasks:stats' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'stats' %}active{% endif %}"
+        >
+            {% translate "Statistics" %}
+        </a>
+
+
+        <a
+            href="{% url 'tasks:achievements' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'achievements' %}active{% endif %}"
+        >
+            {% translate "Achievements" %}
+        </a>
+
+    </nav>
+
+
+    <!-- ==================================================
+         RIGHT SIDE
+    =================================================== -->
+
+    <div class="header__right">
+
+
+        <!-- LANGUAGE -->
+
+        <form
+            method="post"
+            action="{% url 'set_language' %}"
+            class="language-switcher"
+        >
+
+            {% csrf_token %}
+
+            {% get_current_language as CURRENT_LANGUAGE %}
+
+            {% if CURRENT_LANGUAGE == "en" %}
+
+                <input
+                    type="hidden"
+                    name="language"
+                    value="ar"
+                >
+
+                <button
+                    type="submit"
+                    class="header__language-button"
+                    aria-label="{% translate 'Switch to Arabic' %}"
+                >
+                    {% translate "Arabic" %}
+                </button>
+
+            {% else %}
+
+                <input
+                    type="hidden"
+                    name="language"
+                    value="en"
+                >
+
+                <button
+                    type="submit"
+                    class="header__language-button"
+                    aria-label="{% translate 'Switch to English' %}"
+                >
+                    {% translate "English" %}
+                </button>
+
+            {% endif %}
+
+
+            <input
+                type="hidden"
+                name="next"
+                value="{{ request.get_full_path }}"
+            >
+
+        </form>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <button
+            class="header__button"
+            type="button"
+            aria-label="{% translate 'Notifications' %}"
+        >
+            🔔
+        </button>
+
+
+        <!-- SETTINGS -->
+
+        <button
+            class="header__button"
+            type="button"
+            aria-label="{% translate 'Settings' %}"
+        >
+            ⚙️
+        </button>
+
+
+        <!-- USER -->
+
+        <a
+            href="{% url 'tasks:accounts:profile' %}"
+            class="header__user"
+        >
+
+            {% if request.user.is_authenticated %}
+
+                {{ request.user.first_name|default:request.user.username }}
+
+            {% else %}
+
+                {% translate "Guest" %}
+
+            {% endif %}
+
+        </a>
+
+
+        <!-- LOGOUT -->
+
+        <form
+            method="post"
+            action="{% url 'tasks:logout' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="header__logout"
+            >
+                {% translate "Logout" %}
+            </button>
+
+        </form>
+
+    </div>
+
+</header>
+

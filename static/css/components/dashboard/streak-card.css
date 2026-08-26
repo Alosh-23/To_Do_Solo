@@ -1,0 +1,59 @@
+/* ==========================================================
+   STREAK CARD
+========================================================== */
+
+.streak-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.streak-card .card-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.streak-card .card-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+/* ==========================================================
+   STREAK BODY
+========================================================== */
+
+.streak-card .card-body {
+    padding: 18px;
+}
+
+/* ==========================================================
+   STREAK VALUE
+========================================================== */
+
+.streak-card .card-body p {
+    margin: 0 0 12px;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    color: var(--text-primary);
+}
+
+/* ==========================================================
+   STREAK DESCRIPTION
+========================================================== */
+
+.streak-card small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}

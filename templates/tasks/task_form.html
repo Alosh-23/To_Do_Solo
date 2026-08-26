@@ -1,0 +1,205 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+
+    {% if object %}
+        {% translate "Edit Task" %}
+    {% else %}
+        {% translate "Create Task" %}
+    {% endif %}
+
+    | To Do Solo
+
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/task-form.css' %}"
+>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+        <section class="task-form-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Task Management" %}
+                    </p>
+
+
+                    <h1 class="page-title">
+
+                        {% if object %}
+                            {% translate "Edit Task" %}
+                        {% else %}
+                            {% translate "Create Task" %}
+                        {% endif %}
+
+                    </h1>
+
+
+                    <p class="page-description">
+
+                        {% if object %}
+
+                            {% translate "Update the details of your task." %}
+
+                        {% else %}
+
+                            {% translate "Create a new task and keep your day organized." %}
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="task-form-card">
+
+                <form
+                    method="post"
+                    novalidate
+                    class="task-form js-task-form"
+                    data-mode="{% if object %}edit{% else %}create{% endif %}"
+                    {% if object %}
+                        data-task-id="{{ object.pk }}"
+                    {% endif %}
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-errors">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="form-field">
+
+                        <label for="{{ form.title.id_for_label }}">
+                            {% translate "Title" %}
+                        </label>
+
+                        {{ form.title }}
+
+                        {% if form.title.errors %}
+
+                            <div class="field-error">
+                                {{ form.title.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="{{ form.description.id_for_label }}">
+                            {% translate "Description" %}
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+
+                            <div class="field-error">
+                                {{ form.description.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="{{ form.due_date.id_for_label }}">
+                            {% translate "Due date" %}
+                        </label>
+
+                        {{ form.due_date }}
+
+                        {% if form.due_date.errors %}
+
+                            <div class="field-error">
+                                {{ form.due_date.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{% url 'tasks:dashboard' %}"
+                            class="button button-secondary"
+                        >
+                            {% translate "Cancel" %}
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="button button-primary js-task-form-submit"
+                        >
+
+                            {% if object %}
+
+                                {% translate "Save Changes" %}
+
+                            {% else %}
+
+                                {% translate "Create Task" %}
+
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="{% static 'js/ui/taskFormUI.js' %}"></script>
+
+{% endblock %}

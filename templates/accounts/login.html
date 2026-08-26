@@ -1,0 +1,136 @@
+{% extends "layouts/auth.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Login" %} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/login.css' %}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-header">
+
+            <h1>
+                {% translate "Welcome Back" %}
+            </h1>
+
+            <p>
+                {% translate "Sign in to continue using To Do Solo." %}
+            </p>
+
+        </div>
+
+
+        <form
+            method="post"
+            class="login-form"
+        >
+
+            {% csrf_token %}
+
+
+            {% if form.non_field_errors %}
+
+                <div class="form-error">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-group">
+
+                <label for="{{ form.username.id_for_label }}">
+                    {% translate "Username" %}
+                </label>
+
+                {{ form.username }}
+
+                {% if form.username.errors %}
+
+                    <div class="form-error">
+                        {{ form.username.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.password.id_for_label }}">
+                    {% translate "Password" %}
+                </label>
+
+                {{ form.password }}
+
+                {% if form.password.errors %}
+
+                    <div class="form-error">
+                        {{ form.password.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="login-options">
+
+                <a
+                    href="{% url 'tasks:forgot_password' %}"
+                    class="login-forgot-link"
+                >
+                    {% translate "Forgot Password?" %}
+                </a>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="button button-primary login-submit"
+            >
+                {% translate "Login" %}
+            </button>
+
+        </form>
+
+
+        <div class="login-footer">
+
+            <p>
+                {% translate "Don't have an account?" %}
+            </p>
+
+            <a
+                href="{% url 'tasks:register' %}"
+                class="login-register-link"
+            >
+                {% translate "Create Account" %}
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

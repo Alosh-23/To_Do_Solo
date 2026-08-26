@@ -1,0 +1,65 @@
+/* ==========================================
+   1. MOBILE SIDEBAR CONTAINER & OVERLAY
+   ========================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%; /* مخفي تماماً خارج الشاشة في الوضع الافتراضي للهاتف */
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out; /* حركة انسيابية عند الفتح والإغلاق */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* حالة ظهور الـ Sidebar عند تفعيله بالجافاسكريبت في الهاتف */
+.sidebar.active {
+    left: 0; 
+}
+
+/* ==========================================
+   2. MOBILE SIDEBAR HEADER & BRAND
+   ========================================== */
+.sidebar-brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary-color, #2563eb);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ==========================================
+   3. MOBILE SIDEBAR NAVIGATION LINKS
+   ========================================== */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #4b5563;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background-color: #eff6ff;
+    color: #2563eb;
+}

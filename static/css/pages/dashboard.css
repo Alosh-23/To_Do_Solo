@@ -1,0 +1,133 @@
+/* ==========================================================
+   DASHBOARD PAGE
+========================================================== */
+
+.dashboard-page {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.dashboard-page .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.page-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.page-title {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+
+    letter-spacing: -0.5px;
+}
+
+.page-description {
+    margin: 0;
+
+    font-size: 15px;
+
+    color: var(--text-secondary);
+}
+
+.page-header-actions {
+    flex-shrink: 0;
+}
+
+/* ==========================================================
+   CREATE TASK BUTTON
+========================================================== */
+
+.page-header-actions .button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    border-radius: var(--radius-md);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.page-header-actions .button:hover {
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================
+   TASK SECTION
+========================================================== */
+
+.tasks-section {
+    width: 100%;
+}
+
+/* ==========================================================
+   SECTION HEADER
+========================================================== */
+
+.tasks-section .section-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.tasks-section .section-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+
+    letter-spacing: -0.2px;
+}
+
+/* ==========================================================
+   TASK LIST
+========================================================== */
+
+.task-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}

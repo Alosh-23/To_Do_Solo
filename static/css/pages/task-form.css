@@ -1,0 +1,339 @@
+/* ==========================================================
+   TASK FORM PAGE
+   Used for Create Task + Edit Task
+========================================================== */
+
+.task-form-page {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.task-form-page .page-header {
+    margin-bottom: 28px;
+}
+
+.task-form-page .page-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.task-form-page .page-eyebrow {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+.task-form-page .page-title {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+.task-form-page .page-description {
+    margin: 0;
+
+    font-size: 15px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   FORM CARD
+========================================================== */
+
+.task-form-card {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 30px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* ==========================================================
+   FORM
+========================================================== */
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+
+/* ==========================================================
+   FORM FIELD
+========================================================== */
+
+.task-form .form-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.task-form .form-field label {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+
+/* ==========================================================
+   INPUTS
+========================================================== */
+
+.task-form input,
+.task-form textarea,
+.task-form select {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    min-height: 46px;
+
+    padding: 11px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+/* ==========================================================
+   TEXTAREA
+========================================================== */
+
+.task-form textarea {
+    min-height: 140px;
+
+    resize: vertical;
+
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   FOCUS
+========================================================== */
+
+.task-form input:focus,
+.task-form textarea:focus,
+.task-form select:focus {
+    border-color: var(--primary);
+
+    background: var(--surface);
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* ==========================================================
+   PLACEHOLDER
+========================================================== */
+
+.task-form input::placeholder,
+.task-form textarea::placeholder {
+    color: var(--text-secondary);
+
+    opacity: 0.7;
+}
+
+
+/* ==========================================================
+   ERRORS
+========================================================== */
+
+.task-form .form-errors {
+    padding: 12px 14px;
+
+    border: 1px solid var(--danger);
+
+    border-radius: var(--radius-md);
+
+    background: rgba(220, 38, 38, 0.05);
+
+    color: var(--danger);
+
+    font-size: 13px;
+}
+
+.task-form .field-error {
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    color: var(--danger);
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.task-form .form-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    padding-top: 24px;
+    margin-top: 4px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.task-form .button {
+    min-width: 130px;
+    min-height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    padding: 0 20px;
+
+    border-radius: var(--radius-md);
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* ==========================================================
+   CANCEL
+========================================================== */
+
+.task-form .button-secondary {
+    background: var(--surface);
+
+    color: var(--text-primary);
+
+    border: 1px solid var(--border);
+}
+
+.task-form .button-secondary:hover {
+    background: #f3f4f6;
+
+    border-color: #d1d5db;
+
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================================
+   CREATE / SAVE
+========================================================== */
+
+.task-form .button-primary {
+    background: var(--primary);
+
+    color: #ffffff;
+
+    border: 1px solid var(--primary);
+}
+
+.task-form .button-primary:hover {
+    filter: brightness(0.95);
+
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* ==========================================================
+   ACTIVE
+========================================================== */
+
+.task-form .button:active {
+    transform: translateY(0);
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 700px) {
+
+    .task-form-page {
+        max-width: 100%;
+    }
+
+    .task-form-card {
+        padding: 20px;
+    }
+
+    .task-form-page .page-title {
+        font-size: 28px;
+    }
+
+    .task-form .form-actions {
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+    .task-form .button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,70 @@
+{% extends "layouts/auth.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Verify Email" %} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/login.css' %}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <div class="login-header">
+
+            <h1>
+                {% translate "Verify Your Email" %}
+            </h1>
+
+            <p>
+                {% translate "Please check your email to verify your account." %}
+            </p>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <p>
+                {% translate "We sent a verification link to your email address." %}
+            </p>
+
+            <p>
+                {% translate "Open the link in the email to complete your account verification." %}
+            </p>
+
+        </div>
+
+
+        <div class="login-footer">
+
+            <p>
+                {% translate "Already verified your email?" %}
+            </p>
+
+            <a
+                href="{% url 'tasks:login' %}"
+                class="login-register-link"
+            >
+                {% translate "Login" %}
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

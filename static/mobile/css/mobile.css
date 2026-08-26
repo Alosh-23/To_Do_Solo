@@ -1,0 +1,74 @@
+/* ==========================================
+   1. MOBILE APP GLOBAL RESET & SETUP
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color, #f3f4f6);
+    color: var(--text-main, #1f2937);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================
+   2. MOBILE LAYOUT & CONTAINERS
+   ========================================== */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    padding: 16px;
+    width: 100%;
+    margin-left: 0 !important; /* إلغاء أي هامش خاص بالكمبيوتر */
+}
+
+/* ==========================================
+   3. MOBILE CARDS & COMPONENTS
+   ========================================== */
+.card, .task-form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* ==========================================
+   4. MOBILE BUTTONS & FORMS
+   ========================================== */
+.button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.button-primary {
+    background-color: var(--primary-color, #2563eb);
+    color: #ffffff;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-top: 6px;
+    margin-bottom: 14px;
+}

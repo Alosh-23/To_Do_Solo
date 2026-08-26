@@ -1,0 +1,12 @@
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1f2937;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    z-index: 1100;
+    font-size: 0.95rem;
+}

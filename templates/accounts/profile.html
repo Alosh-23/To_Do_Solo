@@ -1,0 +1,180 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "My Account" %} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/profile.css' %}"
+>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+        <section class="profile-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Account" %}
+                    </p>
+
+                    <h1 class="page-title">
+                        {% translate "My Account" %}
+                    </h1>
+
+                    <p class="page-description">
+                        {% translate "View your personal information and account details." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="profile-card">
+
+                <div class="profile-card-header">
+
+                    <div class="profile-avatar">
+
+                        {% if request.user.first_name %}
+                            {{ request.user.first_name|first|upper }}
+                        {% else %}
+                            {{ request.user.username|first|upper }}
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="profile-user-info">
+
+                        <h2>
+                            {{ request.user.username }}
+                        </h2>
+
+                        {% if request.user.email %}
+
+                            <p>
+                                {{ request.user.email }}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-section">
+
+                    <div class="form-section-header">
+
+                        <h2>
+                            {% translate "Personal Information" %}
+                        </h2>
+
+                        <p>
+                            {% translate "Your current account information." %}
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            {% translate "Username" %}
+                        </label>
+
+                        <div class="profile-value">
+                            {{ request.user.username }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            {% translate "Email address" %}
+                        </label>
+
+                        <div class="profile-value">
+                            {{ request.user.email|default:_("Not provided") }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            {% translate "First name" %}
+                        </label>
+
+                        <div class="profile-value">
+                            {{ request.user.first_name|default:_("Not provided") }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            {% translate "Last name" %}
+                        </label>
+
+                        <div class="profile-value">
+                            {{ request.user.last_name|default:_("Not provided") }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'tasks:dashboard' %}"
+                        class="button button-secondary"
+                    >
+                        {% translate "Back" %}
+                    </a>
+
+
+                    <a
+                        href="{% url 'tasks:accounts:profile_edit' %}"
+                        class="button button-primary"
+                    >
+                        {% translate "Edit Profile" %}
+                    </a>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+/* ==========================================================
+   BUTTON BASE
+========================================================== */
+
+.btn {
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--space-sm);
+
+    padding: 12px 20px;
+
+    border: none;
+
+    border-radius: var(--radius-md);
+
+    font-family: var(--font-family);
+
+    font-size: var(--font-md);
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all var(--transition);
+
+}
+
+
+/* ==========================================================
+   PRIMARY
+========================================================== */
+
+.btn-primary {
+
+    background: var(--primary);
+
+    color: #FFFFFF;
+
+}
+
+.btn-primary:hover {
+
+    background: var(--primary-hover);
+
+}
+
+
+/* ==========================================================
+   SUCCESS
+========================================================== */
+
+.btn-success {
+
+    background: var(--success);
+
+    color: #FFFFFF;
+
+}
+
+
+/* ==========================================================
+   WARNING
+========================================================== */
+
+.btn-warning {
+
+    background: var(--warning);
+
+    color: #FFFFFF;
+
+}
+
+
+/* ==========================================================
+   DANGER
+========================================================== */
+
+.btn-danger {
+
+    background: var(--danger);
+
+    color: #FFFFFF;
+
+}
+
+
+/* ==========================================================
+   OUTLINE
+========================================================== */
+
+.btn-outline {
+
+    background: transparent;
+
+    color: var(--primary);
+
+    border: 1px solid var(--primary);
+
+}
+
+.btn-outline:hover {
+
+    background: var(--primary);
+
+    color: #FFFFFF;
+
+}
+
+
+/* ==========================================================
+   SIZES
+========================================================== */
+
+.btn-sm {
+
+    padding: 8px 14px;
+
+    font-size: var(--font-sm);
+
+}
+
+.btn-lg {
+
+    padding: 16px 28px;
+
+    font-size: var(--font-lg);
+
+}
+
+
+/* ==========================================================
+   FULL WIDTH
+========================================================== */
+
+.btn-block {
+
+    width: 100%;
+
+}

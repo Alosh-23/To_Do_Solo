@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<div class="card streak-card">
+
+    <div class="card-header">
+
+        <h3>
+            {% translate "Streak" %}
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <p class="dashboard-streak-text">
+
+            <span class="dashboard-streak-value">
+                {{ streak }}
+            </span>
+
+            {% blocktranslate count counter=streak %}
+                Day
+            {% plural %}
+                Days
+            {% endblocktranslate %}
+
+        </p>
+
+        <small>
+            {% translate "Current Daily Streak" %}
+        </small>
+
+    </div>
+
+</div>

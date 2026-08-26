@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Achievements" %} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/achievements.css' %}"
+>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+        <section class="achievements-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Progress" %}
+                    </p>
+
+                    <h1 class="page-title">
+                        {% translate "Achievements" %}
+                    </h1>
+
+                    <p class="page-description">
+                        {% translate "Complete tasks and reach milestones to unlock achievements." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="achievements-grid">
+
+                {% for key, label in achievement_keys %}
+
+                    {% with unlocked=False %}
+
+                        <article class="achievement-card">
+
+                            <div class="achievement-icon">
+                                🏆
+                            </div>
+
+                            <div class="achievement-content">
+
+                                <h2>
+                                    {{ label }}
+                                </h2>
+
+                                <p>
+                                    {% translate "Achievement" %}
+                                </p>
+
+                                <span class="achievement-status">
+                                    {% translate "Locked" %}
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    {% endwith %}
+
+                {% empty %}
+
+                    <div class="card empty-state">
+
+                        <div class="card-body">
+
+                            <h3>
+                                {% translate "No achievements yet" %}
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+

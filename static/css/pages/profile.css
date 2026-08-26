@@ -1,0 +1,378 @@
+/* ==========================================================
+   PROFILE PAGE
+========================================================== */
+
+.profile-page {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   PROFILE CARD
+========================================================== */
+
+.profile-card {
+    width: 100%;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    padding: 28px;
+
+    box-shadow: var(--shadow-sm);
+
+    box-sizing: border-box;
+}
+
+
+/* ==========================================================
+   PROFILE HEADER
+========================================================== */
+
+.profile-card-header {
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 26px;
+    font-weight: 700;
+}
+
+
+.profile-user-info {
+    min-width: 0;
+}
+
+
+.profile-user-info h2 {
+    margin: 0 0 5px;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+
+.profile-user-info p {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   FORM
+========================================================== */
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 28px;
+}
+
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.form-section-header {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-bottom: 4px;
+}
+
+
+.form-section-header h2 {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+
+.form-section-header p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   FORM GROUP
+========================================================== */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+
+/* ==========================================================
+   EDIT PROFILE INPUTS
+========================================================== */
+
+.form-group input {
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+
+.form-group input:focus {
+    border-color: var(--primary);
+
+    background: var(--surface);
+
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ==========================================================
+   PROFILE VIEW VALUES
+========================================================== */
+
+.profile-value {
+    width: 100%;
+
+    min-height: 44px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    word-break: break-word;
+}
+
+
+/* ==========================================================
+   PROFILE VALUE HOVER
+========================================================== */
+
+.profile-value:hover {
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+
+/* ==========================================================
+   ERRORS
+========================================================== */
+
+.form-error {
+    font-size: 12px;
+
+    color: var(--danger);
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    padding-top: 22px;
+
+    border-top: 1px solid var(--border);
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .profile-card {
+        padding: 20px;
+    }
+
+
+    .profile-card-header {
+        align-items: flex-start;
+    }
+
+
+    .profile-avatar {
+        width: 58px;
+        height: 58px;
+
+        font-size: 22px;
+    }
+
+
+    .profile-user-info h2 {
+        font-size: 18px;
+    }
+
+
+    .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+
+    .form-actions .button {
+        width: 100%;
+    }
+
+}
+/* ==========================================================
+   PROFILE ACTION BUTTONS
+========================================================== */
+
+.form-actions .button {
+    min-width: 130px;
+    height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 18px;
+
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+/* Cancel */
+
+.form-actions .button-secondary {
+    background: var(--surface);
+    color: var(--text-primary);
+}
+
+
+.form-actions .button-secondary:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+
+    transform: translateY(-1px);
+}
+
+
+/* Save Changes */
+
+.form-actions .button-primary {
+    background: var(--primary);
+    color: white;
+
+    border-color: var(--primary);
+}
+
+
+.form-actions .button-primary:hover {
+    filter: brightness(0.95);
+
+    transform: translateY(-1px);
+}
+
+
+/* Click effect */
+
+.form-actions .button:active {
+    transform: translateY(0);
+}

@@ -1,0 +1,158 @@
+/* ==========================================================
+   STATISTICS PAGE
+========================================================== */
+
+.stats-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.stats-page .page-header {
+    margin-bottom: 32px;
+}
+
+.stats-page .page-eyebrow {
+    margin: 0 0 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--primary);
+}
+
+.stats-page .page-title {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+}
+
+.stats-page .page-description {
+    margin: 8px 0 0;
+
+    font-size: 15px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   STATS GRID
+========================================================== */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+
+/* ==========================================================
+   STATS CARD
+========================================================== */
+
+.stats-card {
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 150px;
+
+    padding: 22px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}
+
+
+/* ==========================================================
+   LABEL
+========================================================== */
+
+.stats-card-label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   VALUE
+========================================================== */
+
+.stats-card-value {
+    margin-top: auto;
+
+    font-size: 34px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    color: var(--text-primary);
+}
+
+
+/* ==========================================================
+   UNIT
+========================================================== */
+
+.stats-card-unit {
+    margin-top: 6px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-page .page-title {
+        font-size: 26px;
+    }
+
+}

@@ -1,0 +1,61 @@
+{% load i18n %}
+
+<div class="card xp-card">
+
+    <div class="card-header">
+
+        <h3>
+            {% translate "Experience" %}
+        </h3>
+
+        <span class="xp-level">
+            {% blocktranslate with level=request.user.profile.level %}
+                Level {{ level }}
+            {% endblocktranslate %}
+        </span>
+
+    </div>
+
+
+    <div class="card-body">
+
+        <div class="xp-value">
+
+            <strong class="dashboard-xp-value">
+                {{ request.user.profile.xp }}
+            </strong>
+
+            <span>
+                XP
+            </span>
+
+        </div>
+
+
+        <div class="xp-progress">
+
+            <div
+                class="xp-progress-bar dashboard-xp-progress"
+                style="width: {{ xp_progress }}%;"
+            ></div>
+
+        </div>
+
+
+        <div class="xp-info">
+
+            <small>
+                {% blocktranslate with next_xp=xp_to_next_level level=request.user.profile.level|add:"1" %}
+                    {{ next_xp }} XP until Level {{ level }}
+                {% endblocktranslate %}
+            </small>
+
+            <small>
+                {{ xp_progress }}%
+            </small>
+
+        </div>
+
+    </div>
+
+</div>

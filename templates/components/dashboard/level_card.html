@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<div class="card level-card">
+
+    <div class="card-header">
+
+        <h3>
+            {% translate "Level" %}
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="level-value">
+
+            <span class="level-number dashboard-level-value">
+                {{ request.user.profile.level }}
+            </span>
+
+            <span class="level-label">
+                {% translate "Level" %}
+            </span>
+
+        </div>
+
+        <small>
+            {% translate "Current User Level" %}
+        </small>
+
+    </div>
+
+</div>

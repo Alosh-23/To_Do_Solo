@@ -1,0 +1,72 @@
+/* ==========================================================
+   LEVEL CARD
+========================================================== */
+
+.level-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.level-card .card-header {
+    display: flex;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.level-card .card-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+/* ==========================================================
+   LEVEL VALUE
+========================================================== */
+
+.level-value {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    margin-bottom: 12px;
+}
+
+.level-number {
+    font-size: 32px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    color: var(--text-primary);
+}
+
+.level-label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+/* ==========================================================
+   LEVEL BODY
+========================================================== */
+
+.level-card .card-body {
+    padding: 18px;
+}
+
+/* ==========================================================
+   LEVEL DESCRIPTION
+========================================================== */
+
+.level-card small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}

@@ -1,0 +1,168 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Statistics" %} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/stats.css' %}"
+>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+        <section class="stats-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Productivity Overview" %}
+                    </p>
+
+                    <h1 class="page-title">
+                        {% translate "Statistics" %}
+                    </h1>
+
+                    <p class="page-description">
+                        {% translate "Track your productivity and progress." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="stats-grid">
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Total Tasks" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-total-tasks">
+                        {{ total_tasks }}
+                    </strong>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Completed" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-completed-tasks">
+                        {{ completed_tasks }}
+                    </strong>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Pending" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-pending-tasks">
+                        {{ pending_tasks }}
+                    </strong>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Completion Rate" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-completion-rate">
+                        {{ completion_rate }}%
+                    </strong>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Experience" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-xp">
+                        {{ xp }}
+                    </strong>
+
+                    <span class="stats-card-unit">
+                        XP
+                    </span>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Current Level" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-level">
+                        {{ level }}
+                    </strong>
+
+                </article>
+
+
+                <article class="stats-card">
+
+                    <span class="stats-card-label">
+                        {% translate "Current Streak" %}
+                    </span>
+
+                    <strong class="stats-card-value stats-streak">
+                        {{ streak }}
+                    </strong>
+
+                    <span class="stats-card-unit">
+                        {% translate "Days" %}
+                    </span>
+
+                </article>
+
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="{% static 'js/ui/statsUI.js' %}"></script>
+
+{% endblock %}
+

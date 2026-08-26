@@ -1,0 +1,233 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {{ object.title }} | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/task-detail.css' %}"
+>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+        <section class="task-detail-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Task Details" %}
+                    </p>
+
+                    <h1 class="page-title">
+                        {{ object.title }}
+                    </h1>
+
+                    <p class="page-description">
+                        {% translate "View the details and current status of this task." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <article class="task-detail-card">
+
+                <div class="task-detail-header">
+
+                    <div>
+
+                        <span class="task-detail-label">
+                            {% translate "Task" %}
+                        </span>
+
+                        <h2>
+                            {{ object.title }}
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                {% if object.description %}
+
+                    <div class="task-detail-section">
+
+                        <h3>
+                            {% translate "Description" %}
+                        </h3>
+
+                        <p>
+                            {{ object.description }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="task-detail-section">
+
+                    <h3>
+                        {% translate "Due Date" %}
+                    </h3>
+
+                    {% if object.due_date %}
+
+                        <p>
+                            {{ object.due_date|date:"F j, Y - g:i A" }}
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            {% translate "No due date" %}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="task-detail-section">
+
+                    <h3>
+                        {% translate "Completion" %}
+                    </h3>
+
+                    {% if object.completed %}
+
+                        <p>
+                            {% translate "Completed" %}
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            {% translate "Not completed" %}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="task-detail-meta">
+
+                    <div>
+
+                        <span>
+                            {% translate "Created" %}
+                        </span>
+
+                        <strong>
+                            {{ object.created_at|date:"F j, Y - g:i A" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            {% translate "Last updated" %}
+                        </span>
+
+                        <strong>
+                            {{ object.updated_at|date:"F j, Y - g:i A" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'tasks:dashboard' %}"
+                        class="button button-secondary"
+                    >
+                        {% translate "Back to Dashboard" %}
+                    </a>
+
+
+                    <a
+                        href="{% url 'tasks:task_update' object.pk %}"
+                        class="button button-primary"
+                    >
+                        {% translate "Edit Task" %}
+                    </a>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'tasks:task_toggle_complete' object.pk %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                        >
+
+                            {% if object.completed %}
+
+                                {% translate "Mark as Incomplete" %}
+
+                            {% else %}
+
+                                {% translate "Mark as Complete" %}
+
+                            {% endif %}
+
+                        </button>
+
+                    </form>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'tasks:task_delete' object.pk %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="button button-danger"
+                        >
+                            {% translate "Delete Task" %}
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    Dashboard | To Do Solo
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/pages/dashboard.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/gamification.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/xp-card.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/level-card.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/streak-card.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/task-card.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/components/dashboard/statistics-card.css' %}">
+
+{% endblock %}
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+
+        <!-- ==========================
+             DASHBOARD
+        =========================== -->
+
+        <section class="dashboard-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <h1 class="page-title">
+                        {% blocktranslate with username=request.user.username %}
+                            Welcome back, {{ username }}
+                        {% endblocktranslate %}
+                    </h1>
+
+                    <p class="page-description">
+                        {% translate "Stay organized and keep moving forward." %}
+                    </p>
+
+                </div>
+
+
+                <div class="page-header-actions">
+
+                    <a
+                        href="{% url 'tasks:task_create' %}"
+                        class="button button-primary"
+                    >
+                        + {% translate "Create Task" %}
+                    </a>
+
+                </div>
+
+            </header>
+
+<!-- ==========================
+     GAMIFICATION
+=========================== -->
+
+<section class="dashboard-gamification">
+
+    {% include "components/dashboard/xp_card.html" %}
+
+    {% include "components/dashboard/level_card.html" %}
+
+    {% include "components/dashboard/streak_card.html" %}
+
+    {% include "components/dashboard/stats_card.html" %}
+
+</section>
+
+<!-- ==========================
+TASKS
+=========================== -->
+
+            <section class="tasks-section" id="tasks">
+
+                <div class="section-header">
+
+                    <h2>
+                        {% translate "Your Tasks" %}
+                    </h2>
+
+                </div>
+
+
+                {% if tasks %}
+
+                    <div class="task-list">
+
+                        {% for task in tasks %}
+
+                            <article class="task-card">
+
+                                <div class="task-card-content">
+
+                                    <div class="task-card-header">
+
+                                        <div class="task-card-title">
+
+                                            <form
+                                                method="post"
+                                                action="{% url 'tasks:task_toggle_complete' task.pk %}"
+                                                class="task-complete-form"
+                                            >
+
+                                                {% csrf_token %}
+
+                                                <button
+                                                    type="submit"
+                                                    class="task-complete-button {% if task.completed %}is-completed{% endif %}"
+                                                    aria-label="{% if task.completed %}Mark task as incomplete{% else %}Mark task as complete{% endif %}"
+                                                >
+                                                    {% if task.completed %}
+                                                        ✓
+                                                    {% endif %}
+                                                </button>
+
+                                            </form>
+
+
+                                            <h3>
+                                                <a
+                                                    href="{% url 'tasks:task_detail' task.pk %}"
+                                                >
+                                                    {{ task.title }}
+                                                </a>
+                                            </h3>
+
+                                        </div>                                        
+
+                                    </div>
+
+
+                                    {% if task.description %}
+
+                                        <p class="task-card-description">
+                                            {{ task.description|truncatewords:25 }}
+                                        </p>
+
+                                    {% endif %}
+
+
+                                    <div class="task-card-meta">
+
+                                        {% if task.due_date %}
+
+                                            <span>
+                                                {% translate "Due:" %}
+                                                {{ task.due_date|date:"M j, Y - g:i A" }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span>
+                                                {% translate "No due date" %}
+                                            </span>
+
+                                        {% endif %}
+
+
+                                        {% if task.completed %}
+
+                                            <span>
+                                                ✓ {% translate "Completed" %}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span>
+                                                {% translate "Incomplete" %}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="task-card-actions">
+
+                                    <a
+                                        href="{% url 'tasks:task_detail' task.pk %}"
+                                        class="button button-secondary"
+                                    >
+                                        {% translate "View" %}
+                                    </a>
+
+
+                                    <a
+                                        href="{% url 'tasks:task_update' task.pk %}"
+                                        class="button button-primary"
+                                    >
+                                        {% translate "Edit" %}
+                                    </a>
+
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'tasks:task_delete' task.pk %}"
+                                        class="task-delete-form"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="button button-danger"
+                                        >
+                                            {% translate "Delete" %}
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% else %}
+
+                    <div class="card empty-state">
+
+                        <div class="card-body">
+
+                            <h3>
+                                {% translate "No tasks yet" %}
+                            </h3>
+
+                            <p>
+                                {% translate "Create your first task and start being productive." %}
+                            </p>
+
+                            <a
+                                href="{% url 'tasks:task_create' %}"
+                                class="button button-primary"
+                            >
+                                {% translate "Create Your First Task" %}
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="{% static 'js/ui/dashboardUI.js' %}"></script>
+
+{% endblock %}

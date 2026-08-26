@@ -1,0 +1,484 @@
+/* ==========================================================
+   TASKS PAGE
+========================================================== */
+
+.tasks-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   PAGE HEADER
+========================================================== */
+
+.tasks-page .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.tasks-page .page-header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tasks-page .page-eyebrow {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+.tasks-page .page-title {
+    margin: 0;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.tasks-page .page-description {
+    margin: 0;
+
+    font-size: 15px;
+
+    color: var(--text-secondary);
+}
+
+
+/* ==========================================================
+   CREATE TASK BUTTON
+========================================================== */
+
+.tasks-page .page-header-actions {
+    flex-shrink: 0;
+}
+
+.tasks-page .page-header-actions .button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 18px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background-color .2s ease;
+}
+
+.tasks-page .page-header-actions .button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+
+/* ==========================================================
+   TASK LIST
+========================================================== */
+
+.tasks-page .task-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* ==========================================================
+   TASK CARD
+========================================================== */
+
+.tasks-page .task-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    padding: 18px 20px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.tasks-page .task-card:hover {
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-md);
+
+    border-color: #D1D5DB;
+}
+
+
+/* ==========================================================
+   TASK CONTENT
+========================================================== */
+
+.tasks-page .task-card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.tasks-page .task-card-header {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 6px;
+}
+
+.tasks-page .task-card-title {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+/* ==========================================================
+   COMPLETE BUTTON
+========================================================== */
+
+.tasks-page .task-complete-form {
+    margin: 0;
+}
+
+.tasks-page .task-complete-button {
+    width: 22px;
+    height: 22px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 2px solid #D1D5DB;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.tasks-page .task-complete-button:hover {
+    border-color: var(--primary);
+
+    transform: scale(1.05);
+}
+
+.tasks-page .task-complete-button.is-completed {
+    background: var(--primary);
+
+    border-color: var(--primary);
+}
+
+
+/* ==========================================================
+   TASK TITLE
+========================================================== */
+
+.tasks-page .task-card-title h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tasks-page .task-card-title h3 a {
+    color: var(--text-primary);
+
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.tasks-page .task-card-title h3 a:hover {
+    color: var(--primary);
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+========================================================== */
+
+.tasks-page .task-card-description {
+    margin: 0 0 8px 34px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.45;
+}
+
+
+/* ==========================================================
+   META
+========================================================== */
+
+.tasks-page .task-card-meta {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 14px;
+
+    margin-left: 34px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+.tasks-page .task-card-meta span {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+.tasks-page .task-card-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+}
+
+.tasks-page .task-delete-form {
+    margin: 0;
+}
+
+
+/* ==========================================================
+   ACTION BUTTONS
+========================================================== */
+
+.tasks-page .task-card-actions .button {
+    min-height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 12px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
+}
+
+
+/* ==========================================================
+   VIEW
+========================================================== */
+
+.tasks-page .task-card-actions .button-secondary {
+    background: #FFFFFF;
+
+    color: #374151;
+
+    border: 1px solid #D1D5DB;
+}
+
+.tasks-page .task-card-actions .button-secondary:hover {
+    background: #F3F4F6;
+
+    border-color: #9CA3AF;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ==========================================================
+   EDIT
+========================================================== */
+
+.tasks-page .task-card-actions .button-primary {
+    background: #2563EB;
+
+    color: #FFFFFF;
+
+    border: 1px solid #2563EB;
+}
+
+.tasks-page .task-card-actions .button-primary:hover {
+    background: #1D4ED8;
+
+    border-color: #1D4ED8;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+}
+
+
+/* ==========================================================
+   DELETE
+========================================================== */
+
+.tasks-page .task-card-actions .button-danger {
+    background: #FFFFFF;
+
+    color: #DC2626;
+
+    border: 1px solid #FECACA;
+}
+
+.tasks-page .task-card-actions .button-danger:hover {
+    background: #FEF2F2;
+
+    border-color: #FCA5A5;
+
+    color: #B91C1C;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 3px 8px rgba(220, 38, 38, 0.12);
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.tasks-page .empty-state {
+    width: 100%;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .tasks-page .task-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .tasks-page .task-card-actions {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .tasks-page .page-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+        margin-bottom: 32px;
+    }
+
+    .tasks-page .page-title {
+        font-size: 26px;
+    }
+
+    .tasks-page .page-header-actions {
+        width: 100%;
+    }
+
+    .tasks-page .page-header-actions .button {
+        width: 100%;
+    }
+
+    .tasks-page .task-card-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .tasks-page .task-card-description,
+    .tasks-page .task-card-meta {
+        margin-left: 0;
+    }
+
+    .tasks-page .task-card-actions {
+        flex-wrap: wrap;
+    }
+}

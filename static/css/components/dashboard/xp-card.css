@@ -1,0 +1,119 @@
+/* ==========================================================
+   XP CARD
+========================================================== */
+
+.xp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.xp-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.xp-card .card-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+.xp-level {
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: #EEF2FF;
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ==========================================================
+   XP BODY
+========================================================== */
+
+.xp-card .card-body {
+    padding: 18px;
+}
+
+/* ==========================================================
+   XP VALUE
+========================================================== */
+
+.xp-value {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+.xp-value strong {
+    font-size: 32px;
+    font-weight: 700;
+
+    line-height: 1;
+
+    color: var(--text-primary);
+}
+
+.xp-value span {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+/* ==========================================================
+   XP PROGRESS
+========================================================== */
+
+.xp-progress {
+    width: 100%;
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #E5E7EB;
+}
+
+.xp-progress-bar {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--primary);
+
+    transition: width .4s ease;
+}
+
+/* ==========================================================
+   XP INFO
+========================================================== */
+
+.xp-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+.xp-info small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
