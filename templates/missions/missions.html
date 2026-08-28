@@ -1,0 +1,451 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}
+    {% translate "Missions" %} | To Do Solo
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/missions.css' %}"
+>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+
+        <section class="missions-page">
+
+            <header class="missions-page__header">
+
+                <div>
+
+                    <p class="missions-page__eyebrow">
+                        {% translate "Long-Term Goals" %}
+                    </p>
+
+                    <h1 class="missions-page__title">
+                        {% translate "Missions" %}
+                    </h1>
+
+                    <p class="missions-page__description">
+                        {% translate "Complete milestones and build consistent productivity habits." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section
+                class="missions-grid"
+                aria-label="{% translate 'Missions' %}"
+            >
+
+                {% for mission in missions %}
+
+                <article
+                    class="
+                        mission-card
+                        {% if mission.completed %}
+                            is-completed
+                        {% endif %}
+                        {% if mission.claimed %}
+                            is-claimed
+                        {% endif %}
+                    "
+                    data-mission-key="{{ mission.key }}"
+                >
+
+                    <div class="mission-card__header">
+
+                        <div class="mission-card__icon">
+                            {{ mission.icon }}
+                        </div>
+
+
+                        <div class="mission-card__status">
+
+                            {% if mission.claimed %}
+
+                                {% translate "Reward claimed" %}
+
+                            {% elif mission.completed %}
+
+                                {% translate "Completed" %}
+
+                            {% else %}
+
+                                {% translate "In Progress" %}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mission-card__content">
+
+                        <h2 class="mission-card__title">
+                            {{ mission.title }}
+                        </h2>
+
+
+                        <p class="mission-card__description">
+                            {{ mission.description }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="mission-card__progress">
+
+                        <div class="mission-card__progress-header">
+
+                            <span>
+                                {% translate "Progress" %}
+                            </span>
+
+                            <strong>
+                                {{ mission.current }}
+                                /
+                                {{ mission.target }}
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            class="mission-card__progress-track"
+                            role="progressbar"
+                            aria-valuemin="0"
+                            aria-valuemax="{{ mission.target }}"
+                            aria-valuenow="{{ mission.current }}"
+                            aria-label="{{ mission.title }}"
+                        >
+
+                            <div
+                                class="mission-card__progress-bar"
+                                style="width: {{ mission.progress }}%;"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <footer class="mission-card__footer">
+
+                        <div class="mission-card__reward">
+
+                            <span>
+                                {% translate "Reward" %}
+                            </span>
+
+                            <strong>
+                                +{{ mission.reward }} XP
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mission-card__action">
+
+                            {% if mission.completed and not mission.claimed %}
+
+                                <form
+                                    class="mission-claim-form"
+                                    method="post"
+                                    action="{% url 'tasks:mission_reward_claim' mission.key %}"
+                                    data-mission-claim
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="button button-primary mission-claim-button"
+                                    >
+                                        {% translate "Claim Reward" %}
+                                    </button>
+
+                                </form>
+
+
+                            {% elif mission.claimed %}
+
+                                <span class="mission-claimed-label">
+                                    {% translate "Claimed" %}
+                                </span>
+
+
+                            {% endif %}
+
+                        </div>
+
+                    </footer>
+
+                </article>
+
+                {% empty %}
+
+                <div class="missions-empty">
+
+                    <div class="missions-empty__icon">
+                        🎯
+                    </div>
+
+                    <h2>
+                        {% translate "No missions available" %}
+                    </h2>
+
+                    <p>
+                        {% translate "Your missions will appear here." %}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const claimForms =
+            document.querySelectorAll(
+                "[data-mission-claim]"
+            );
+
+
+        claimForms.forEach(
+            (form) => {
+
+                form.addEventListener(
+                    "submit",
+                    async (event) => {
+
+                        event.preventDefault();
+
+
+                        const button =
+                            form.querySelector(
+                                "button"
+                            );
+
+
+                        if (!button) {
+                            return;
+                        }
+
+
+                        const originalText =
+                            button.textContent.trim();
+
+
+                        button.disabled = true;
+
+                        button.textContent =
+                            "{% translate 'Claiming...' %}";
+
+
+                        try {
+
+                            const csrfInput =
+                                form.querySelector(
+                                    "[name=csrfmiddlewaretoken]"
+                                );
+
+
+                            const csrfToken =
+                                csrfInput
+                                    ? csrfInput.value
+                                    : "";
+
+
+                            const response =
+                                await fetch(
+                                    form.action,
+                                    {
+                                        method: "POST",
+
+                                        headers: {
+                                            "X-CSRFToken":
+                                                csrfToken,
+
+                                            "X-Requested-With":
+                                                "XMLHttpRequest",
+
+                                            "Accept":
+                                                "application/json",
+                                        },
+                                    }
+                                );
+
+
+                            const data =
+                                await response.json()
+                                    .catch(
+                                        () => null
+                                    );
+
+
+                            if (
+                                !response.ok ||
+                                !data ||
+                                !data.success
+                            ) {
+
+                                throw new Error(
+                                    data?.message ||
+                                    "{% translate 'Unable to claim reward.' %}"
+                                );
+
+                            }
+
+
+                            const card =
+                                form.closest(
+                                    ".mission-card"
+                                );
+
+
+                            if (card) {
+
+                                card.classList.add(
+                                    "is-claimed"
+                                );
+
+
+                                const status =
+                                    card.querySelector(
+                                        ".mission-card__status"
+                                    );
+
+
+                                if (status) {
+
+                                    status.textContent =
+                                        "{% translate 'Reward claimed' %}";
+
+                                }
+
+
+                                const action =
+                                    form.parentElement;
+
+
+                                if (action) {
+
+                                    action.innerHTML =
+                                        `
+                                        <span class="mission-claimed-label">
+                                            {% translate "Claimed" %}
+                                        </span>
+                                        `;
+
+                                }
+
+                            }
+
+
+                            window.ToDoSoloSounds
+                                ?.success();
+
+
+                            window.ToDoSoloToast
+                                ?.success(
+                                    "{% translate 'Reward claimed successfully.' %}"
+                                );
+
+
+                            /* ==================================================
+                               UPDATE DASHBOARD / GLOBAL STATE
+                               ================================================== */
+
+                            if (
+                                window.AppState &&
+                                typeof window.AppState.updateProfile ===
+                                    "function"
+                            ) {
+
+                                window.AppState.updateProfile({
+
+                                    xp:
+                                        data.xp,
+
+                                    level:
+                                        data.level,
+
+                                });
+
+                            }
+
+
+                        }
+                        catch (error) {
+
+                            console.error(
+                                "Mission claim error:",
+                                error
+                            );
+
+
+                            button.disabled =
+                                false;
+
+
+                            button.textContent =
+                                originalText;
+
+
+                            window.ToDoSoloToast
+                                ?.error(
+                                    error.message ||
+                                    "{% translate 'Unable to claim reward.' %}"
+                                );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+{% endblock %}

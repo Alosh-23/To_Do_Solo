@@ -1,14 +1,27 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.dateparse import parse_date, parse_datetime
 from django.views import View
 
-from .models import Task, Profile, DailyActivity
-from .services import calculate_streak
+from .models import (
+    Achievement,
+    DailyActivity,
+    Profile,
+    Task,
+)
+
+from .services import (
+    calculate_streak,
+    get_user_progress,
+    record_task_completion_progress,
+    synchronize_progress_counters,
+    unlock_achievements,
+)
 
 
 # ==========================================================
@@ -37,13 +50,11 @@ def parse_task_due_date(value):
     if not value:
         return None
 
-    # Try full datetime first.
     parsed_datetime = parse_datetime(value)
 
     if parsed_datetime is not None:
         return parsed_datetime
 
-    # Then try date-only value.
     parsed_date = parse_date(value)
 
     if parsed_date is not None:
@@ -56,7 +67,10 @@ def parse_task_due_date(value):
 # TASK LIST API
 # ==========================================================
 
-class TaskListAPIView(LoginRequiredMixin, View):
+class TaskListAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
     Return all tasks belonging to the current user.
     """
@@ -106,31 +120,60 @@ class TaskListAPIView(LoginRequiredMixin, View):
 # TASK TOGGLE API
 # ==========================================================
 
-class TaskToggleCompleteAPIView(LoginRequiredMixin, View):
+class TaskToggleCompleteAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
-    Toggle task completion and update XP / level / streak.
+    Toggle task completion.
+
+    Completing a task:
+        - awards XP
+        - updates the user's level
+        - records historical mission progress
+        - records today's quest progress
+        - updates daily activity
+        - unlocks achievements
+        - returns newly unlocked achievements
+
+    Uncompleting a task:
+        - removes the XP previously awarded
+        - does NOT remove historical mission progress
+        - does NOT remove historical quest progress
+        - does NOT remove unlocked achievements
     """
 
+    @transaction.atomic
     def post(self, request, pk):
 
         task = get_object_or_404(
-            Task,
+            Task.objects.select_for_update(),
             pk=pk,
             user=request.user,
         )
 
-        profile, created = Profile.objects.get_or_create(
-            user=request.user
+        profile, _ = (
+            Profile.objects
+            .select_for_update()
+            .get_or_create(
+                user=request.user
+            )
         )
 
-        if task.completed:
+        was_completed = task.completed
 
-            # ==============================================
-            # MARK AS INCOMPLETE
-            # ==============================================
+        newly_completed = False
+
+        # ==================================================
+        # MARK AS INCOMPLETE
+        # ==================================================
+
+        if was_completed:
 
             task.completed = False
+
             task.status = Task.Status.TODO
+
             task.completed_at = None
 
             profile.xp = max(
@@ -138,26 +181,25 @@ class TaskToggleCompleteAPIView(LoginRequiredMixin, View):
                 profile.xp - 10,
             )
 
+        # ==================================================
+        # MARK AS COMPLETE
+        # ==================================================
+
         else:
 
-            # ==============================================
-            # MARK AS COMPLETE
-            # ==============================================
-
             task.completed = True
+
             task.status = Task.Status.DONE
+
             task.completed_at = timezone.now()
 
             profile.xp += 10
 
-            DailyActivity.objects.get_or_create(
-                user=request.user,
-                date=timezone.localdate(),
-            )
+            newly_completed = True
 
-        # ==============================================
+        # ==================================================
         # UPDATE LEVEL
-        # ==============================================
+        # ==================================================
 
         profile.level = (
             profile.xp // 100
@@ -171,6 +213,10 @@ class TaskToggleCompleteAPIView(LoginRequiredMixin, View):
             ]
         )
 
+        # ==================================================
+        # SAVE TASK
+        # ==================================================
+
         task.save(
             update_fields=[
                 "completed",
@@ -180,32 +226,121 @@ class TaskToggleCompleteAPIView(LoginRequiredMixin, View):
             ]
         )
 
-        # ==============================================
+        # ==================================================
+        # RECORD HISTORICAL PROGRESS
+        # ==================================================
+
+        if newly_completed:
+
+            record_task_completion_progress(
+                user=request.user,
+                task=task,
+            )
+
+        # ==================================================
+        # SYNCHRONIZE OLD DATA
+        # ==================================================
+
+        # This is non-destructive.
+        # It may increase historical counters when needed,
+        # but it never decreases them.
+
+        synchronize_progress_counters(
+            request.user
+        )
+
+        # ==================================================
+        # UNLOCK ACHIEVEMENTS
+        # ==================================================
+
+        unlocked_achievements = (
+            unlock_achievements(
+                request.user
+            )
+        )
+
+        # ==================================================
+        # GET CURRENT PROFILE PROGRESS
+        # ==================================================
+
+        progress = get_user_progress(
+            request.user
+        )
+
+        # ==================================================
         # RESPONSE
-        # ==============================================
+        # ==================================================
 
         return JsonResponse({
+
             "success": True,
 
             "task": {
-                "id": task.pk,
-                "title": task.title,
-                "completed": task.completed,
-                "status": task.status,
+
+                "id":
+                    task.pk,
+
+                "title":
+                    task.title,
+
+                "completed":
+                    task.completed,
+
+                "status":
+                    task.status,
+
                 "completed_at": (
                     task.completed_at.isoformat()
                     if task.completed_at
                     else None
                 ),
+
             },
 
             "profile": {
-                "xp": profile.xp,
-                "level": profile.level,
-                "streak": calculate_streak(
-                    request.user
-                ),
+
+                "xp":
+                    progress["xp"],
+
+                "level":
+                    progress["level"],
+
+                "streak":
+                    progress["streak"],
+
+                "completed_tasks_total":
+                    progress[
+                        "completed_tasks_total"
+                    ],
+
             },
+
+            "unlocked_achievements": [
+
+                {
+
+                    "id":
+                        achievement.pk,
+
+                    "key":
+                        achievement.key,
+
+                    "label":
+                        achievement.get_key_display(),
+
+                    "unlocked_at": (
+                        achievement.unlocked_at.isoformat()
+                        if achievement.unlocked_at
+                        else None
+                    ),
+
+                }
+
+                for achievement
+                in unlocked_achievements
+
+            ],
+
         })
 
 
@@ -213,15 +348,25 @@ class TaskToggleCompleteAPIView(LoginRequiredMixin, View):
 # TASK DELETE API
 # ==========================================================
 
-class TaskDeleteAPIView(LoginRequiredMixin, View):
+class TaskDeleteAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
     Delete a task belonging to the current user.
+
+    Deleting a task does NOT:
+        - reduce XP
+        - reduce historical mission progress
+        - reduce historical quest progress
+        - remove achievements
     """
 
+    @transaction.atomic
     def post(self, request, pk):
 
         task = get_object_or_404(
-            Task,
+            Task.objects.select_for_update(),
             pk=pk,
             user=request.user,
         )
@@ -240,7 +385,10 @@ class TaskDeleteAPIView(LoginRequiredMixin, View):
 # STATS API
 # ==========================================================
 
-class StatsAPIView(LoginRequiredMixin, View):
+class StatsAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
     Return the current user's task and progress statistics.
     """
@@ -249,46 +397,172 @@ class StatsAPIView(LoginRequiredMixin, View):
 
         user = request.user
 
+        synchronize_progress_counters(
+            user
+        )
+
         tasks = Task.objects.filter(
             user=user
         )
 
         total_tasks = tasks.count()
 
-        completed_tasks = tasks.filter(
-            completed=True
-        ).count()
+        completed_tasks = (
+            tasks
+            .filter(
+                completed=True
+            )
+            .count()
+        )
 
-        pending_tasks = tasks.filter(
-            completed=False
-        ).count()
+        pending_tasks = (
+            tasks
+            .filter(
+                completed=False
+            )
+            .count()
+        )
 
         completion_rate = (
             round(
-                (completed_tasks / total_tasks) * 100
+                (
+                    completed_tasks /
+                    total_tasks
+                ) * 100
             )
             if total_tasks > 0
             else 0
         )
 
-        profile, created = Profile.objects.get_or_create(
-            user=user
+        profile, _ = (
+            Profile.objects.get_or_create(
+                user=user
+            )
         )
 
-        streak = calculate_streak(user)
+        streak = calculate_streak(
+            user
+        )
 
         return JsonResponse({
+
             "success": True,
 
             "stats": {
-                "total_tasks": total_tasks,
-                "completed_tasks": completed_tasks,
-                "pending_tasks": pending_tasks,
-                "completion_rate": completion_rate,
-                "xp": profile.xp,
-                "level": profile.level,
-                "streak": streak,
+
+                "total_tasks":
+                    total_tasks,
+
+                "completed_tasks":
+                    completed_tasks,
+
+                "pending_tasks":
+                    pending_tasks,
+
+                "completion_rate":
+                    completion_rate,
+
+                "xp":
+                    profile.xp,
+
+                "level":
+                    profile.level,
+
+                "streak":
+                    streak,
+
+                "completed_tasks_total":
+                    profile.completed_tasks_total,
+
             },
+
+        })
+
+
+# ==========================================================
+# ACHIEVEMENTS API
+# ==========================================================
+
+class AchievementListAPIView(
+    LoginRequiredMixin,
+    View,
+):
+    """
+    Return all available achievements for the current user.
+
+    Every achievement is returned with its unlocked state.
+    """
+
+    def get(self, request):
+
+        user = request.user
+
+        synchronize_progress_counters(
+            user
+        )
+
+        unlock_achievements(
+            user
+        )
+
+        unlocked_achievements = {
+
+            achievement.key:
+                achievement
+
+            for achievement in (
+                Achievement.objects
+                .filter(user=user)
+            )
+
+        }
+
+        achievements = []
+
+        for key, label in (
+            Achievement.Key.choices
+        ):
+
+            achievement = (
+                unlocked_achievements.get(
+                    key
+                )
+            )
+
+            achievements.append({
+
+                "id": (
+                    achievement.pk
+                    if achievement
+                    else None
+                ),
+
+                "key":
+                    key,
+
+                "label":
+                    label,
+
+                "unlocked": (
+                    achievement
+                    is not None
+                ),
+
+                "unlocked_at": (
+                    achievement.unlocked_at.isoformat()
+                    if achievement
+                    else None
+                ),
+
+            })
+
+        return JsonResponse({
+
+            "success": True,
+
+            "achievements":
+                achievements,
+
         })
 
 
@@ -296,7 +570,10 @@ class StatsAPIView(LoginRequiredMixin, View):
 # TASK CREATE API
 # ==========================================================
 
-class TaskCreateAPIView(LoginRequiredMixin, View):
+class TaskCreateAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
     Create a new task and return it as JSON.
     """
@@ -306,7 +583,9 @@ class TaskCreateAPIView(LoginRequiredMixin, View):
         try:
 
             data = json.loads(
-                request.body.decode("utf-8")
+                request.body.decode(
+                    "utf-8"
+                )
             )
 
         except (
@@ -316,44 +595,51 @@ class TaskCreateAPIView(LoginRequiredMixin, View):
 
             return JsonResponse(
                 {
-                    "success": False,
-                    "message": "Invalid JSON data.",
+                    "success":
+                        False,
+
+                    "message":
+                        "Invalid JSON data.",
                 },
                 status=400,
             )
 
+        # ==================================================
+        # TITLE
+        # ==================================================
 
         title = (
             data.get("title") or ""
         ).strip()
 
-        description = (
-            data.get("description") or ""
-        ).strip()
-
-        due_date_value = (
-            data.get("due_date") or ""
-        )
-
-
-        # ==============================================
-        # VALIDATE TITLE
-        # ==============================================
-
         if not title:
 
             return JsonResponse(
                 {
-                    "success": False,
-                    "message": "Title is required.",
+                    "success":
+                        False,
+
+                    "message":
+                        "Title is required.",
                 },
                 status=400,
             )
 
+        # ==================================================
+        # DESCRIPTION
+        # ==================================================
 
-        # ==============================================
-        # PARSE DUE DATE
-        # ==============================================
+        description = (
+            data.get("description") or ""
+        ).strip()
+
+        # ==================================================
+        # DUE DATE
+        # ==================================================
+
+        due_date_value = (
+            data.get("due_date") or ""
+        )
 
         due_date = None
 
@@ -367,16 +653,18 @@ class TaskCreateAPIView(LoginRequiredMixin, View):
 
                 return JsonResponse(
                     {
-                        "success": False,
-                        "message": "Invalid due date.",
+                        "success":
+                            False,
+
+                        "message":
+                            "Invalid due date.",
                     },
                     status=400,
                 )
 
-
-        # ==============================================
-        # CREATE TASK
-        # ==============================================
+        # ==================================================
+        # CREATE
+        # ==================================================
 
         task = Task.objects.create(
 
@@ -390,39 +678,57 @@ class TaskCreateAPIView(LoginRequiredMixin, View):
 
         )
 
-
-        # ==============================================
+        # ==================================================
         # RESPONSE
-        # ==============================================
+        # ==================================================
 
         return JsonResponse(
+
             {
-                "success": True,
+                "success":
+                    True,
 
                 "task": {
-                    "id": task.pk,
-                    "title": task.title,
-                    "description": task.description,
-                    "completed": task.completed,
-                    "status": task.status,
+
+                    "id":
+                        task.pk,
+
+                    "title":
+                        task.title,
+
+                    "description":
+                        task.description,
+
+                    "completed":
+                        task.completed,
+
+                    "status":
+                        task.status,
+
                     "due_date": (
                         task.due_date.isoformat()
                         if task.due_date
                         else None
                     ),
+
                     "created_at": (
                         task.created_at.isoformat()
                         if task.created_at
                         else None
                     ),
+
                     "updated_at": (
                         task.updated_at.isoformat()
                         if task.updated_at
                         else None
                     ),
+
                 },
+
             },
+
             status=201,
+
         )
 
 
@@ -430,7 +736,10 @@ class TaskCreateAPIView(LoginRequiredMixin, View):
 # TASK UPDATE API
 # ==========================================================
 
-class TaskUpdateAPIView(LoginRequiredMixin, View):
+class TaskUpdateAPIView(
+    LoginRequiredMixin,
+    View,
+):
     """
     Update an existing task and return it as JSON.
     """
@@ -443,11 +752,12 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
             user=request.user,
         )
 
-
         try:
 
             data = json.loads(
-                request.body.decode("utf-8")
+                request.body.decode(
+                    "utf-8"
+                )
             )
 
         except (
@@ -457,16 +767,18 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
 
             return JsonResponse(
                 {
-                    "success": False,
-                    "message": "Invalid JSON data.",
+                    "success":
+                        False,
+
+                    "message":
+                        "Invalid JSON data.",
                 },
                 status=400,
             )
 
-
-        # ==============================================
+        # ==================================================
         # TITLE
-        # ==============================================
+        # ==================================================
 
         if "title" in data:
 
@@ -474,24 +786,24 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
                 data.get("title") or ""
             ).strip()
 
-
             if not title:
 
                 return JsonResponse(
                     {
-                        "success": False,
-                        "message": "Title is required.",
+                        "success":
+                            False,
+
+                        "message":
+                            "Title is required.",
                     },
                     status=400,
                 )
 
-
             task.title = title
 
-
-        # ==============================================
+        # ==================================================
         # DESCRIPTION
-        # ==============================================
+        # ==================================================
 
         if "description" in data:
 
@@ -499,10 +811,9 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
                 data.get("description") or ""
             ).strip()
 
-
-        # ==============================================
+        # ==================================================
         # DUE DATE
-        # ==============================================
+        # ==================================================
 
         if "due_date" in data:
 
@@ -512,16 +823,21 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
 
             if due_date_value:
 
-                due_date = parse_task_due_date(
-                    due_date_value
+                due_date = (
+                    parse_task_due_date(
+                        due_date_value
+                    )
                 )
 
                 if due_date is None:
 
                     return JsonResponse(
                         {
-                            "success": False,
-                            "message": "Invalid due date.",
+                            "success":
+                                False,
+
+                            "message":
+                                "Invalid due date.",
                         },
                         status=400,
                     )
@@ -532,42 +848,55 @@ class TaskUpdateAPIView(LoginRequiredMixin, View):
 
                 task.due_date = None
 
-
-        # ==============================================
+        # ==================================================
         # SAVE
-        # ==============================================
+        # ==================================================
 
         task.save()
 
-
-        # ==============================================
+        # ==================================================
         # RESPONSE
-        # ==============================================
+        # ==================================================
 
         return JsonResponse({
+
             "success": True,
 
             "task": {
-                "id": task.pk,
-                "title": task.title,
-                "description": task.description,
-                "completed": task.completed,
-                "status": task.status,
+
+                "id":
+                    task.pk,
+
+                "title":
+                    task.title,
+
+                "description":
+                    task.description,
+
+                "completed":
+                    task.completed,
+
+                "status":
+                    task.status,
+
                 "due_date": (
                     task.due_date.isoformat()
                     if task.due_date
                     else None
                 ),
+
                 "created_at": (
                     task.created_at.isoformat()
                     if task.created_at
                     else None
                 ),
+
                 "updated_at": (
                     task.updated_at.isoformat()
                     if task.updated_at
                     else None
                 ),
-            },
-        })
 
+            },
+
+        })

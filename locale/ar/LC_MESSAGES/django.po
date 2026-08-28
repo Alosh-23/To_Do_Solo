@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: To Do Solo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-25 16:33+0300\n"
-"PO-Revision-Date: 2026-08-25 16:50+0300\n"
+"POT-Creation-Date: 2026-08-27 00:00+0300\n"
+"PO-Revision-Date: 2026-08-27 00:00+0300\n"
 "Last-Translator: To Do Solo Team\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -13,6 +13,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+
+# ==========================================================
+# ACCOUNTS
+# ==========================================================
 
 #: .\templates\accounts\forgot_password.html:7
 msgid "Forgot Password"
@@ -153,12 +158,8 @@ msgstr "يرجى التحقق من صندوق الوارد واتباع الرا
 
 #: .\templates\accounts\password\password_reset_email.html:4
 #, python-format
-msgid ""
-"\n"
-"مرحبًا %(username)s،\n"
-msgstr ""
-"\n"
-"مرحبًا %(username)s،\n"
+msgid "Hello %(username)s,"
+msgstr "مرحبًا %(username)s،"
 
 #: .\templates\accounts\password\password_reset_email.html:8
 msgid "You requested a password reset for your To Do Solo account."
@@ -179,6 +180,11 @@ msgstr "مع التحية،"
 #: .\templates\accounts\password\password_reset_subject.txt:1
 msgid "Reset your To Do Solo password"
 msgstr "إعادة تعيين كلمة مرور To Do Solo"
+
+
+# ==========================================================
+# PROFILE
+# ==========================================================
 
 #: .\templates\accounts\profile.html:7
 #: .\templates\accounts\profile.html:38
@@ -287,6 +293,11 @@ msgstr "افتح الرابط الموجود في البريد الإلكترو�
 msgid "Already verified your email?"
 msgstr "هل أكدت بريدك الإلكتروني بالفعل؟"
 
+
+# ==========================================================
+# ACHIEVEMENTS
+# ==========================================================
+
 #: .\templates\achievements\achievements.html:7
 #: .\templates\achievements\achievements.html:38
 #: .\templates\components\header.html:63
@@ -312,6 +323,56 @@ msgstr "مقفل"
 #: .\templates\achievements\achievements.html:89
 msgid "No achievements yet"
 msgstr "لا توجد إنجازات بعد"
+
+msgid "Unlocked"
+msgstr "مفتوح"
+
+msgid "First Step"
+msgstr "الخطوة الأولى"
+
+msgid "Task Starter"
+msgstr "بداية المهام"
+
+msgid "Task Master"
+msgstr "خبير المهام"
+
+msgid "XP Hunter"
+msgstr "صياد XP"
+
+msgid "Level Up"
+msgstr "الارتقاء بالمستوى"
+
+msgid "Streak Starter"
+msgstr "بداية التتابع"
+
+msgid "Week Warrior"
+msgstr "محارب الأسبوع"
+
+msgid "Complete your first task."
+msgstr "أكمل مهمتك الأولى."
+
+msgid "Complete 5 tasks."
+msgstr "أكمل 5 مهام."
+
+msgid "Complete 10 tasks."
+msgstr "أكمل 10 مهام."
+
+msgid "Reach 100 XP."
+msgstr "الوصول إلى 100 XP."
+
+msgid "Reach level 2."
+msgstr "الوصول إلى المستوى 2."
+
+msgid "Build a 3-day streak."
+msgstr "حافظ على تتابع لمدة 3 أيام."
+
+msgid "Build a 7-day streak."
+msgstr "حافظ على تتابع لمدة 7 أيام."
+
+
+# ==========================================================
+# DASHBOARD COMPONENTS
+# ==========================================================
 
 #: .\templates\components\dashboard\level_card.html:8
 #: .\templates\components\dashboard\level_card.html:22
@@ -402,7 +463,7 @@ msgstr "زائر"
 
 #: .\templates\components\dashboard\welcome_card.html:24
 msgid "Let's make today productive."
-msgstr "لنجعل يومنا اليوم منتجًا."
+msgstr "لنجعل اليوم منتجًا."
 
 #: .\templates\components\dashboard\xp_card.html:8
 #: .\templates\stats\stats.html:108
@@ -431,6 +492,11 @@ msgstr ""
 "                    متبقي %(next_xp)s XP للوصول إلى المستوى %(level)s\n"
 "                "
 
+
+# ==========================================================
+# HEADER
+# ==========================================================
+
 #: .\templates\components\header.html:16
 msgid "To Do Solo"
 msgstr "To Do Solo"
@@ -458,7 +524,7 @@ msgstr "التبديل إلى الإنجليزية"
 
 #: .\templates\components\header.html:117
 msgid "English"
-msgstr "English"
+msgstr "الإنجليزية"
 
 #: .\templates\components\header.html:137
 msgid "Notifications"
@@ -471,6 +537,11 @@ msgstr "الإعدادات"
 #: .\templates\components\header.html:187
 msgid "Logout"
 msgstr "تسجيل الخروج"
+
+
+# ==========================================================
+# DASHBOARD
+# ==========================================================
 
 #: .\templates\dashboard\dashboard.html:48
 #, python-format
@@ -546,6 +617,11 @@ msgstr "أنشئ مهمتك الأولى وابدأ في زيادة إنتاجي
 msgid "Create Your First Task"
 msgstr "أنشئ مهمتك الأولى"
 
+
+# ==========================================================
+# STATISTICS
+# ==========================================================
+
 #: .\templates\stats\stats.html:34
 msgid "Productivity Overview"
 msgstr "نظرة عامة على الإنتاجية"
@@ -565,6 +641,11 @@ msgstr "التتابع الحالي"
 #: .\templates\stats\stats.html:146
 msgid "Days"
 msgstr "أيام"
+
+
+# ==========================================================
+# TASK DETAIL
+# ==========================================================
 
 #: .\templates\tasks\task_detail.html:34
 msgid "Task Details"
@@ -625,6 +706,11 @@ msgstr "وضع كمكتملة"
 msgid "Delete Task"
 msgstr "حذف المهمة"
 
+
+# ==========================================================
+# TASK MANAGEMENT
+# ==========================================================
+
 #: .\templates\tasks\task_form.html:42
 #: .\templates\tasks\tasks.html:34
 msgid "Task Management"
@@ -658,3 +744,295 @@ msgstr "وضع المهمة كغير مكتملة"
 msgid "Mark task as complete"
 msgstr "وضع المهمة كمكتملة"
 
+
+# ==========================================================
+# SETTINGS
+# ==========================================================
+
+#: .\templates\settings\settings.html
+msgid "Preferences"
+msgstr "التفضيلات"
+
+#: .\templates\settings\settings.html
+msgid "Customize your To Do Solo experience."
+msgstr "خصص تجربة استخدامك لتطبيق To Do Solo."
+
+#: .\templates\settings\settings.html
+msgid "Appearance"
+msgstr "المظهر"
+
+#: .\templates\settings\settings.html
+msgid "Theme"
+msgstr "السمة"
+
+#: .\templates\settings\settings.html
+msgid "Choose how To Do Solo looks on your device."
+msgstr "اختر شكل ظهور To Do Solo على جهازك."
+
+#: .\templates\settings\settings.html
+msgid "Dark mode"
+msgstr "الوضع الداكن"
+
+#: .\templates\settings\settings.html
+msgid "Switch between light and dark appearance."
+msgstr "التبديل بين المظهر الفاتح والداكن."
+
+#: .\templates\settings\settings.html
+msgid "Toggle"
+msgstr "تبديل"
+
+#: .\templates\settings\settings.html
+msgid "Toggle theme"
+msgstr "تبديل المظهر"
+
+#: .\templates\settings\settings.html
+msgid "Language Preferences"
+msgstr "إعدادات اللغة"
+
+#: .\templates\settings\settings.html
+msgid "Choose the language used by the application."
+msgstr "اختر اللغة المستخدمة في التطبيق."
+
+#: .\templates\settings\settings.html
+msgid "Application language"
+msgstr "لغة التطبيق"
+
+#: .\templates\settings\settings.html
+msgid "English or Arabic"
+msgstr "الإنجليزية أو العربية"
+
+#: .\templates\settings\settings.html
+msgid "Control whether To Do Solo can send browser notifications."
+msgstr "تحكم في السماح لتطبيق To Do Solo بإرسال إشعارات المتصفح."
+
+#: .\templates\settings\settings.html
+msgid "Browser notifications"
+msgstr "إشعارات المتصفح"
+
+#: .\templates\settings\settings.html
+msgid "Permission not requested"
+msgstr "لم يتم طلب الإذن"
+
+#: .\templates\settings\settings.html
+msgid "Enable"
+msgstr "تفعيل"
+
+#: .\templates\settings\settings.html
+msgid "Permission denied"
+msgstr "تم رفض الإذن"
+
+#: .\templates\settings\settings.html
+msgid "Notifications are enabled."
+msgstr "الإشعارات مفعلة."
+
+#: .\templates\settings\settings.html
+msgid "Notifications are blocked."
+msgstr "الإشعارات محظورة."
+
+#: .\templates\settings\settings.html
+msgid "Notifications are not supported."
+msgstr "الإشعارات غير مدعومة."
+
+#: .\templates\settings\settings.html
+msgid "Permission not requested."
+msgstr "لم يتم طلب الإذن."
+
+#: .\templates\settings\settings.html
+msgid "Enable notifications"
+msgstr "تفعيل الإشعارات"
+
+#: .\templates\settings\settings.html
+msgid "Sound"
+msgstr "الصوت"
+
+#: .\templates\settings\settings.html
+msgid "Sound Effects"
+msgstr "المؤثرات الصوتية"
+
+#: .\templates\settings\settings.html
+msgid "Test the sound effects used by the application."
+msgstr "اختبر المؤثرات الصوتية المستخدمة في التطبيق."
+
+#: .\templates\settings\settings.html
+msgid "Sound effects"
+msgstr "المؤثرات الصوتية"
+
+#: .\templates\settings\settings.html
+msgid "Play a short test sound."
+msgstr "تشغيل صوت تجريبي قصير."
+
+#: .\templates\settings\settings.html
+msgid "Test Sound"
+msgstr "اختبار الصوت"
+
+
+# ==========================================================
+# MISSIONS
+# ==========================================================
+
+#: .\templates\missions\missions.html
+msgid "Missions"
+msgstr "المهمات"
+
+#: .\templates\missions\missions.html
+msgid "Long-Term Goals"
+msgstr "الأهداف طويلة المدى"
+
+#: .\templates\missions\missions.html
+msgid "Complete milestones and build consistent productivity habits."
+msgstr "أكمل المراحل وابنِ عادات إنتاجية مستمرة."
+
+#: .\apps\tasks\views.py
+#: .\templates\missions\missions.html
+msgid "Complete 10 Tasks"
+msgstr "أكمل 10 مهام"
+
+#: .\apps\tasks\views.py
+msgid "Complete ten tasks to strengthen your productivity."
+msgstr "أكمل عشر مهام لتعزيز إنتاجيتك."
+
+#: .\apps\tasks\views.py
+msgid "Reach Level 5"
+msgstr "الوصول إلى المستوى 5"
+
+#: .\apps\tasks\views.py
+msgid "Keep earning XP and reach level five."
+msgstr "واصل كسب نقاط XP للوصول إلى المستوى الخامس."
+
+#: .\apps\tasks\views.py
+msgid "Build a 7-Day Streak"
+msgstr "ابنِ تتابعًا لمدة 7 أيام"
+
+#: .\apps\tasks\views.py
+msgid "Stay active for seven consecutive days."
+msgstr "حافظ على نشاطك لمدة سبعة أيام متتالية."
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "In Progress"
+msgstr "قيد التقدم"
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Reward"
+msgstr "المكافأة"
+
+#: .\templates\missions\missions.html
+msgid "No missions available"
+msgstr "لا توجد مهمات متاحة"
+
+#: .\templates\missions\missions.html
+msgid "Your missions will appear here."
+msgstr "ستظهر مهماتك هنا."
+
+
+# ==========================================================
+# QUESTS
+# ==========================================================
+
+#: .\templates\quests\quests.html
+msgid "Quests"
+msgstr "المهام الخاصة"
+
+#: .\templates\quests\quests.html
+msgid "Daily Challenges"
+msgstr "التحديات اليومية"
+
+#: .\templates\quests\quests.html
+msgid "Complete today's challenges and earn extra XP."
+msgstr "أكمل تحديات اليوم واكسب نقاط XP إضافية."
+
+#: .\apps\tasks\views.py
+msgid "Complete 1 Task Today"
+msgstr "أكمل مهمة واحدة اليوم"
+
+#: .\apps\tasks\views.py
+msgid "Finish at least one task today."
+msgstr "أكمل مهمة واحدة على الأقل اليوم."
+
+#: .\apps\tasks\views.py
+msgid "Complete 3 Tasks Today"
+msgstr "أكمل 3 مهام اليوم"
+
+#: .\apps\tasks\views.py
+msgid "Finish three tasks before the day ends."
+msgstr "أكمل ثلاث مهام قبل نهاية اليوم."
+
+#: .\apps\tasks\views.py
+msgid "Earn 30 XP Today"
+msgstr "اكسب 30 XP اليوم"
+
+#: .\apps\tasks\views.py
+msgid "Complete tasks and earn at least 30 XP today."
+msgstr "أكمل المهام واكسب 30 XP على الأقل اليوم."
+
+#: .\templates\quests\quests.html
+msgid "No quests available"
+msgstr "لا توجد مهام خاصة متاحة"
+
+#: .\templates\quests\quests.html
+msgid "Your daily quests will appear here."
+msgstr "ستظهر مهامك اليومية الخاصة هنا."
+
+
+# ==========================================================
+# REWARD SYSTEM
+# ==========================================================
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Reward claimed"
+msgstr "تم استلام المكافأة"
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Claim Reward"
+msgstr "استلام المكافأة"
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Claimed"
+msgstr "تم الاستلام"
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Claiming..."
+msgstr "جارٍ استلام المكافأة..."
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Unable to claim reward."
+msgstr "تعذر استلام المكافأة."
+
+#: .\templates\missions\missions.html
+#: .\templates\quests\quests.html
+msgid "Reward claimed successfully."
+msgstr "تم استلام المكافأة بنجاح."
+
+# ==========================================================
+# REWARD SYSTEM ERRORS
+# ==========================================================
+
+#: .\apps\tasks\views.py
+msgid "Mission not found."
+msgstr "المهمة غير موجودة."
+
+#: .\apps\tasks\views.py
+msgid "Mission is not completed yet."
+msgstr "لم تكتمل المهمة بعد."
+
+#: .\apps\tasks\views.py
+msgid "Mission reward has already been claimed."
+msgstr "تم استلام مكافأة المهمة بالفعل."
+
+#: .\apps\tasks\views.py
+msgid "Quest not found."
+msgstr "المهمة اليومية غير موجودة."
+
+#: .\apps\tasks\views.py
+msgid "Quest is not completed yet."
+msgstr "لم تكتمل المهمة اليومية بعد."
+
+#: .\apps\tasks\views.py
+msgid "Quest reward has already been claimed today."
+msgstr "تم استلام مكافأة المهمة اليومية اليوم بالفعل."

@@ -1,0 +1,61 @@
+<div
+    class="modal"
+    id="{{ modal_id|default:'todo-solo-modal' }}"
+    aria-hidden="true"
+    hidden
+>
+
+    <div
+        class="modal-overlay"
+        data-modal-close
+    ></div>
+
+
+    <div
+        class="modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="{{ modal_title_id|default:'todo-solo-modal-title' }}"
+    >
+
+        <header class="modal-header">
+
+            <h2
+                class="modal-title"
+                id="{{ modal_title_id|default:'todo-solo-modal-title' }}"
+            >
+                {{ modal_title|default:"To Do Solo" }}
+            </h2>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                data-modal-close
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <div class="modal-body">
+
+            {% block modal_content %}
+            {% endblock %}
+
+        </div>
+
+
+        {% block modal_footer %}
+
+        <footer class="modal-footer">
+        </footer>
+
+        {% endblock %}
+
+    </div>
+
+</div>
+

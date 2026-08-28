@@ -5,7 +5,6 @@ from django.views.generic import TemplateView, UpdateView
 
 from .forms import ProfileUpdateForm
 
-
 class ProfileView(LoginRequiredMixin, TemplateView):
     """
     Display the user's account information.
@@ -53,3 +52,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+class SettingsView(LoginRequiredMixin, TemplateView):
+
+    template_name = "settings/settings.html"

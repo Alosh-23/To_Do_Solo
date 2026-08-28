@@ -1,0 +1,197 @@
+/* ==========================================================
+   TO DO SOLO
+   STATISTICS CARD
+========================================================== */
+
+.statistics-card {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+
+}
+
+
+.statistics-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.statistics-card__header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-md);
+
+    padding: var(--space-lg);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.statistics-card__title {
+
+    margin: 0;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-lg);
+
+    font-weight: 700;
+
+}
+
+
+.statistics-card__icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: var(--radius-md);
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+}
+
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+.statistics-card__body {
+
+    padding: var(--space-lg);
+
+}
+
+
+.statistics-card__value {
+
+    display: block;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-2xl);
+
+    font-weight: 750;
+
+    line-height: 1.1;
+
+}
+
+
+.statistics-card__label {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-sm);
+
+}
+
+
+/* ==========================================================
+   PROGRESS
+========================================================== */
+
+.statistics-card__progress {
+
+    width: 100%;
+
+    height: 8px;
+
+    margin-top: var(--space-md);
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--surface-hover);
+
+}
+
+
+.statistics-card__progress-bar {
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--primary);
+
+    transition: width .4s ease;
+
+}
+
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.statistics-card__footer {
+
+    padding: 0 var(--space-lg) var(--space-lg);
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-xs);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .statistics-card__header,
+    .statistics-card__body {
+
+        padding: var(--space-md);
+
+    }
+
+    .statistics-card__footer {
+
+        padding:
+            0 var(--space-md) var(--space-md);
+
+    }
+
+}

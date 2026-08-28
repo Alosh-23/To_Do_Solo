@@ -1,0 +1,241 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+
+{% block title %}
+    {% translate "Quests" %} | To Do Solo
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/quests.css' %}"
+>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+
+        <section class="quests-page">
+
+            <header class="quests-page__header">
+
+                <div>
+
+                    <p class="quests-page__eyebrow">
+                        {% translate "Daily Challenges" %}
+                    </p>
+
+                    <h1 class="quests-page__title">
+                        {% translate "Quests" %}
+                    </h1>
+
+                    <p class="quests-page__description">
+                        {% translate "Complete today's challenges and earn extra XP." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section
+                class="quests-grid"
+                data-quests-list
+                aria-label="{% translate 'Quests' %}"
+            >
+
+                {% for quest in quests %}
+
+                <article
+                    class="
+                        quest-card
+                        {% if quest.completed %}
+                            is-completed
+                        {% endif %}
+                    "
+
+                    data-quest-key="{{ quest.key }}"
+                    data-completed="{% if quest.completed %}true{% else %}false{% endif %}"
+                    data-claimed="{% if quest.claimed %}true{% else %}false{% endif %}"
+                >
+
+                    <div class="quest-card__header">
+
+                        <div>
+
+                            <h2 class="quest-card__title">
+                                {{ quest.title }}
+                            </h2>
+
+                            <p class="quest-card__description">
+                                {{ quest.description }}
+                            </p>
+
+                        </div>
+
+
+                        <span class="quest-card__reward">
+                            +{{ quest.reward }} XP
+                        </span>
+
+                    </div>
+
+
+                    <div class="quest-card__progress">
+
+                        <div class="quest-card__progress-track">
+
+                            <div
+                                class="quest-card__progress-bar"
+                                style="
+                                    width:
+                                    {{ quest.progress }}%;
+                                "
+                            ></div>
+
+                        </div>
+
+
+                        <div class="quest-card__progress-info">
+
+                            <span>
+                                {{ quest.current }}
+                                /
+                                {{ quest.target }}
+                            </span>
+
+
+                            {% if quest.completed %}
+
+                                {% if quest.claimed %}
+
+                                    <span>
+                                        {% translate "Reward claimed" %}
+                                    </span>
+
+                                {% else %}
+
+                                    <span>
+                                        {% translate "Completed" %}
+                                    </span>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <span>
+                                    {% translate "In Progress" %}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quest-card__actions">
+
+                        {% if quest.completed %}
+
+                            {% if quest.claimed %}
+
+                                <button
+                                    type="button"
+                                    class="
+                                        button
+                                        button-secondary
+                                        is-claimed
+                                    "
+                                    data-quest-claim
+                                    disabled
+                                >
+                                    {% translate "Claimed" %}
+                                </button>
+
+                            {% else %}
+
+                                <button
+                                    type="button"
+                                    class="
+                                        button
+                                        button-primary
+                                    "
+                                    data-quest-claim
+                                >
+                                    {% translate "Claim Reward" %}
+                                </button>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <button
+                                type="button"
+                                class="
+                                    button
+                                    button-secondary
+                                "
+                                data-quest-claim
+                                disabled
+                            >
+                                {% translate "In Progress" %}
+                            </button>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+                {% empty %}
+
+                <div class="quests-empty">
+
+                    <div class="quests-empty__icon">
+                        ⚔️
+                    </div>
+
+                    <h2>
+                        {% translate "No quests available" %}
+                    </h2>
+
+                    <p>
+                        {% translate "Your daily quests will appear here." %}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </section>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="{% static 'js/api/questApi.js' %}"></script>
+
+<script src="{% static 'js/ui/questUI.js' %}"></script>
+
+{% endblock %}

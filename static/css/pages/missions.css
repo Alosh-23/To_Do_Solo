@@ -1,0 +1,458 @@
+/* ==========================================================
+   TO DO SOLO
+   MISSIONS PAGE
+========================================================== */
+
+.missions-page {
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 40px 24px 60px;
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.missions-page__header {
+
+    margin-bottom: var(--space-xl);
+
+}
+
+
+.missions-page__eyebrow {
+
+    margin: 0 0 6px;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-xs);
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+}
+
+
+.missions-page__title {
+
+    margin: 0;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-2xl);
+
+    font-weight: 750;
+
+}
+
+
+.missions-page__description {
+
+    margin: 8px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-md);
+
+    line-height: 1.6;
+
+}
+
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.missions-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: var(--space-lg);
+
+}
+
+
+/* ==========================================================
+   MISSION CARD
+========================================================== */
+
+.mission-card {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: var(--space-lg);
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition),
+        background-color var(--transition);
+
+}
+
+
+.mission-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.mission-card__header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-md);
+
+}
+
+
+.mission-card__icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-md);
+
+    background: var(--primary-soft);
+
+    color: var(--primary);
+
+    font-size: 22px;
+
+}
+
+
+.mission-card__status {
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    background: var(--surface-hover);
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-xs);
+
+    font-weight: 700;
+
+}
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.mission-card__content {
+
+    margin-top: var(--space-md);
+
+}
+
+
+.mission-card__title {
+
+    margin: 0;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-lg);
+
+    font-weight: 700;
+
+}
+
+
+.mission-card__description {
+
+    margin: 8px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-sm);
+
+    line-height: 1.55;
+
+}
+
+
+/* ==========================================================
+   PROGRESS
+========================================================== */
+
+.mission-card__progress {
+
+    margin-top: var(--space-lg);
+
+}
+
+
+.mission-card__progress-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-sm);
+
+    margin-bottom: 8px;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-xs);
+
+}
+
+
+.mission-card__progress-header strong {
+
+    color: var(--text-primary);
+
+}
+
+
+.mission-card__progress-track {
+
+    width: 100%;
+
+    height: 9px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--surface-hover);
+
+}
+
+
+.mission-card__progress-bar {
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--primary);
+
+    transition: width .4s ease;
+
+}
+
+
+/* ==========================================================
+   COMPLETED
+========================================================== */
+
+.mission-card.is-completed {
+
+    border-color: var(--success);
+
+}
+
+
+.mission-card.is-completed
+.mission-card__progress-bar {
+
+    background: var(--success);
+
+}
+
+
+.mission-card.is-completed
+.mission-card__status {
+
+    background:
+        color-mix(
+            in srgb,
+            var(--success) 14%,
+            transparent
+        );
+
+    color: var(--success);
+
+}
+
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.mission-card__footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-md);
+
+    margin-top: var(--space-lg);
+
+    padding-top: var(--space-md);
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-xs);
+
+}
+
+
+.mission-card__footer strong {
+
+    color: var(--primary);
+
+    font-size: var(--font-sm);
+
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.missions-empty {
+
+    grid-column: 1 / -1;
+
+    padding: 60px 24px;
+
+    text-align: center;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+}
+
+
+.missions-empty__icon {
+
+    font-size: 42px;
+
+    margin-bottom: var(--space-md);
+
+}
+
+
+.missions-empty h2 {
+
+    margin: 0;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-lg);
+
+}
+
+
+.missions-empty p {
+
+    margin: 8px 0 0;
+
+    color: var(--text-secondary);
+
+    font-size: var(--font-sm);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 800px) {
+
+    .missions-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .missions-page {
+
+        padding:
+            28px 16px 40px;
+
+    }
+
+
+    .mission-card {
+
+        padding: var(--space-md);
+
+    }
+
+
+    .mission-card__icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 19px;
+
+    }
+
+}
+

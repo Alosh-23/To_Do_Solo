@@ -8,6 +8,7 @@ import os
 
 from pathlib import Path
 
+import dj_database_url
 
 # ==========================================================
 # PATHS
@@ -62,6 +63,8 @@ INSTALLED_APPS: list[str] = [
 MIDDLEWARE: list[str] = [
 
     "django.middleware.security.SecurityMiddleware",
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
 
@@ -128,18 +131,12 @@ TEMPLATES: list[dict] = [
 # DATABASE
 # ==========================================================
 
-DATABASES: dict[str, dict] = {
-
-    "default": {
-
-        "ENGINE":
-            "django.db.backends.sqlite3",
-
-        "NAME":
-            BASE_DIR / "db.sqlite3",
-
-    }
-
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 
@@ -205,22 +202,34 @@ LOCALE_PATHS: list[Path] = [
 # STATIC FILES
 # ==========================================================
 
-STATIC_URL: str = "static/"
+STATIC_URL = "/static/"
 
-STATICFILES_DIRS: list[Path] = [
-
+STATICFILES_DIRS = [
     BASE_DIR / "static",
-
 ]
 
-STATIC_ROOT: Path = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+
+    "default": {
+        "BACKEND":
+            "django.core.files.storage.FileSystemStorage",
+    },
+
+    "staticfiles": {
+        "BACKEND":
+            "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+
+}
 
 
 # ==========================================================
 # MEDIA FILES
 # ==========================================================
 
-MEDIA_URL: str = "media/"
+MEDIA_URL = "/media/"
 
 MEDIA_ROOT: Path = BASE_DIR / "media"
 
@@ -271,3 +280,43 @@ EMAIL_HOST_PASSWORD = os.environ.get(
 )
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# ==========================================================
+# SECURITY
+# ==========================================================
+
+SECRET_KEY: str = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-local-development-only"
+)
+
+DEBUG: bool = os.environ.get(
+    "DJANGO_DEBUG",
+    "True"
+).lower() == "true"
+
+
+ALLOWED_HOSTS: list[str] = [
+    "127.0.0.1",
+    "localhost",
+]
+
+render_hostname = os.environ.get(
+    "RENDER_EXTERNAL_HOSTNAME"
+)
+
+if render_hostname:
+    ALLOWED_HOSTS.append(
+        render_hostname
+    )
+
+
+CSRF_TRUSTED_ORIGINS: list[str] = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
+
+if render_hostname:
+    CSRF_TRUSTED_ORIGINS.append(
+        f"https://{render_hostname}"
+    )

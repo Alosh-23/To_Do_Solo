@@ -4,6 +4,7 @@ from django.urls import path
 from .views import (
     ProfileView,
     ProfileUpdateView,
+    SettingsView,
 )
 
 app_name = "accounts"
@@ -21,6 +22,12 @@ urlpatterns = [
         "profile/edit/",
         ProfileUpdateView.as_view(),
         name="profile_edit",
+    ),
+
+    path(
+        "settings/",
+        SettingsView.as_view(),
+        name="settings",
     ),
 
     path(
@@ -57,5 +64,6 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+
 
 ]

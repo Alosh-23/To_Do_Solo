@@ -115,18 +115,19 @@ TASKS
 
                                         <div class="task-card-title">
 
+                                            
                                             <form
                                                 method="post"
-                                                action="{% url 'tasks:task_toggle_complete' task.pk %}"
                                                 class="task-complete-form"
+                                                data-task-id="{{ task.pk }}"
                                             >
 
                                                 {% csrf_token %}
 
-                                                <button
-                                                    type="submit"
-                                                    class="task-complete-button {% if task.completed %}is-completed{% endif %}"
-                                                    aria-label="{% if task.completed %}Mark task as incomplete{% else %}Mark task as complete{% endif %}"
+                                               <button
+                                                    type="button"
+                                                    class="task-complete-button js-task-complete{% if task.completed %} is-completed{% endif %}"
+                                                    aria-label="{% if task.completed %}{% translate 'Mark task as incomplete' %}{% else %}{% translate 'Mark task as complete' %}{% endif %}"
                                                 >
                                                     {% if task.completed %}
                                                         ✓
@@ -134,7 +135,6 @@ TASKS
                                                 </button>
 
                                             </form>
-
 
                                             <h3>
                                                 <a
@@ -278,6 +278,8 @@ TASKS
 
 {% block extra_js %}
 
+<script src="{% static 'js/ui/taskUI.js' %}"></script>
 <script src="{% static 'js/ui/dashboardUI.js' %}"></script>
 
 {% endblock %}
+

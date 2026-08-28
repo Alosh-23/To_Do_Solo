@@ -1,12 +1,160 @@
-.toast-notification {
+/* ==========================================================
+   TO DO SOLO
+   TOAST
+========================================================== */
+
+.todo-solo-toast {
+
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #1f2937;
-    color: #ffffff;
-    padding: 12px 20px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    z-index: 1100;
-    font-size: 0.95rem;
+
+    right: 24px;
+
+    bottom: 24px;
+
+    z-index: 2000;
+
+    min-width: 280px;
+
+    max-width: 420px;
+
+    padding: 14px 16px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-lg);
+
+    color: var(--text-primary);
+
+    font-size: var(--font-sm);
+
+    font-weight: 600;
+
+    opacity: 0;
+
+    transform:
+        translateY(14px);
+
+    pointer-events: none;
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+
+}
+
+
+.todo-solo-toast.is-visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* ==========================================================
+   MESSAGE
+========================================================== */
+
+.todo-solo-toast-message {
+
+    display: block;
+
+    line-height: 1.5;
+
+}
+
+
+/* ==========================================================
+   TYPES
+========================================================== */
+
+.todo-solo-toast-success {
+
+    border-left:
+        4px solid var(--success);
+
+}
+
+
+.todo-solo-toast-error {
+
+    border-left:
+        4px solid var(--danger);
+
+}
+
+
+.todo-solo-toast-warning {
+
+    border-left:
+        4px solid var(--warning);
+
+}
+
+
+.todo-solo-toast-info {
+
+    border-left:
+        4px solid var(--info);
+
+}
+
+
+/* ==========================================================
+   RTL
+========================================================== */
+
+html[dir="rtl"]
+.todo-solo-toast {
+
+    right: auto;
+
+    left: 24px;
+
+    border-left: 1px solid var(--border);
+
+    border-right:
+        4px solid var(--info);
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .todo-solo-toast {
+
+        right: 16px;
+
+        left: 16px;
+
+        bottom: 16px;
+
+        min-width: 0;
+
+        max-width: none;
+
+        width: auto;
+
+    }
+
+
+    html[dir="rtl"]
+    .todo-solo-toast {
+
+        right: 16px;
+
+        left: 16px;
+
+    }
+
 }

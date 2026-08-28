@@ -1,5 +1,6 @@
 /* ==========================================================
-   BUTTON BASE
+   TO DO SOLO
+   BUTTON SYSTEM
 ========================================================== */
 
 .btn {
@@ -7,13 +8,16 @@
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
 
     gap: var(--space-sm);
 
-    padding: 12px 20px;
+    min-height: 42px;
 
-    border: none;
+    padding: 10px 18px;
+
+    border: 1px solid transparent;
 
     border-radius: var(--radius-md);
 
@@ -23,9 +27,64 @@
 
     font-weight: 600;
 
+    line-height: 1;
+
+    text-align: center;
+
+    text-decoration: none;
+
     cursor: pointer;
 
-    transition: all var(--transition);
+    user-select: none;
+
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition),
+        opacity var(--transition);
+
+}
+
+
+.btn:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+.btn:active {
+
+    transform: translateY(0);
+
+}
+
+
+.btn:focus-visible {
+
+    outline: 3px solid
+        color-mix(
+            in srgb,
+            var(--primary) 22%,
+            transparent
+        );
+
+    outline-offset: 2px;
+
+}
+
+
+.btn:disabled,
+
+.btn[disabled] {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
 
 }
 
@@ -41,6 +100,7 @@
     color: #FFFFFF;
 
 }
+
 
 .btn-primary:hover {
 
@@ -62,6 +122,13 @@
 }
 
 
+.btn-success:hover {
+
+    filter: brightness(0.94);
+
+}
+
+
 /* ==========================================================
    WARNING
 ========================================================== */
@@ -70,7 +137,14 @@
 
     background: var(--warning);
 
-    color: #FFFFFF;
+    color: #111827;
+
+}
+
+
+.btn-warning:hover {
+
+    filter: brightness(0.95);
 
 }
 
@@ -88,6 +162,37 @@
 }
 
 
+.btn-danger:hover {
+
+    filter: brightness(0.94);
+
+}
+
+
+/* ==========================================================
+   SECONDARY
+========================================================== */
+
+.btn-secondary {
+
+    background: var(--surface);
+
+    color: var(--text-primary);
+
+    border-color: var(--border);
+
+}
+
+
+.btn-secondary:hover {
+
+    background: var(--surface-hover);
+
+    border-color: var(--border-hover);
+
+}
+
+
 /* ==========================================================
    OUTLINE
 ========================================================== */
@@ -98,15 +203,36 @@
 
     color: var(--primary);
 
-    border: 1px solid var(--primary);
+    border-color: var(--primary);
 
 }
 
+
 .btn-outline:hover {
 
-    background: var(--primary);
+    background: var(--primary-soft);
 
-    color: #FFFFFF;
+}
+
+
+/* ==========================================================
+   GHOST
+========================================================== */
+
+.btn-ghost {
+
+    background: transparent;
+
+    color: var(--text-secondary);
+
+}
+
+
+.btn-ghost:hover {
+
+    background: var(--surface-hover);
+
+    color: var(--text-primary);
 
 }
 
@@ -117,15 +243,20 @@
 
 .btn-sm {
 
+    min-height: 36px;
+
     padding: 8px 14px;
 
     font-size: var(--font-sm);
 
 }
 
+
 .btn-lg {
 
-    padding: 16px 28px;
+    min-height: 48px;
+
+    padding: 14px 24px;
 
     font-size: var(--font-lg);
 
@@ -139,5 +270,155 @@
 .btn-block {
 
     width: 100%;
+
+}
+
+
+/* ==========================================================
+   DARK THEME
+========================================================== */
+
+html[data-theme="dark"] .btn-warning {
+
+    color: #111827;
+
+}
+
+html[data-theme="dark"] .btn-outline:hover {
+
+    color: var(--text-primary);
+
+}
+
+/* ==========================================================
+   SETTINGS / SHARED BUTTON
+========================================================== */
+
+.button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: var(--space-sm);
+
+    min-height: 40px;
+
+    padding: 9px 16px;
+
+    border: 1px solid transparent;
+
+    border-radius: var(--radius-md);
+
+    font-family: var(--font-family);
+
+    font-size: var(--font-sm);
+
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    color: var(--text-primary);
+
+    background: var(--surface);
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+
+}
+
+
+.button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+.button:active {
+
+    transform: translateY(0);
+
+}
+
+
+/* ==========================================================
+   SECONDARY
+========================================================== */
+
+.button-secondary {
+
+    background: var(--surface);
+
+    border-color: var(--border);
+
+    color: var(--text-primary);
+
+}
+
+
+.button-secondary:hover {
+
+    background: var(--surface-hover);
+
+    border-color: var(--border-hover);
+
+    color: var(--text-primary);
+
+}
+
+
+/* ==========================================================
+   DANGER
+========================================================== */
+
+.button-danger {
+
+    background: var(--danger);
+
+    border-color: var(--danger);
+
+    color: #FFFFFF;
+
+}
+
+
+.button-danger:hover {
+
+    filter: brightness(0.94);
+
+}
+
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+html[data-theme="dark"] .button-secondary {
+
+    background: var(--surface);
+
+    color: #F9FAFB;
+
+}
+
+
+html[data-theme="dark"] .button-secondary:hover {
+
+    background: var(--surface-hover);
+
+    color: #FFFFFF;
 
 }

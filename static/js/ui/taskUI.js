@@ -157,6 +157,15 @@ async function handleTaskToggle(event) {
     const button =
         event.currentTarget;
 
+    
+    const previousUser =
+        window.ToDoSoloState?.getUser?.() ||
+        null;
+
+    const previousLevel =
+        Number(
+            previousUser?.level || 1
+        );
 
     const container =
         button.closest(
@@ -201,6 +210,77 @@ async function handleTaskToggle(event) {
         const task =
             response.task;
 
+/* ==================================================
+   IN-APP NOTIFICATIONS
+================================================== */
+
+const newLevel =
+    Number(
+        response.profile?.level ||
+        previousLevel
+    );
+
+
+/* --------------------------------------------------
+   LEVEL UP
+-------------------------------------------------- */
+
+if (
+    task.completed &&
+    newLevel > previousLevel &&
+    window.ToDoSoloNotifications
+) {
+
+    window.ToDoSoloNotifications.add(
+        getCurrentLanguage() === "ar"
+            ? "ترقية المستوى"
+            : "Level Up",
+
+        getCurrentLanguage() === "ar"
+            ? `وصلت إلى المستوى ${newLevel}!`
+            : `You reached Level ${newLevel}!`,
+
+        "🎉"
+    );
+
+}
+
+
+/* --------------------------------------------------
+   ACHIEVEMENTS
+-------------------------------------------------- */
+
+if (
+    task.completed &&
+    Array.isArray(
+        response.unlocked_achievements
+    ) &&
+    window.ToDoSoloNotifications
+) {
+
+    response.unlocked_achievements
+        .forEach(
+            (achievement) => {
+
+                const label =
+                    achievement.label ||
+                    achievement.key;
+
+
+                window.ToDoSoloNotifications.add(
+                    getCurrentLanguage() === "ar"
+                        ? "إنجاز جديد!"
+                        : "Achievement Unlocked!",
+
+                    label,
+
+                    "🏆"
+                );
+
+            }
+        );
+
+}
 
         // ==================================================
         // UPDATE STATE

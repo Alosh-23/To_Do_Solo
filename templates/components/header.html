@@ -63,8 +63,22 @@
             {% translate "Achievements" %}
         </a>
 
-    </nav>
+       
+        <a
+            href="{% url 'tasks:missions' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'missions' %}active{% endif %}"
+        >
+            {% translate "Missions" %}
+        </a>
 
+        <a
+            href="{% url 'tasks:quests' %}"
+            class="header__nav-link {% if request.resolver_match.url_name == 'quests' %}active{% endif %}"
+        >
+            {% translate "Quests" %}
+        </a> 
+
+    </nav>
 
     <!-- ==================================================
          RIGHT SIDE
@@ -131,24 +145,25 @@
 
         <!-- NOTIFICATIONS -->
 
+        
         <button
             class="header__button"
             type="button"
+            data-notifications-toggle
             aria-label="{% translate 'Notifications' %}"
         >
             🔔
         </button>
 
-
         <!-- SETTINGS -->
 
-        <button
+        <a
+            href="{% url 'tasks:accounts:settings' %}"
             class="header__button"
-            type="button"
             aria-label="{% translate 'Settings' %}"
         >
             ⚙️
-        </button>
+        </a>
 
 
         <!-- USER -->

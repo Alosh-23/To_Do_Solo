@@ -7,34 +7,37 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 
-
 from .api_views import (
     TaskListAPIView,
     TaskToggleCompleteAPIView,
     TaskDeleteAPIView,
     StatsAPIView,
+    AchievementListAPIView,
     TaskCreateAPIView,
     TaskUpdateAPIView,
 )
 
+from .views import ( 
+    DashboardView, 
+    TasksView, StatsView, 
+    AchievementsView, 
+    MissionsView, 
+    QuestsView, 
+    ForgotPasswordView, 
+    LoginView, 
+    RegisterView, 
+    TaskCreateView, 
+    TaskDetailView, 
+    TaskDeleteView, 
+    TaskToggleCompleteView, 
+    TaskUpdateView, 
+    VerifyEmailView, 
+    MissionRewardClaimView,
+    QuestRewardClaimView,  
 
-
-from .views import (
-    DashboardView,
-    TasksView,
-    StatsView,
-    AchievementsView,
-    ForgotPasswordView,
-    LoginView,
-    RegisterView,
-    TaskCreateView,
-    TaskDetailView,
-    TaskDeleteView,
-    TaskToggleCompleteView,
-    TaskUpdateView,
-    VerifyEmailView,
-    
 )
+    
+
 
 app_name = "tasks"
 
@@ -62,6 +65,18 @@ urlpatterns = [
         "achievements/",
         AchievementsView.as_view(),
         name="achievements",
+    ),
+
+    path( 
+        "missions/", 
+        MissionsView.as_view(), 
+        name="missions", 
+    ), 
+
+    path( 
+        "quests/", 
+        QuestsView.as_view(), 
+        name="quests", 
     ),
 
     path(
@@ -207,6 +222,12 @@ urlpatterns = [
         name="api_stats",
     ),
 
+path(
+        "api/achievements/",
+        AchievementListAPIView.as_view(),
+        name="api_achievements",
+    ),
+
     path(
         "api/tasks/create/",
         TaskCreateAPIView.as_view(),
@@ -217,6 +238,18 @@ urlpatterns = [
         "api/tasks/<int:pk>/update/",
         TaskUpdateAPIView.as_view(),
         name="api_task_update",
+    ),
+
+    path(
+        "missions/<str:mission_key>/claim/",
+        MissionRewardClaimView.as_view(),
+        name="mission_reward_claim",
+    ),
+
+    path(
+        "quests/<str:quest_key>/claim/",
+        QuestRewardClaimView.as_view(),
+        name="quest_reward_claim",
     ),
 
 

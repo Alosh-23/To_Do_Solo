@@ -102,5 +102,43 @@
     --transition:
 
         .25s ease;
+        
+--surface-hover: #F3F4F6;
+--primary-soft: #EEF2FF;
+--border-hover: #D1D5DB;
+
+
+
+}
+
+/* ==========================================================
+   DARK THEME
+========================================================== */
+
+html[data-theme="dark"] {
+
+    --primary: #60A5FA;
+    --primary-hover: #93C5FD;
+
+    --success: #4ADE80;
+    --warning: #FBBF24;
+    --danger: #F87171;
+    --info: #22D3EE;
+
+    --background: #111827;
+    --surface: #1F2937;
+
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+
+    --border: #374151;
+    --border-color: #374151;
+
+
+--surface-hover: #374151;
+--primary-soft: #1E3A8A;
+--border-hover: #4B5563;
+
+
 
 }

@@ -1,22 +1,134 @@
-.tooltip {
+/* ==========================================================
+   TO DO SOLO
+   TOOLTIP
+========================================================== */
+
+[data-tooltip] {
+
     position: relative;
-    display: inline-block;
+
 }
-.tooltip .tooltip-text {
-    visibility: hidden;
-    background-color: #1f2937;
-    color: #fff;
-    text-align: center;
-    padding: 5px 10px;
-    border-radius: 4px;
+
+
+[data-tooltip]::after {
+
+    content: attr(data-tooltip);
+
     position: absolute;
-    z-index: 1;
-    bottom: 125%;
+
     left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.8rem;
-    white-space: nowrap;
+
+    bottom: calc(100% + 8px);
+
+    z-index: 3000;
+
+    width: max-content;
+
+    max-width: 220px;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: var(--text-primary);
+
+    color: var(--surface);
+
+    font-size: var(--font-xs);
+
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    white-space: normal;
+
+    text-align: center;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+        translate(-50%, 4px);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+
 }
-.tooltip:hover .tooltip-text {
+
+
+[data-tooltip]::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: calc(100% + 2px);
+
+    z-index: 3000;
+
+    width: 8px;
+
+    height: 8px;
+
+    background: var(--text-primary);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+        translate(-50%, 4px)
+        rotate(45deg);
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
+
+}
+
+
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::after,
+[data-tooltip]:focus-visible::before {
+
+    opacity: 1;
+
     visibility: visible;
+
+    transform:
+        translate(-50%, 0);
+
+}
+
+
+/* ==========================================================
+   DARK THEME
+========================================================== */
+
+html[data-theme="dark"]
+[data-tooltip]::after,
+html[data-theme="dark"]
+[data-tooltip]::before {
+
+    background: #F9FAFB;
+
+}
+
+
+html[data-theme="dark"]
+[data-tooltip]::after {
+
+    color: #111827;
+
 }

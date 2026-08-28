@@ -53,6 +53,9 @@
     <link rel="stylesheet" href="{% static 'css/components/table.css' %}">
     <link rel="stylesheet" href="{% static 'css/components/toast.css' %}">
     <link rel="stylesheet" href="{% static 'css/components/tooltip.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/components/dashboard/achievements-card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/dashboard/statistics-card.css' %}">
 
     <!-- ==========================
          LAYOUTS
@@ -66,6 +69,13 @@
          PAGE CSS
     =========================== -->
 
+   
+    <link rel="stylesheet" href="{% static 'css/pages/quests.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/animations.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/pages/missions.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages/quests.css' %}">
+
     {% block extra_css %}
     {% endblock %}
 
@@ -76,20 +86,96 @@
     {% block body %}
     {% endblock %}
 
-
-    <!-- ==========================
-         JAVASCRIPT
-    =========================== -->
-
-    <script src="{% static 'js/storage.js' %}"></script>
-    <script src="{% static 'js/state.js' %}"></script>
-    <script src="{% static 'js/api/tasksApi.js' %}"></script>
-    <script src="{% static 'js/api/statsApi.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+<!-- ==========================
+     JAVASCRIPT
+=========================== -->
 
 
-    {% block extra_js %}
-    {% endblock %}
+<!-- ==========================
+     UTILS
+=========================== -->
+
+<script src="{% static 'js/utils/constants.js' %}"></script>
+<script src="{% static 'js/utils/date.js' %}"></script>
+<script src="{% static 'js/utils/debounce.js' %}"></script>
+<script src="{% static 'js/utils/formatter.js' %}"></script>
+<script src="{% static 'js/utils/helpers.js' %}"></script>
+<script src="{% static 'js/utils/validator.js' %}"></script>
+
+
+<!-- ==========================
+     VENDORS
+=========================== -->
+
+<script src="{% static 'js/vendors/confetti.min.js' %}"></script>
+
+
+<!-- ==========================
+     THEME
+=========================== -->
+
+<script src="{% static 'js/systems/theme.js' %}"></script>
+
+
+<!-- ==========================
+     CORE
+=========================== -->
+
+<script src="{% static 'js/storage.js' %}"></script>
+<script src="{% static 'js/state.js' %}"></script>
+<script src="{% static 'js/navigation.js' %}"></script>
+
+
+<!-- ==========================
+     APIs
+=========================== -->
+
+<script src="{% static 'js/api/achievementApi.js' %}"></script>
+<script src="{% static 'js/api/missionApi.js' %}"></script>
+<script src="{% static 'js/api/questApi.js' %}"></script>
+<script src="{% static 'js/api/statsApi.js' %}"></script>
+<script src="{% static 'js/api/tasksApi.js' %}"></script>
+<script src="{% static 'js/api/userApi.js' %}"></script>
+<script src="{% static 'js/api/xpApi.js' %}"></script>
+
+
+<!-- ==========================
+     SYSTEMS
+=========================== -->
+
+<script src="{% static 'js/systems/achievements.js' %}"></script>
+<script src="{% static 'js/systems/levels.js' %}"></script>
+<script src="{% static 'js/systems/missions.js' %}"></script>
+<script src="{% static 'js/systems/notifications.js' %}"></script>
+<script src="{% static 'js/systems/quests.js' %}"></script>
+<script src="{% static 'js/systems/sounds.js' %}"></script>
+<script src="{% static 'js/systems/streak.js' %}"></script>
+<script src="{% static 'js/systems/xp.js' %}"></script>
+
+
+<!-- ==========================
+     COMPONENTS
+=========================== -->
+
+<script src="{% static 'components/card.js' %}"></script>
+<script src="{% static 'components/dialog.js' %}"></script>
+<script src="{% static 'components/dropdown.js' %}"></script>
+<script src="{% static 'components/header.js' %}"></script>
+<script src="{% static 'components/modal.js' %}"></script>
+<script src="{% static 'components/progressBar.js' %}"></script>
+<script src="{% static 'components/sidebar.js' %}"></script>
+<script src="{% static 'components/toast.js' %}"></script>
+
+
+<!-- ==========================
+     APPLICATION
+=========================== -->
+
+<script src="{% static 'js/main.js' %}"></script>
+
+
+{% block extra_js %}
+{% endblock %}
 
 </body>
 

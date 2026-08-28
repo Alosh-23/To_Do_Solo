@@ -1,0 +1,124 @@
+{% load i18n %}
+
+<article
+    class="task-card"
+    data-task-id="{{ task.pk }}"
+>
+
+    <div class="task-card-main">
+
+        <div class="task-card-header">
+
+            <form
+                method="post"
+                class="task-complete-form"
+                data-task-id="{{ task.pk }}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="button"
+                    class="task-complete-button js-task-complete{% if task.completed %} is-completed{% endif %}"
+                    aria-label="{% if task.completed %}{% translate 'Mark task as incomplete' %}{% else %}{% translate 'Mark task as complete' %}{% endif %}"
+                >
+                    {% if task.completed %}
+                        ✓
+                    {% endif %}
+                </button>
+
+            </form>
+
+
+            <div class="task-card-title">
+
+                <h3>
+                    <a
+                        href="{% url 'tasks:task_detail' task.pk %}"
+                    >
+                        {{ task.title }}
+                    </a>
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        {% if task.description %}
+
+        <p class="task-card-description">
+            {{ task.description }}
+        </p>
+
+        {% endif %}
+
+
+        <div class="task-card-meta">
+
+            <span>
+
+                {% translate "Due:" %}
+
+                {% if task.due_date %}
+                    {{ task.due_date|date:"M d, Y H:i" }}
+                {% else %}
+                    {% translate "No due date" %}
+                {% endif %}
+
+            </span>
+
+
+            <span class="task-status">
+
+                {% if task.completed %}
+                    {% translate "Completed" %}
+                {% else %}
+                    {% translate "Incomplete" %}
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="task-card-actions">
+
+        <a
+            href="{% url 'tasks:task_detail' task.pk %}"
+            class="button button-secondary"
+        >
+            {% translate "View" %}
+        </a>
+
+
+        <a
+            href="{% url 'tasks:task_update' task.pk %}"
+            class="button button-secondary"
+        >
+            {% translate "Edit" %}
+        </a>
+
+
+        <form
+            method="post"
+            class="task-delete-form"
+            data-task-id="{{ task.pk }}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="button"
+                class="button button-danger js-task-delete"
+            >
+                {% translate "Delete" %}
+            </button>
+
+        </form>
+
+    </div>
+
+</article>

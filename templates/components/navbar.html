@@ -1,0 +1,45 @@
+{% load i18n %}
+{% load static %}
+
+<nav
+    class="navbar"
+    aria-label="{% translate 'Main navigation' %}"
+>
+
+    <a
+        href="{% url 'tasks:dashboard' %}"
+        class="navbar-brand"
+    >
+
+        <img
+            src="{% static 'images/To_Do_Solo_logo.png' %}"
+            alt="To Do Solo"
+            class="navbar-logo"
+        >
+
+        <span class="navbar-brand-text">
+            To Do Solo
+        </span>
+
+    </a>
+
+
+    <div
+        class="navbar-actions"
+        data-navbar-actions
+    >
+
+        <button
+            type="button"
+            class="navbar-menu-button"
+            data-mobile-menu-toggle
+            aria-expanded="false"
+            aria-label="{% translate 'Open menu' %}"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</nav>
+

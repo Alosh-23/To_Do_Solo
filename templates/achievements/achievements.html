@@ -3,9 +3,11 @@
 {% load static %}
 {% load i18n %}
 
+
 {% block title %}
     {% translate "Achievements" %} | To Do Solo
 {% endblock %}
+
 
 {% block extra_css %}
 
@@ -16,6 +18,7 @@
 
 {% endblock %}
 
+
 {% block body %}
 
 <div class="app-layout">
@@ -23,6 +26,7 @@
     <main class="main-content">
 
         {% include "components/header.html" %}
+
 
         <section class="achievements-page">
 
@@ -49,35 +53,70 @@
 
             <section class="achievements-grid">
 
-                {% for key, label in achievement_keys %}
+                {% for achievement in achievements %}
 
-                    {% with unlocked=False %}
+                    <article
+                        class="
+                            achievement-card
+                            {% if achievement.unlocked %}
+                                is-unlocked
+                            {% else %}
+                                is-locked
+                            {% endif %}
+                        "
+                    >
 
-                        <article class="achievement-card">
+                        <div class="achievement-icon">
 
-                            <div class="achievement-icon">
+                            {% if achievement.unlocked %}
+
                                 🏆
-                            </div>
 
-                            <div class="achievement-content">
+                            {% else %}
 
-                                <h2>
-                                    {{ label }}
-                                </h2>
+                                🔒
 
-                                <p>
-                                    {% translate "Achievement" %}
-                                </p>
+                            {% endif %}
 
-                                <span class="achievement-status">
+                        </div>
+
+
+                        <div class="achievement-content">
+
+                            <h2>
+                                {{ achievement.label }}
+                            </h2>
+
+
+                            <p class="achievement-type">
+                                {% translate "Achievement" %}
+                            </p>
+
+
+                            <p class="achievement-requirement">
+                                {{ achievement.requirement }}
+                            </p>
+
+
+                            <span
+                                class="achievement-status"
+                            >
+
+                                {% if achievement.unlocked %}
+
+                                    {% translate "Unlocked" %}
+
+                                {% else %}
+
                                     {% translate "Locked" %}
-                                </span>
 
-                            </div>
+                                {% endif %}
 
-                        </article>
+                            </span>
 
-                    {% endwith %}
+                        </div>
+
+                    </article>
 
                 {% empty %}
 
@@ -104,4 +143,3 @@
 </div>
 
 {% endblock %}
-

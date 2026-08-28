@@ -1,0 +1,370 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Settings" %} | To Do Solo
+{% endblock %}
+
+
+{% block extra_css %}
+
+<link
+    rel="stylesheet"
+    href="{% static 'css/pages/settings.css' %}"
+>
+
+{% endblock %}
+
+
+{% block body %}
+
+<div class="app-layout">
+
+    <main class="main-content">
+
+        {% include "components/header.html" %}
+
+
+        <section class="settings-page">
+
+            <header class="page-header">
+
+                <div class="page-header-content">
+
+                    <p class="page-eyebrow">
+                        {% translate "Preferences" %}
+                    </p>
+
+
+                    <h1 class="page-title">
+                        {% translate "Settings" %}
+                    </h1>
+
+
+                    <p class="page-description">
+                        {% translate "Customize your To Do Solo experience." %}
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="settings-grid">
+
+
+                <!-- ==================================================
+                     APPEARANCE
+                =================================================== -->
+
+                <article class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div>
+
+                            <p class="settings-card-eyebrow">
+                                {% translate "Appearance" %}
+                            </p>
+
+
+                            <h2 class="settings-card-title">
+                                {% translate "Theme" %}
+                            </h2>
+
+
+                            <p class="settings-card-description">
+                                {% translate "Choose how To Do Solo looks on your device." %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="settings-row-content">
+
+                            <span class="settings-row-title">
+                                {% translate "Dark mode" %}
+                            </span>
+
+
+                            <span class="settings-row-description">
+                                {% translate "Switch between light and dark appearance." %}
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="settings-toggle"
+                            data-theme-toggle
+                            aria-pressed="false"
+                        >
+
+                            <span class="settings-toggle-track">
+
+                                <span class="settings-toggle-thumb">
+                                </span>
+
+                            </span>
+
+                            <span class="settings-toggle-label">
+                                {% translate "Toggle" %}
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ==================================================
+                     LANGUAGE
+                =================================================== -->
+
+                <article class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div>
+
+                            <p class="settings-card-eyebrow">
+                                {% translate "Language" %}
+                            </p>
+
+
+                            <h2 class="settings-card-title">
+                                {% translate "Language Preferences" %}
+                            </h2>
+
+
+                            <p class="settings-card-description">
+                                {% translate "Choose the language used by the application." %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="settings-row-content">
+
+                            <span class="settings-row-title">
+                                {% translate "Application language" %}
+                            </span>
+
+
+                            <span class="settings-row-description">
+                                {% translate "English or Arabic" %}
+                            </span>
+
+                        </div>
+
+
+                        <div class="settings-select-wrapper">
+
+                            <label
+                                for="settings-language"
+                                class="sr-only"
+                            >
+                                {% translate "Application language" %}
+                            </label>
+
+
+                            <select
+                                id="settings-language"
+                                class="settings-select"
+                            >
+
+                                <option
+                                    value="en"
+                                    {% if CURRENT_LANGUAGE == "en" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {% translate "English" %}
+                                </option>
+
+
+                                <option
+                                    value="ar"
+                                    {% if CURRENT_LANGUAGE == "ar" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {% translate "Arabic" %}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ==================================================
+                     NOTIFICATIONS
+                =================================================== -->
+
+                <article class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div>
+
+                            <p class="settings-card-eyebrow">
+                                {% translate "Notifications" %}
+                            </p>
+
+
+                            <h2 class="settings-card-title">
+                                {% translate "Notifications" %}
+                            </h2>
+
+
+                            <p class="settings-card-description">
+                                {% translate "Control whether To Do Solo can send browser notifications." %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="settings-row-content">
+
+                            <span class="settings-row-title">
+                                {% translate "Browser notifications" %}
+                            </span>
+
+
+                            <span
+                                class="settings-row-description"
+                                data-notification-status
+                            >
+                                {% translate "Permission not requested" %}
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="button button-secondary"
+                            data-notification-enable
+                        >
+                            {% translate "Enable" %}
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ==================================================
+                     SOUND
+                =================================================== -->
+
+                <article class="settings-card">
+
+                    <div class="settings-card-header">
+
+                        <div>
+
+                            <p class="settings-card-eyebrow">
+                                {% translate "Sound" %}
+                            </p>
+
+
+                            <h2 class="settings-card-title">
+                                {% translate "Sound Effects" %}
+                            </h2>
+
+
+                            <p class="settings-card-description">
+                                {% translate "Test the sound effects used by the application." %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-row">
+
+                        <div class="settings-row-content">
+
+                            <span class="settings-row-title">
+                                {% translate "Sound effects" %}
+                            </span>
+
+
+                            <span class="settings-row-description">
+                                {% translate "Play a short test sound." %}
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="button button-secondary"
+                            data-sound-test
+                        >
+                            {% translate "Test Sound" %}
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+            <!-- ==================================================
+                 BACK
+            =================================================== -->
+
+            <div class="settings-actions">
+
+                <a
+                    href="{% url 'tasks:dashboard' %}"
+                    class="button button-secondary"
+                >
+                    {% translate "Back to Dashboard" %}
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="{% static 'js/systems/theme.js' %}"></script>
+<script src="{% static 'js/systems/notifications.js' %}"></script>
+<script src="{% static 'js/systems/sounds.js' %}"></script>
+<script src="{% static 'js/ui/settingsUI.js' %}"></script>
+
+{% endblock %}
+

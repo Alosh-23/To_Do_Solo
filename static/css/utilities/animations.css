@@ -1,7 +1,245 @@
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ==========================================================
+   TO DO SOLO
+   GLOBAL ANIMATIONS
+========================================================== */
+
+
+/* ==========================================================
+   FADE
+========================================================== */
+
+@keyframes todoSoloFadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
 }
-.fade-in {
-    animation: fadeIn 0.3s ease-in-out;
+
+
+@keyframes todoSoloFadeOut {
+
+    from {
+
+        opacity: 1;
+
+    }
+
+    to {
+
+        opacity: 0;
+
+    }
+
+}
+
+
+/* ==========================================================
+   SLIDE UP
+========================================================== */
+
+@keyframes todoSoloSlideUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================================
+   SLIDE DOWN
+========================================================== */
+
+@keyframes todoSoloSlideDown {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================================
+   SCALE
+========================================================== */
+
+@keyframes todoSoloScaleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* ==========================================================
+   PULSE
+========================================================== */
+
+@keyframes todoSoloPulse {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.04);
+
+    }
+
+}
+
+
+/* ==========================================================
+   SPIN
+========================================================== */
+
+@keyframes todoSoloSpin {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* ==========================================================
+   UTILITY CLASSES
+========================================================== */
+
+.animate-fade-in {
+
+    animation:
+        todoSoloFadeIn .3s ease both;
+
+}
+
+
+.animate-slide-up {
+
+    animation:
+        todoSoloSlideUp .35s ease both;
+
+}
+
+
+.animate-slide-down {
+
+    animation:
+        todoSoloSlideDown .35s ease both;
+
+}
+
+
+.animate-scale-in {
+
+    animation:
+        todoSoloScaleIn .25s ease both;
+
+}
+
+
+.animate-pulse {
+
+    animation:
+        todoSoloPulse 1.5s ease-in-out infinite;
+
+}
+
+
+.animate-spin {
+
+    animation:
+        todoSoloSpin .8s linear infinite;
+
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
+
+    }
+
 }
