@@ -26,11 +26,16 @@ SECRET_KEY: str = os.environ.get(
     "django-insecure-local-development-only"
 )
 
-DEBUG: bool = True
+DEBUG: bool = False
 
 ALLOWED_HOSTS: list[str] = [
     "127.0.0.1",
     "localhost",
+    "alo.pythonanywhere.com",
+]
+
+CSRF_TRUSTED_ORIGINS: list[str] = [
+    "https://alo.pythonanywhere.com",
 ]
 
 
@@ -281,42 +286,3 @@ EMAIL_HOST_PASSWORD = os.environ.get(
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# ==========================================================
-# SECURITY
-# ==========================================================
-
-SECRET_KEY: str = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-local-development-only"
-)
-
-DEBUG: bool = os.environ.get(
-    "DJANGO_DEBUG",
-    "True"
-).lower() == "true"
-
-
-ALLOWED_HOSTS: list[str] = [
-    "127.0.0.1",
-    "localhost",
-]
-
-render_hostname = os.environ.get(
-    "RENDER_EXTERNAL_HOSTNAME"
-)
-
-if render_hostname:
-    ALLOWED_HOSTS.append(
-        render_hostname
-    )
-
-
-CSRF_TRUSTED_ORIGINS: list[str] = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-]
-
-if render_hostname:
-    CSRF_TRUSTED_ORIGINS.append(
-        f"https://{render_hostname}"
-    )
