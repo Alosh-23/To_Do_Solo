@@ -36,8 +36,8 @@ from .views import (
     QuestRewardClaimView,  
 
 )
-    
 
+from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = "tasks"
 
@@ -252,6 +252,10 @@ path(
         name="quest_reward_claim",
     ),
 
-
+    path(
+        "api/login/",
+        obtain_auth_token,
+        name="api_login",
+    ),
 
 ]
