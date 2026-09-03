@@ -1,12 +1,13 @@
 import json
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.dateparse import parse_date, parse_datetime
 from django.views import View
+
+from rest_framework.authentication import TokenAuthentication
 
 from .models import (
     Achievement,
@@ -22,6 +23,46 @@ from .services import (
     synchronize_progress_counters,
     unlock_achievements,
 )
+
+
+# ==========================================================
+# TOKEN AUTHENTICATION
+# ==========================================================
+
+class TokenRequiredMixin:
+    """
+    Require a valid DRF token for Android/API requests.
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+
+        authentication = TokenAuthentication()
+
+        try:
+            result = authentication.authenticate(request)
+
+        except Exception:
+            result = None
+
+        if result is None:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "error": "Authentication required.",
+                },
+                status=401,
+            )
+
+        user, token = result
+
+        request.user = user
+        request.auth = token
+
+        return super().dispatch(
+            request,
+            *args,
+            **kwargs,
+        )
 
 
 # ==========================================================
@@ -68,7 +109,7 @@ def parse_task_due_date(value):
 # ==========================================================
 
 class TaskListAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -121,7 +162,7 @@ class TaskListAPIView(
 # ==========================================================
 
 class TaskToggleCompleteAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -152,7 +193,7 @@ class TaskToggleCompleteAPIView(
             user=request.user,
         )
 
-        profile, _ = (
+        profile, created = (
             Profile.objects
             .select_for_update()
             .get_or_create(
@@ -240,10 +281,6 @@ class TaskToggleCompleteAPIView(
         # ==================================================
         # SYNCHRONIZE OLD DATA
         # ==================================================
-
-        # This is non-destructive.
-        # It may increase historical counters when needed,
-        # but it never decreases them.
 
         synchronize_progress_counters(
             request.user
@@ -349,7 +386,7 @@ class TaskToggleCompleteAPIView(
 # ==========================================================
 
 class TaskDeleteAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -386,7 +423,7 @@ class TaskDeleteAPIView(
 # ==========================================================
 
 class StatsAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -434,7 +471,7 @@ class StatsAPIView(
             else 0
         )
 
-        profile, _ = (
+        profile, created = (
             Profile.objects.get_or_create(
                 user=user
             )
@@ -484,7 +521,7 @@ class StatsAPIView(
 # ==========================================================
 
 class AchievementListAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -571,7 +608,7 @@ class AchievementListAPIView(
 # ==========================================================
 
 class TaskCreateAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
@@ -737,7 +774,7 @@ class TaskCreateAPIView(
 # ==========================================================
 
 class TaskUpdateAPIView(
-    LoginRequiredMixin,
+    TokenRequiredMixin,
     View,
 ):
     """
