@@ -5,11 +5,12 @@
  * ==========================================================
  */
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    initializeTaskForm();
-
-});
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        initializeTaskForm();
+    }
+);
 
 
 /**
@@ -20,7 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function getCurrentLanguage() {
 
-    return document.documentElement.lang || "en";
+    return (
+        document.documentElement.lang ||
+        "en"
+    );
 
 }
 
@@ -34,26 +38,11 @@ function getFormText(key) {
             titleRequired:
                 "Task title is required.",
 
-            createSuccess:
-                "✓ Task created successfully",
-
-            updateSuccess:
-                "✓ Task updated successfully",
-
-            error:
-                "Something went wrong. Please try again.",
-
-            saving:
-                "Saving...",
-
             creating:
                 "Creating...",
 
-            createTask:
-                "Create Task",
-
-            saveChanges:
-                "Save Changes",
+            saving:
+                "Saving...",
 
         },
 
@@ -62,26 +51,11 @@ function getFormText(key) {
             titleRequired:
                 "عنوان المهمة مطلوب.",
 
-            createSuccess:
-                "✓ تم إنشاء المهمة بنجاح",
-
-            updateSuccess:
-                "✓ تم تحديث المهمة بنجاح",
-
-            error:
-                "حدث خطأ. حاول مرة أخرى.",
-
-            saving:
-                "جارٍ الحفظ...",
-
             creating:
                 "جارٍ الإنشاء...",
 
-            createTask:
-                "إنشاء مهمة",
-
-            saveChanges:
-                "حفظ التغييرات",
+            saving:
+                "جارٍ الحفظ...",
 
         },
 
@@ -102,7 +76,7 @@ function getFormText(key) {
 
 /**
  * ==========================================================
- * INITIALIZE
+ * INITIALIZE TASK FORM
  * ==========================================================
  */
 
@@ -119,6 +93,9 @@ function initializeTaskForm() {
     }
 
 
+    initializeReminderUI(form);
+
+
     form.addEventListener(
         "submit",
         handleTaskFormSubmit
@@ -129,14 +106,245 @@ function initializeTaskForm() {
 
 /**
  * ==========================================================
+ * REMINDER UI
+ * ==========================================================
+ */
+
+function initializeReminderUI(form) {
+
+    const reminderType =
+        form.querySelector(
+            "#id_reminder_type"
+        );
+
+
+    if (!reminderType) {
+        return;
+    }
+
+
+    /*
+     * Apply the correct state
+     * immediately.
+     */
+
+    updateReminderFields(
+        form,
+        reminderType.value
+    );
+
+
+    /*
+     * Update whenever the
+     * reminder type changes.
+     */
+
+    reminderType.addEventListener(
+        "change",
+        () => {
+
+            updateReminderFields(
+                form,
+                reminderType.value
+            );
+
+        }
+    );
+
+}
+
+
+/**
+ * ==========================================================
+ * UPDATE REMINDER FIELDS
+ * ==========================================================
+ */
+
+function updateReminderFields(
+    form,
+    reminderType
+) {
+
+    const reminderDate =
+        form.querySelector(
+            "#id_reminder_date"
+        );
+
+
+    const reminderTime =
+        form.querySelector(
+            "#id_reminder_time"
+        );
+
+
+    const weekdaysContainer =
+        form.querySelector(
+            ".reminder-weekdays"
+        );
+
+
+    const dateField =
+        reminderDate?.closest(
+            ".form-field"
+        );
+
+
+    const timeField =
+        reminderTime?.closest(
+            ".form-field"
+        );
+
+
+    const weekdaysField =
+        weekdaysContainer?.closest(
+            ".form-field"
+        );
+
+
+    /*
+     * Hide everything first.
+     */
+
+    setFieldVisibility(
+        dateField,
+        false
+    );
+
+    setFieldVisibility(
+        timeField,
+        false
+    );
+
+    setFieldVisibility(
+        weekdaysField,
+        false
+    );
+
+
+    /*
+     * ONCE
+     *
+     * Example:
+     * September 20
+     * 08:30 PM
+     */
+
+    if (
+        reminderType === "once"
+    ) {
+
+        setFieldVisibility(
+            dateField,
+            true
+        );
+
+        setFieldVisibility(
+            timeField,
+            true
+        );
+
+        return;
+    }
+
+
+    /*
+     * DAILY
+     *
+     * Example:
+     * Every day
+     * 08:30 PM
+     */
+
+    if (
+        reminderType === "daily"
+    ) {
+
+        setFieldVisibility(
+            timeField,
+            true
+        );
+
+        return;
+    }
+
+
+    /*
+     * WEEKLY
+     *
+     * Example:
+     * Monday + Wednesday
+     * 08:30 PM
+     */
+
+    if (
+        reminderType === "weekly"
+    ) {
+
+        setFieldVisibility(
+            weekdaysField,
+            true
+        );
+
+        setFieldVisibility(
+            timeField,
+            true
+        );
+
+    }
+
+}
+
+
+/**
+ * ==========================================================
+ * FIELD VISIBILITY
+ * ==========================================================
+ */
+
+function setFieldVisibility(
+    field,
+    visible
+) {
+
+    if (!field) {
+        return;
+    }
+
+
+    if (visible) {
+
+        field.removeAttribute(
+            "hidden"
+        );
+
+        field.classList.add(
+            "is-visible"
+        );
+
+    }
+    else {
+
+        field.setAttribute(
+            "hidden",
+            ""
+        );
+
+        field.classList.remove(
+            "is-visible"
+        );
+
+    }
+
+}
+
+
+/**
+ * ==========================================================
  * SUBMIT
  * ==========================================================
  */
 
-async function handleTaskFormSubmit(event) {
-
-    event.preventDefault();
-
+function handleTaskFormSubmit(event) {
 
     const form =
         event.currentTarget;
@@ -148,51 +356,25 @@ async function handleTaskFormSubmit(event) {
         );
 
 
-    if (
-        !submitButton ||
-        submitButton.disabled
-    ) {
-
-        return;
-
-    }
-
-
     const titleInput =
         form.querySelector(
             "#id_title"
         );
 
 
-    const descriptionInput =
-        form.querySelector(
-            "#id_description"
-        );
-
-
-    const dueDateInput =
-        form.querySelector(
-            "#id_due_date"
-        );
-
-
     const title =
-        titleInput?.value.trim() || "";
+        titleInput?.value.trim() ||
+        "";
 
 
-    const description =
-        descriptionInput?.value.trim() || "";
-
-
-    const dueDate =
-        dueDateInput?.value || null;
-
-
-    // ======================================================
-    // VALIDATION
-    // ======================================================
+    /*
+     * Validate title.
+     */
 
     if (!title) {
+
+        event.preventDefault();
+
 
         showFormToast(
             getFormText(
@@ -201,164 +383,33 @@ async function handleTaskFormSubmit(event) {
             "error"
         );
 
+
         titleInput?.focus();
 
+
         return;
-
     }
 
 
-    const mode =
-        form.dataset.mode;
+    /*
+     * Keep normal Django form
+     * submission.
+     */
+
+    if (submitButton) {
+
+        submitButton.disabled =
+            true;
 
 
-    const taskId =
-        form.dataset.taskId;
-
-
-    const taskData = {
-
-        title,
-
-        description,
-
-        due_date:
-            dueDate || null,
-
-    };
-
-
-    // ======================================================
-    // DISABLE SUBMIT
-    // ======================================================
-
-    submitButton.disabled = true;
-
-
-    submitButton.textContent =
-        mode === "edit"
-            ? getFormText("saving")
-            : getFormText("creating");
-
-
-    try {
-
-        let response;
-
-
-        // ==================================================
-        // EDIT
-        // ==================================================
-
-        if (
-            mode === "edit" &&
-            taskId
-        ) {
-
-            response =
-                await window.TasksAPI.updateTask(
-                    taskId,
-                    taskData
-                );
-
-        }
-
-        // ==================================================
-        // CREATE
-        // ==================================================
-
-        else {
-
-            response =
-                await window.TasksAPI.createTask(
-                    taskData
-                );
-
-        }
-
-
-        // ==================================================
-        // VALIDATE RESPONSE
-        // ==================================================
-
-        if (!response.success) {
-
-            throw new Error(
-                response.message ||
-                "Task operation failed."
-            );
-
-        }
-
-
-        // ==================================================
-        // UPDATE USER STATE
-        // ==================================================
-
-        if (
-            window.ToDoSoloState &&
-            response.profile
-        ) {
-
-            window.ToDoSoloState.updateUser(
-                response.profile
-            );
-
-        }
-
-
-        // ==================================================
-        // SUCCESS TOAST
-        // ==================================================
-
-        showFormToast(
-
-            mode === "edit"
-                ? getFormText("updateSuccess")
-                : getFormText("createSuccess"),
-
-            "success"
-
-        );
-
-
-        // ==================================================
-        // RETURN TO TASKS
-        // ==================================================
-
-        setTimeout(() => {
-
-            window.location.href =
-                "/tasks/";
-
-        }, 700);
-
-    }
-    catch (error) {
-
-        console.error(
-            "Task form error:",
-            error
-        );
-
-
-        showFormToast(
-            getFormText("error"),
-            "error"
-        );
-
-
-        submitButton.disabled = false;
+        const mode =
+            form.dataset.mode;
 
 
         submitButton.textContent =
             mode === "edit"
-                ? getFormText(
-                    "saveChanges"
-                )
-                : getFormText(
-                    "createTask"
-                );
+                ? getFormText("saving")
+                : getFormText("creating");
 
     }
 
@@ -383,9 +434,7 @@ function showFormToast(
 
 
     if (existingToast) {
-
         existingToast.remove();
-
     }
 
 

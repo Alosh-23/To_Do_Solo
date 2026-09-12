@@ -31,20 +31,43 @@ from .services import (
 
 class TokenRequiredMixin:
     """
-    Require a valid DRF token for Android/API requests.
+    Allow authenticated web sessions and Android/API tokens.
     """
 
     def dispatch(self, request, *args, **kwargs):
 
+        # ==================================================
+        # WEB SESSION AUTHENTICATION
+        # ==================================================
+
+        if request.user.is_authenticated:
+
+            request.auth = None
+
+            return super().dispatch(
+                request,
+                *args,
+                **kwargs,
+            )
+
+        # ==================================================
+        # ANDROID / TOKEN AUTHENTICATION
+        # ==================================================
+
         authentication = TokenAuthentication()
 
         try:
-            result = authentication.authenticate(request)
+
+            result = authentication.authenticate(
+                request
+            )
 
         except Exception:
+
             result = None
 
         if result is None:
+
             return JsonResponse(
                 {
                     "success": False,
@@ -63,8 +86,7 @@ class TokenRequiredMixin:
             *args,
             **kwargs,
         )
-
-
+    
 # ==========================================================
 # HELPER
 # ==========================================================
