@@ -102,6 +102,97 @@ class Task(TimeStampedModel):
 
 
 # ==========================================================
+# TASK REMINDER
+# ==========================================================
+
+class TaskReminder(TimeStampedModel):
+    """
+    Stores reminder settings for a task.
+
+    A task can have one reminder configuration.
+
+    Reminder types:
+        - Once
+        - Daily
+        - Weekly
+    """
+
+    class ReminderType(models.TextChoices):
+
+        ONCE = (
+            "once",
+            _("Once")
+        )
+
+        DAILY = (
+            "daily",
+            _("Daily")
+        )
+
+        WEEKLY = (
+            "weekly",
+            _("Weekly")
+        )
+
+    task = models.OneToOneField(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="reminder",
+    )
+
+    reminder_type = models.CharField(
+        max_length=20,
+        choices=ReminderType.choices,
+        default=ReminderType.ONCE,
+    )
+
+    reminder_date = models.DateField(
+        null=True,
+        blank=True,
+    )
+
+    reminder_time = models.TimeField(
+        null=True,
+        blank=True,
+    )
+
+    weekdays = models.JSONField(
+        default=list,
+        blank=True,
+        help_text=(
+            "Weekday numbers for weekly reminders. "
+            "Monday=0 through Sunday=6."
+        ),
+    )
+
+    next_run_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+
+    last_sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    enabled = models.BooleanField(
+        default=True,
+    )
+
+    class Meta:
+        ordering = [
+            "next_run_at",
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.task.title} - "
+            f"{self.get_reminder_type_display()}"
+        )
+
+
+# ==========================================================
 # PROFILE
 # ==========================================================
 

@@ -24,14 +24,20 @@ from django.views.generic import (
 
 from apps.accounts.forms import RegisterForm
 
-from .forms import LoginForm, TaskForm
+from .forms import (
+    LoginForm,
+    TaskForm,
+    TaskReminderForm,
+)
 from .models import (
     Achievement,
     MissionRewardClaim,
     Profile,
     QuestRewardClaim,
     Task,
+    TaskReminder,
 )
+from .reminder_services import calculate_next_run_at
 from .services import (
     calculate_streak,
     get_historical_completed_tasks,
@@ -190,7 +196,7 @@ class TaskCreateView(
     CreateView,
 ):
     """
-    Create a new task for the current user.
+    Create a new task and its optional reminder.
     """
 
     model = Task
@@ -203,14 +209,81 @@ class TaskCreateView(
         "tasks:dashboard"
     )
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
 
-        form.instance.user = (
+        context = super().get_context_data(
+            **kwargs
+        )
+
+        if "reminder_form" not in context:
+
+            context["reminder_form"] = (
+                TaskReminderForm()
+            )
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = None
+
+        task_form = self.get_form()
+
+        reminder_form = TaskReminderForm(
+            request.POST
+        )
+
+        if (
+            task_form.is_valid()
+            and reminder_form.is_valid()
+        ):
+
+            return self.forms_valid(
+                task_form,
+                reminder_form,
+            )
+
+        context = self.get_context_data(
+            form=task_form,
+            reminder_form=reminder_form,
+        )
+
+        return self.render_to_response(
+            context
+        )
+
+    def forms_valid(
+        self,
+        task_form,
+        reminder_form,
+    ):
+
+        self.object = task_form.save(
+            commit=False
+        )
+
+        self.object.user = (
             self.request.user
         )
 
-        return super().form_valid(
-            form
+        self.object.save()
+
+        reminder = reminder_form.save(
+            commit=False
+        )
+
+        reminder.task = self.object
+
+        reminder.next_run_at = (
+            calculate_next_run_at(
+                reminder
+            )
+        )
+
+        reminder.save()
+
+        return redirect(
+            self.success_url
         )
 
 
@@ -219,8 +292,7 @@ class TaskUpdateView(
     UpdateView,
 ):
     """
-    Update an existing task belonging to
-    the current user.
+    Update an existing task and its optional reminder.
     """
 
     model = Task
@@ -237,6 +309,94 @@ class TaskUpdateView(
 
         return Task.objects.filter(
             user=self.request.user
+        )
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(
+            **kwargs
+        )
+
+        if "reminder_form" not in context:
+
+            reminder = (
+                TaskReminder.objects
+                .filter(
+                    task=self.object
+                )
+                .first()
+            )
+
+            context["reminder_form"] = (
+                TaskReminderForm(
+                    instance=reminder
+                )
+            )
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = self.get_object()
+
+        task_form = self.get_form()
+
+        reminder = (
+            TaskReminder.objects
+            .filter(
+                task=self.object
+            )
+            .first()
+        )
+
+        reminder_form = TaskReminderForm(
+            request.POST,
+            instance=reminder,
+        )
+
+        if (
+            task_form.is_valid()
+            and reminder_form.is_valid()
+        ):
+
+            return self.forms_valid(
+                task_form,
+                reminder_form,
+            )
+
+        context = self.get_context_data(
+            form=task_form,
+            reminder_form=reminder_form,
+        )
+
+        return self.render_to_response(
+            context
+        )
+
+    def forms_valid(
+        self,
+        task_form,
+        reminder_form,
+    ):
+
+        self.object = task_form.save()
+
+        reminder = reminder_form.save(
+            commit=False
+        )
+
+        reminder.task = self.object
+
+        reminder.next_run_at = (
+            calculate_next_run_at(
+                reminder
+            )
+        )
+
+        reminder.save()
+
+        return redirect(
+            self.success_url
         )
 
 
