@@ -142,47 +142,24 @@
 
 
                     <!-- ==================================================
-                         DUE DATE + REMINDER TYPE
+                         DUE DATE
                     =================================================== -->
 
-                    <div class="task-form-row task-form-row-two">
+                    <div class="form-field">
 
-                        <div class="form-field">
+                        <label for="{{ form.due_date.id_for_label }}">
+                            {% translate "Due date" %}
+                        </label>
 
-                            <label for="{{ form.due_date.id_for_label }}">
-                                {% translate "Due date" %}
-                            </label>
+                        {{ form.due_date }}
 
-                            {{ form.due_date }}
+                        {% if form.due_date.errors %}
 
-                            {% if form.due_date.errors %}
+                            <div class="field-error">
+                                {{ form.due_date.errors }}
+                            </div>
 
-                                <div class="field-error">
-                                    {{ form.due_date.errors }}
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-
-                        <div class="form-field">
-
-                            <label for="{{ reminder_form.reminder_type.id_for_label }}">
-                                {% translate "Reminder" %}
-                            </label>
-
-                            {{ reminder_form.reminder_type }}
-
-                            {% if reminder_form.reminder_type.errors %}
-
-                                <div class="field-error">
-                                    {{ reminder_form.reminder_type.errors }}
-                                </div>
-
-                            {% endif %}
-
-                        </div>
+                        {% endif %}
 
                     </div>
 
@@ -200,7 +177,10 @@
 
                             <div class="reminder-panel-title">
 
-                                <span class="reminder-icon" aria-hidden="true">
+                                <span
+                                    class="reminder-icon"
+                                    aria-hidden="true"
+                                >
                                     🔔
                                 </span>
 
@@ -253,14 +233,43 @@
                         <div class="reminder-panel-body">
 
 
-                            <!-- DATE + TIME -->
+                            <!-- ==================================================
+                                 REMINDER TYPE
+                            =================================================== -->
+
+                            <div class="form-field">
+
+                                <label
+                                    for="{{ reminder_form.reminder_type.id_for_label }}"
+                                >
+                                    {% translate "Reminder type" %}
+                                </label>
+
+                                {{ reminder_form.reminder_type }}
+
+                                {% if reminder_form.reminder_type.errors %}
+
+                                    <div class="field-error">
+                                        {{ reminder_form.reminder_type.errors }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- ==================================================
+                                 REMINDER DATE + TIME
+                            =================================================== -->
 
                             <div class="task-form-row task-form-row-two">
 
 
                                 <div class="form-field">
 
-                                    <label for="{{ reminder_form.reminder_date.id_for_label }}">
+                                    <label
+                                        for="{{ reminder_form.reminder_date.id_for_label }}"
+                                    >
                                         {% translate "Reminder date" %}
                                     </label>
 
@@ -279,7 +288,9 @@
 
                                 <div class="form-field">
 
-                                    <label for="{{ reminder_form.reminder_time.id_for_label }}">
+                                    <label
+                                        for="{{ reminder_form.reminder_time.id_for_label }}"
+                                    >
                                         {% translate "Reminder time" %}
                                     </label>
 
@@ -298,7 +309,9 @@
                             </div>
 
 
-                            <!-- DAYS OF WEEK -->
+                            <!-- ==================================================
+                                 DAYS OF WEEK
+                            =================================================== -->
 
                             <div class="form-field reminder-weekdays-field">
 
