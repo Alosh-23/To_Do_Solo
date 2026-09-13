@@ -5,7 +5,6 @@
 
 {% block title %}
 
-
 {% if object %}
     {% translate "Edit Task" %}
 {% else %}
@@ -16,6 +15,7 @@
 
 {% endblock %}
 
+
 {% block extra_css %}
 
 <link
@@ -25,295 +25,368 @@
 
 {% endblock %}
 
+
 {% block body %}
 
 <div class="app-layout">
 
-<main class="main-content">
+    <main class="main-content">
 
-    {% include "components/header.html" %}
+        {% include "components/header.html" %}
 
-    <section class="task-form-page">
 
-        <header class="page-header">
+        <section class="task-form-page">
 
-            <div class="page-header-content">
+            <header class="page-header">
 
+                <div class="page-header-content">
 
-                <h1 class="page-title">
+                    <p class="page-eyebrow">
+                        {% translate "Task Management" %}
+                    </p>
 
-                    {% if object %}
-                        {% translate "Edit Task" %}
-                    {% else %}
-                        {% translate "Create Task" %}
-                    {% endif %}
+                    <h1 class="page-title">
 
-                </h1>
+                        {% if object %}
+                            {% translate "Edit Task" %}
+                        {% else %}
+                            {% translate "Create Task" %}
+                        {% endif %}
 
+                    </h1>
 
-                <p class="page-description">
-
-                    {% if object %}
-
-                        {% translate "Update the details of your task." %}
-
-                    {% else %}
-
-                        {% translate "Create a new task and keep your day organized." %}
-
-                    {% endif %}
-
-                </p>
-
-            </div>
-
-        </header>
-
-
-        <section class="task-form-card">
-
-            <form
-                method="post"
-                novalidate
-                class="task-form js-task-form"
-                data-mode="{% if object %}edit{% else %}create{% endif %}"
-                {% if object %}
-                    data-task-id="{{ object.pk }}"
-                {% endif %}
-            >
-
-                {% csrf_token %}
-
-
-                {% if form.non_field_errors %}
-
-                    <div class="form-errors">
-
-                        {{ form.non_field_errors }}
-
-                    </div>
-
-                {% endif %}
-
-
-                <!-- ==================================================
-                     TASK INFORMATION
-                =================================================== -->
-
-                <div class="form-field">
-
-                    <label for="{{ form.title.id_for_label }}">
-                        {% translate "Title" %}
-                    </label>
-
-                    {{ form.title }}
-
-                    {% if form.title.errors %}
-
-                        <div class="field-error">
-                            {{ form.title.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label for="{{ form.description.id_for_label }}">
-                        {% translate "Description" %}
-                    </label>
-
-                    {{ form.description }}
-
-                    {% if form.description.errors %}
-
-                        <div class="field-error">
-                            {{ form.description.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label for="{{ form.due_date.id_for_label }}">
-                        {% translate "Due date" %}
-                    </label>
-
-                    {{ form.due_date }}
-
-                    {% if form.due_date.errors %}
-
-                        <div class="field-error">
-                            {{ form.due_date.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <!-- ==================================================
-                     REMINDER
-                =================================================== -->
-
-                <div class="form-field">
-
-                    <label for="{{ reminder_form.reminder_type.id_for_label }}">
-                        {% translate "Reminder" %}
-                    </label>
-
-                    {{ reminder_form.reminder_type }}
-
-                    {% if reminder_form.reminder_type.errors %}
-
-                        <div class="field-error">
-                            {{ reminder_form.reminder_type.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label for="{{ reminder_form.reminder_date.id_for_label }}">
-                        {% translate "Reminder date" %}
-                    </label>
-
-                    {{ reminder_form.reminder_date }}
-
-                    {% if reminder_form.reminder_date.errors %}
-
-                        <div class="field-error">
-                            {{ reminder_form.reminder_date.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label for="{{ reminder_form.reminder_time.id_for_label }}">
-                        {% translate "Reminder time" %}
-                    </label>
-
-                    {{ reminder_form.reminder_time }}
-
-                    {% if reminder_form.reminder_time.errors %}
-
-                        <div class="field-error">
-                            {{ reminder_form.reminder_time.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label>
-                        {% translate "Days of the week" %}
-                    </label>
-
-                    <div class="reminder-weekdays">
-
-                        {{ reminder_form.weekdays }}
-
-                    </div>
-
-                    {% if reminder_form.weekdays.errors %}
-
-                        <div class="field-error">
-                            {{ reminder_form.weekdays.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="form-field">
-
-                    <label for="{{ reminder_form.enabled.id_for_label }}">
-                        {{ reminder_form.enabled }}
-                        {% translate "Enable reminder" %}
-                    </label>
-
-                    {% if reminder_form.enabled.errors %}
-
-                        <div class="field-error">
-                            {{ reminder_form.enabled.errors }}
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-
-                {% if reminder_form.non_field_errors %}
-
-                    <div class="form-errors">
-
-                        {{ reminder_form.non_field_errors }}
-
-                    </div>
-
-                {% endif %}
-
-
-                <!-- ==================================================
-                     FORM ACTIONS
-                =================================================== -->
-
-                <div class="form-actions">
-
-                    <a
-                        href="{% url 'tasks:dashboard' %}"
-                        class="button button-secondary"
-                    >
-                        {% translate "Cancel" %}
-                    </a>
-
-
-                    <button
-                        type="submit"
-                        class="button button-primary js-task-form-submit"
-                    >
+                    <p class="page-description">
 
                         {% if object %}
 
-                            {% translate "Save Changes" %}
+                            {% translate "Update the details of your task." %}
 
                         {% else %}
 
-                            {% translate "Create Task" %}
+                            {% translate "Create a new task and keep your day organized." %}
 
                         {% endif %}
 
-                    </button>
+                    </p>
 
                 </div>
 
-            </form>
+            </header>
+
+
+            <section class="task-form-card">
+
+                <form
+                    method="post"
+                    novalidate
+                    class="task-form js-task-form"
+                    data-mode="{% if object %}edit{% else %}create{% endif %}"
+
+                    {% if object %}
+                        data-task-id="{{ object.pk }}"
+                    {% endif %}
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-errors">
+                            {{ form.non_field_errors }}
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ==================================================
+                         TASK INFORMATION
+                    =================================================== -->
+
+                    <div class="form-field">
+
+                        <label for="{{ form.title.id_for_label }}">
+                            {% translate "Title" %}
+                        </label>
+
+                        {{ form.title }}
+
+                        {% if form.title.errors %}
+
+                            <div class="field-error">
+                                {{ form.title.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="form-field">
+
+                        <label for="{{ form.description.id_for_label }}">
+                            {% translate "Description" %}
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+
+                            <div class="field-error">
+                                {{ form.description.errors }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         DUE DATE + REMINDER TYPE
+                    =================================================== -->
+
+                    <div class="task-form-row task-form-row-two">
+
+                        <div class="form-field">
+
+                            <label for="{{ form.due_date.id_for_label }}">
+                                {% translate "Due date" %}
+                            </label>
+
+                            {{ form.due_date }}
+
+                            {% if form.due_date.errors %}
+
+                                <div class="field-error">
+                                    {{ form.due_date.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="form-field">
+
+                            <label for="{{ reminder_form.reminder_type.id_for_label }}">
+                                {% translate "Reminder" %}
+                            </label>
+
+                            {{ reminder_form.reminder_type }}
+
+                            {% if reminder_form.reminder_type.errors %}
+
+                                <div class="field-error">
+                                    {{ reminder_form.reminder_type.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         REMINDER DETAILS
+                    =================================================== -->
+
+                    <section class="reminder-panel">
+
+
+                        <!-- REMINDER HEADER -->
+
+                        <div class="reminder-panel-header">
+
+                            <div class="reminder-panel-title">
+
+                                <span class="reminder-icon" aria-hidden="true">
+                                    🔔
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        {% translate "Reminder details" %}
+                                    </strong>
+
+                                    <span>
+                                        {% translate "(optional)" %}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <label
+                                class="reminder-toggle"
+                                for="{{ reminder_form.enabled.id_for_label }}"
+                            >
+
+                                {{ reminder_form.enabled }}
+
+                                <span class="reminder-toggle-track">
+                                    <span class="reminder-toggle-thumb"></span>
+                                </span>
+
+                                <span class="reminder-toggle-text">
+                                    {% translate "Set reminder" %}
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        {% if reminder_form.enabled.errors %}
+
+                            <div class="field-error reminder-panel-error">
+                                {{ reminder_form.enabled.errors }}
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- REMINDER CONTENT -->
+
+                        <div class="reminder-panel-body">
+
+
+                            <!-- DATE + TIME -->
+
+                            <div class="task-form-row task-form-row-two">
+
+
+                                <div class="form-field">
+
+                                    <label for="{{ reminder_form.reminder_date.id_for_label }}">
+                                        {% translate "Reminder date" %}
+                                    </label>
+
+                                    {{ reminder_form.reminder_date }}
+
+                                    {% if reminder_form.reminder_date.errors %}
+
+                                        <div class="field-error">
+                                            {{ reminder_form.reminder_date.errors }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="form-field">
+
+                                    <label for="{{ reminder_form.reminder_time.id_for_label }}">
+                                        {% translate "Reminder time" %}
+                                    </label>
+
+                                    {{ reminder_form.reminder_time }}
+
+                                    {% if reminder_form.reminder_time.errors %}
+
+                                        <div class="field-error">
+                                            {{ reminder_form.reminder_time.errors }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DAYS OF WEEK -->
+
+                            <div class="form-field reminder-weekdays-field">
+
+                                <label>
+                                    {% translate "Repeat (days of the week)" %}
+                                </label>
+
+
+                                <div class="reminder-weekdays">
+
+                                    {{ reminder_form.weekdays }}
+
+                                </div>
+
+
+                                {% if reminder_form.weekdays.errors %}
+
+                                    <div class="field-error">
+                                        {{ reminder_form.weekdays.errors }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+
+                    </section>
+
+
+                    {% if reminder_form.non_field_errors %}
+
+                        <div class="form-errors">
+
+                            {{ reminder_form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ==================================================
+                         FORM ACTIONS
+                    =================================================== -->
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{% url 'tasks:dashboard' %}"
+                            class="button button-secondary"
+                        >
+                            {% translate "Cancel" %}
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="button button-primary js-task-form-submit"
+                        >
+
+                            {% if object %}
+
+                                {% translate "Save Changes" %}
+
+                            {% else %}
+
+                                {% translate "Create Task" %}
+
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </section>
 
         </section>
 
-    </section>
-
-</main>
+    </main>
 
 </div>
 
 {% endblock %}
+
 
 {% block extra_js %}
 
