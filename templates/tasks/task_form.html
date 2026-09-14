@@ -45,12 +45,7 @@
 
             <header class="page-header">
 
-                <div class="page-header-content">
-
-                    <p class="page-eyebrow">
-                        {% translate "Task Management" %}
-                    </p>
-
+                <div class="page-header-content">                
 
                     <h1 class="page-title">
 
@@ -168,35 +163,7 @@
                         {% endif %}
 
                     </div>
-
-
-
-                    <!-- ==================================================
-                         DUE DATE
-                    =================================================== -->
-
-                    <div class="form-field">
-
-                        <label for="{{ form.due_date.id_for_label }}">
-                            {% translate "Due date" %}
-                        </label>
-
-
-                        {{ form.due_date }}
-
-
-                        {% if form.due_date.errors %}
-
-                            <div class="field-error">
-                                {{ form.due_date.errors }}
-                            </div>
-
-                        {% endif %}
-
-                    </div>
-
-
-
+                   
                     <!-- ==================================================
                          REMINDER
                     =================================================== -->

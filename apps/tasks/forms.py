@@ -49,7 +49,6 @@ class TaskForm(forms.ModelForm):
         fields = (
             "title",
             "description",
-            "due_date",
         )
 
         widgets = {
@@ -66,13 +65,6 @@ class TaskForm(forms.ModelForm):
                     "class": "form-control",
                     "rows": 5,
                     "placeholder": "Task description",
-                }
-            ),
-
-            "due_date": forms.DateTimeInput(
-                attrs={
-                    "class": "form-control",
-                    "type": "datetime-local",
                 }
             ),
 
