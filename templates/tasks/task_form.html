@@ -3,6 +3,7 @@
 {% load static %}
 {% load i18n %}
 
+
 {% block title %}
 
 {% if object %}
@@ -37,6 +38,11 @@
 
         <section class="task-form-page">
 
+
+            <!-- ======================================================
+                 PAGE HEADER
+            ======================================================= -->
+
             <header class="page-header">
 
                 <div class="page-header-content">
@@ -44,6 +50,7 @@
                     <p class="page-eyebrow">
                         {% translate "Task Management" %}
                     </p>
+
 
                     <h1 class="page-title">
 
@@ -54,6 +61,7 @@
                         {% endif %}
 
                     </h1>
+
 
                     <p class="page-description">
 
@@ -74,7 +82,13 @@
             </header>
 
 
+
+            <!-- ======================================================
+                 TASK FORM CARD
+            ======================================================= -->
+
             <section class="task-form-card">
+
 
                 <form
                     method="post"
@@ -90,6 +104,11 @@
                     {% csrf_token %}
 
 
+
+                    <!-- ==================================================
+                         GENERAL FORM ERRORS
+                    =================================================== -->
+
                     {% if form.non_field_errors %}
 
                         <div class="form-errors">
@@ -99,8 +118,9 @@
                     {% endif %}
 
 
+
                     <!-- ==================================================
-                         TASK INFORMATION
+                         TITLE
                     =================================================== -->
 
                     <div class="form-field">
@@ -109,7 +129,9 @@
                             {% translate "Title" %}
                         </label>
 
+
                         {{ form.title }}
+
 
                         {% if form.title.errors %}
 
@@ -122,13 +144,20 @@
                     </div>
 
 
+
+                    <!-- ==================================================
+                         DESCRIPTION
+                    =================================================== -->
+
                     <div class="form-field">
 
                         <label for="{{ form.description.id_for_label }}">
                             {% translate "Description" %}
                         </label>
 
+
                         {{ form.description }}
+
 
                         {% if form.description.errors %}
 
@@ -141,6 +170,7 @@
                     </div>
 
 
+
                     <!-- ==================================================
                          DUE DATE
                     =================================================== -->
@@ -151,7 +181,9 @@
                             {% translate "Due date" %}
                         </label>
 
+
                         {{ form.due_date }}
+
 
                         {% if form.due_date.errors %}
 
@@ -164,16 +196,20 @@
                     </div>
 
 
+
                     <!-- ==================================================
-                         REMINDER DETAILS
+                         REMINDER
                     =================================================== -->
 
                     <section class="reminder-panel">
 
 
-                        <!-- REMINDER HEADER -->
+                        <!-- ==============================================
+                             REMINDER HEADER
+                        =============================================== -->
 
                         <div class="reminder-panel-header">
+
 
                             <div class="reminder-panel-title">
 
@@ -184,11 +220,13 @@
                                     🔔
                                 </span>
 
+
                                 <div>
 
                                     <strong>
-                                        {% translate "Reminder details" %}
+                                        {% translate "Reminder" %}
                                     </strong>
+
 
                                     <span>
                                         {% translate "(optional)" %}
@@ -199,6 +237,11 @@
                             </div>
 
 
+
+                            <!-- ==========================================
+                                 REMINDER ENABLE TOGGLE
+                            =========================================== -->
+
                             <label
                                 class="reminder-toggle"
                                 for="{{ reminder_form.enabled.id_for_label }}"
@@ -206,9 +249,13 @@
 
                                 {{ reminder_form.enabled }}
 
+
                                 <span class="reminder-toggle-track">
+
                                     <span class="reminder-toggle-thumb"></span>
+
                                 </span>
+
 
                                 <span class="reminder-toggle-text">
                                     {% translate "Set reminder" %}
@@ -219,6 +266,11 @@
                         </div>
 
 
+
+                        <!-- ==============================================
+                             ENABLE ERRORS
+                        =============================================== -->
+
                         {% if reminder_form.enabled.errors %}
 
                             <div class="field-error reminder-panel-error">
@@ -228,14 +280,18 @@
                         {% endif %}
 
 
-                        <!-- REMINDER CONTENT -->
+
+                        <!-- ==============================================
+                             REMINDER BODY
+                        =============================================== -->
 
                         <div class="reminder-panel-body">
 
 
-                            <!-- ==================================================
+
+                            <!-- ==========================================
                                  REMINDER TYPE
-                            =================================================== -->
+                            =========================================== -->
 
                             <div class="form-field">
 
@@ -245,7 +301,9 @@
                                     {% translate "Reminder type" %}
                                 </label>
 
+
                                 {{ reminder_form.reminder_type }}
+
 
                                 {% if reminder_form.reminder_type.errors %}
 
@@ -258,12 +316,15 @@
                             </div>
 
 
-                            <!-- ==================================================
+
+                            <!-- ==========================================
                                  REMINDER DATE + TIME
-                            =================================================== -->
+                            =========================================== -->
 
                             <div class="task-form-row task-form-row-two">
 
+
+                                <!-- REMINDER DATE -->
 
                                 <div class="form-field">
 
@@ -273,7 +334,9 @@
                                         {% translate "Reminder date" %}
                                     </label>
 
+
                                     {{ reminder_form.reminder_date }}
+
 
                                     {% if reminder_form.reminder_date.errors %}
 
@@ -286,6 +349,9 @@
                                 </div>
 
 
+
+                                <!-- REMINDER TIME -->
+
                                 <div class="form-field">
 
                                     <label
@@ -294,7 +360,9 @@
                                         {% translate "Reminder time" %}
                                     </label>
 
+
                                     {{ reminder_form.reminder_time }}
+
 
                                     {% if reminder_form.reminder_time.errors %}
 
@@ -309,14 +377,15 @@
                             </div>
 
 
-                            <!-- ==================================================
-                                 DAYS OF WEEK
-                            =================================================== -->
+
+                            <!-- ==========================================
+                                 WEEKDAYS
+                            =========================================== -->
 
                             <div class="form-field reminder-weekdays-field">
 
                                 <label>
-                                    {% translate "Repeat (days of the week)" %}
+                                    {% translate "Repeat days" %}
                                 </label>
 
 
@@ -343,15 +412,19 @@
                     </section>
 
 
+
+                    <!-- ==================================================
+                         REMINDER GENERAL ERRORS
+                    =================================================== -->
+
                     {% if reminder_form.non_field_errors %}
 
                         <div class="form-errors">
-
                             {{ reminder_form.non_field_errors }}
-
                         </div>
 
                     {% endif %}
+
 
 
                     <!-- ==================================================
@@ -359,6 +432,7 @@
                     =================================================== -->
 
                     <div class="form-actions">
+
 
                         <a
                             href="{% url 'tasks:dashboard' %}"
@@ -385,6 +459,7 @@
 
                         </button>
 
+
                     </div>
 
 
@@ -399,6 +474,7 @@
 </div>
 
 {% endblock %}
+
 
 
 {% block extra_js %}

@@ -1,6 +1,6 @@
 /* ==========================================================
    TO DO SOLO
-   TASK FORM PAGE
+   TASK FORM
 ========================================================== */
 
 .task-form-page {
@@ -83,6 +83,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+
     min-width: 0;
 }
 
@@ -99,8 +100,11 @@
 
 .task-form-row-two {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
 }
 
 
@@ -144,7 +148,9 @@
 
 .task-form textarea {
     min-height: 130px;
+
     resize: vertical;
+
     line-height: 1.5;
 }
 
@@ -179,6 +185,7 @@
 .task-form input::placeholder,
 .task-form textarea::placeholder {
     color: var(--text-secondary);
+
     opacity: 0.7;
 }
 
@@ -208,6 +215,7 @@
 .task-form .field-error {
     font-size: 12px;
     line-height: 1.4;
+
     color: var(--danger);
 }
 
@@ -220,14 +228,14 @@
     width: 100%;
     box-sizing: border-box;
 
-    margin-top: 2px;
+    margin-top: 4px;
+
+    overflow: hidden;
 
     border: 1px solid #dbe6f5;
     border-radius: 14px;
 
     background: #f8fbff;
-
-    overflow: hidden;
 }
 
 
@@ -252,14 +260,18 @@
 }
 
 
+/* ==========================================================
+   REMINDER TITLE
+========================================================== */
+
 .reminder-panel-title {
     display: flex;
     align-items: center;
+
     gap: 11px;
 
     min-width: 0;
 }
-
 
 .reminder-icon {
     width: 34px;
@@ -271,21 +283,21 @@
 
     flex: 0 0 34px;
 
-    font-size: 17px;
-
     border-radius: 9px;
 
     background: #e8f0ff;
+
+    font-size: 17px;
 }
 
-
 .reminder-panel-title strong {
+    display: inline-block;
+
     font-size: 14px;
     font-weight: 700;
 
     color: #315b91;
 }
-
 
 .reminder-panel-title span:not(
     .reminder-icon
@@ -313,7 +325,6 @@
     flex-shrink: 0;
 
     cursor: pointer;
-
     user-select: none;
 }
 
@@ -397,7 +408,6 @@ input[type="checkbox"]:checked
         );
 }
 
-
 .reminder-toggle
 input[type="checkbox"]:checked
 +
@@ -405,7 +415,6 @@ input[type="checkbox"]:checked
 .reminder-toggle-thumb {
     transform: translateX(18px);
 }
-
 
 .reminder-toggle-text {
     font-size: 13px;
@@ -422,7 +431,22 @@ input[type="checkbox"]:checked
 ========================================================== */
 
 .reminder-panel-body {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
     padding: 20px;
+}
+
+
+/* ==========================================================
+   REMINDER TYPE
+========================================================== */
+
+.reminder-panel-body
+.form-field:first-child {
+    width: 100%;
 }
 
 
@@ -431,9 +455,8 @@ input[type="checkbox"]:checked
 ========================================================== */
 
 .reminder-weekdays-field {
-    margin-top: 2px;
+    margin-top: 0;
 }
-
 
 .reminder-weekdays {
     width: 100%;
@@ -441,14 +464,14 @@ input[type="checkbox"]:checked
 
 
 /*
- * Django CheckboxSelectMultiple generates:
- *
- * .reminder-weekdays
- *     div
- *         label
- *             input
- *             text
- */
+   Django CheckboxSelectMultiple structure:
+
+   .reminder-weekdays
+       div
+           label
+               input
+               text
+*/
 
 .reminder-weekdays > div {
     display: grid;
@@ -456,7 +479,7 @@ input[type="checkbox"]:checked
     grid-template-columns:
         repeat(4, minmax(0, 1fr));
 
-    gap: 10px 14px;
+    gap: 10px;
 }
 
 
@@ -501,7 +524,9 @@ input[type="checkbox"]:checked
 }
 
 
-/* Weekday checkbox */
+/* ==========================================================
+   WEEKDAY CHECKBOX
+========================================================== */
 
 .reminder-weekdays
 input[type="checkbox"] {
@@ -569,7 +594,7 @@ input[type="checkbox"]:checked::after {
 }
 
 
-/* Highlight selected day */
+/* Selected weekday label */
 
 .reminder-weekdays
 input[type="checkbox"]:checked
@@ -579,7 +604,16 @@ input[type="checkbox"]:checked
 
 
 /* ==========================================================
-   REMINDER PANEL ERROR
+   HIDDEN FIELDS
+========================================================== */
+
+.task-form .form-field[hidden] {
+    display: none !important;
+}
+
+
+/* ==========================================================
+   REMINDER ERROR
 ========================================================== */
 
 .reminder-panel-error {
@@ -641,7 +675,7 @@ input[type="checkbox"]:checked
 
 
 /* ==========================================================
-   CANCEL
+   SECONDARY BUTTON
 ========================================================== */
 
 .task-form .button-secondary {
@@ -651,7 +685,6 @@ input[type="checkbox"]:checked
 
     border: 1px solid var(--border);
 }
-
 
 .task-form .button-secondary:hover {
     background: #f3f4f6;
@@ -674,7 +707,6 @@ input[type="checkbox"]:checked
     border: 1px solid var(--primary);
 }
 
-
 .task-form .button-primary:hover {
     filter: brightness(0.95);
 
@@ -683,6 +715,10 @@ input[type="checkbox"]:checked
     box-shadow: var(--shadow-sm);
 }
 
+
+/* ==========================================================
+   ACTIVE BUTTON
+========================================================== */
 
 .task-form .button:active {
     transform: translateY(0);
@@ -697,7 +733,8 @@ input[type="checkbox"]:checked
 
     .task-form-row-two {
         grid-template-columns: 1fr;
-        gap: 20px;
+
+        gap: 18px;
     }
 
 
@@ -732,6 +769,8 @@ input[type="checkbox"]:checked
 
     .reminder-panel-body {
         padding: 16px;
+
+        gap: 18px;
     }
 
 
